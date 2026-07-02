@@ -1,74 +1,80 @@
-# AI Research Workflow: Memória Persistente para LLMs
+# AI Research Workflow: Persistent Memory for LLMs
 
-**Resolvendo o problema de Amnésia em Inteligências Artificiais e Agentes Autônomos.**
+**Resolving Context Amnesia in Artificial Intelligence and Autonomous Agents.**
 
-Este ecossistema permite que o Antigravity e o Claude Code ganhem uma "Segunda Mente" baseada no Obsidian. O agente LLM para de esquecer as decisões do seu projeto e se apoia num motor estrutural Zettelkasten para leitura e escrita, diminuindo brutalmente o gasto de tokens e a exaustão em re-explicar contexto.
+This repository establishes a robust framework allowing LLMs (such as Google Antigravity and Claude Code) to achieve persistent, long-term memory via an Obsidian Vault. By migrating from ephemeral session memory to a Zettelkasten-based state machine, the agent ceases to forget architectural decisions, reducing token expenditure and eliminating the friction of re-explaining context at the start of every session.
 
-## 🧠 Como Funciona a Arquitetura
-1. **O Cofre (Obsidian Vault)**: Um diretório puramente baseado em arquivos Markdown onde as informações são mantidas a longo prazo (`/permanent`), logs cronológicos são diários (`/logs`) e grafos do seu projeto são montados (`/graphify`).
-2. **O LLM (Agente)**: Lê e escreve nestes arquivos de forma autônoma toda vez que você der os comandos (ex: `/salvar`, `/retomar`).
-3. **As Skills**: Habilidades (prompts e ferramentas predefinidas) acopladas ao LLM para focar puramente em método científico rigoroso ou engenharia avançada.
+## Architecture and Motivation
 
----
+### The Problem: Session Amnesia
+Modern autonomous agents suffer from statelessness across sessions. When a terminal session is closed, the agent loses structural understanding of the project. Re-explaining the codebase and the work status silently consumes thousands of tokens and degrades the agent's focus.
 
-## 🚀 Guia de Setup Rápido (Google Antigravity)
+### The Solution: Zettelkasten + Graphify
+We implement a direct integration with a local Obsidian Vault acting as the agent's state memory. 
+Instead of forcing the LLM to blindly read the entire codebase (which consumes massive token quotas), we utilize **Graphify**. Graphify maps the codebase into Abstract Syntax Trees (AST) and generates structural graphs stored as Markdown. The agent is strictly instructed to read these architectural maps first, obtaining a holistic understanding of the project structure at a fraction of the cost.
 
-Oferecemos duas trilhas de instalação dependendo do seu nível de necessidade.
+### Token Economy Analysis
+Empirical measurements on a medium-scale repository (`MSR-TCN-Finance`, ~17,795 lines of code) demonstrated the mathematical advantage of this architecture:
+- **Standard Baseline (Brute-force read):** ~170,000 tokens per session.
+- **Graphify + Obsidian Vault Architecture:** ~6,000 tokens per session.
+- **Net Efficiency Gain:** **~96.4% reduction** in input token consumption.
 
-### Opção A: Core Pack Acadêmico
-Traz as ~10 habilidades metodológicas vitais para mestrandos, doutorandos e pesquisadores (Escrita de Artigos, Desconstrução de Papers em Grafos e Revisão de Literatura profunda).
+## System Flow
 
-**Instalação Automática via LLM:**
-Copie o bloco de prompt correspondente no arquivo `auto-install-prompts.md` e cole no seu Antigravity. A IA instalará tudo sozinha.
+The interaction between the user, the LLM, and the persistent memory state is defined as follows:
 
-**Instalação Manual (Linux/Mac):**
-```bash
-agy plugin install https://github.com/DietrichGebert/ponytail
-git clone https://github.com/Orchestra-Research/AI-Research-SKILLs.git /tmp/ai-research-skills
-git clone https://github.com/google/antigravity-awesome-skills.git /tmp/awesome-skills
-mkdir -p ~/.gemini/config/skills
-cp -r /tmp/ai-research-skills/20-ml-paper-writing/ml-paper-writing ~/.gemini/config/skills/
-cp -r /tmp/ai-research-skills/20-ml-paper-writing/academic-plotting ~/.gemini/config/skills/
-cp -r /tmp/ai-research-skills/22-agent-native-research-artifact/compiler ~/.gemini/config/skills/ara-compiler
-cp -r /tmp/awesome-skills/skills/deep-research ~/.gemini/config/skills/
-cp -r /tmp/awesome-skills/skills/papers-skill ~/.gemini/config/skills/
+```mermaid
+flowchart TD
+    U[User / Developer] -->|Interacts via CLI| L[LLM Agent]
+    
+    subgraph Local Environment
+        L -->|Reads AST Maps & Logs| O[Obsidian Vault]
+        L -->|Executes Code Changes| C[Local Codebase]
+        C -->|Parsed by| G[Graphify Engine]
+        G -->|Generates Markdown Graphs| O
+    end
+    
+    subgraph Obsidian Vault Structure
+        O --> P[/permanent/: Consolidated Knowledge]
+        O --> Lg[/logs/: Chronological Session States]
+        O --> Gr[/graphify/: AST Project Maps]
+    end
 ```
 
-### Opção B: Full Pack (130+ Skills de Engenharia)
-Se além de pesquisa você faz deploy na nuvem, automação Kubernetes, MLOps e Engenharia de Dados pesada.
+## Setup Instructions
 
-**Instalação Automática:** Use o arquivo `auto-install-prompts.md`.
+### 1. Initialize the Memory Vault
+1. Download [Obsidian](https://obsidian.md/).
+2. Copy the `obsidian-vault-template/` directory provided in this repository to your local machine.
+3. Open this folder as a new Vault inside the Obsidian application.
 
-**Instalação Manual:**
-```bash
-agy plugin install https://github.com/DietrichGebert/ponytail
-git clone https://github.com/Orchestra-Research/AI-Research-SKILLs.git /tmp/ai-research-skills
-git clone https://github.com/google/antigravity-awesome-skills.git /tmp/awesome-skills
-mkdir -p ~/.gemini/config/skills
-cp -r /tmp/ai-research-skills/*/* ~/.gemini/config/skills/
-cp -r /tmp/awesome-skills/skills/* ~/.gemini/config/skills/
-```
+### 2. Configure the LLM Agent
+Depending on your preferred AI Agent, copy the respective configuration file to your project root to enforce memory awareness:
+- **Google Antigravity:** Use `agents/antigravity/AGENTS.md`. It injects the `/salvar` and `/retomar` memory protocols globally.
+- **Claude Code (Anthropic):** Use `agents/claude/.cursorrules` to instruct Claude to utilize the Obsidian vault as its long-term memory.
 
----
+### 3. Install the Skill Ecosystem
+To maximize the potential of this architecture, you must install specialized toolsets (Skills) for the agent. We offer autonomous prompt-based installations.
 
-## 🤖 Guia de Setup (Claude Code / Cursor IDE)
-Se o seu LLM preferido é o Claude via Cursor ou Windsurf, não usamos `AGENTS.md`. 
-Em vez disso, copie o conteúdo do arquivo `claude/.cursorrules` para a raiz do seu projeto. Esse arquivo dita ao modelo LLM as mesmas regras de interação com a sua pasta Obsidian, permitindo a "consciência da memória".
+Refer to **[docs/auto-install.md](docs/auto-install.md)** to copy the setup prompts for your desired path:
+- **Core Pack (Academic Focus):** Scientific research tools, deep literature review, and Agent-Native Research Artifacts (ARA).
+- **Full Pack (Engineering Focus):** Over 130 skills encompassing MLOps, DevOps, TDD, and data engineering.
 
----
+## Documentation and Guides
 
-## 📚 Guias de Utilização
-Para aprender a extrair 100% de potencial dessas ferramentas, leia:
-- **[Guia Core Pack Acadêmico](guides/core-pack-usage.md)**: Pesquisa estruturada, literatura e escrita.
-- **[Guia Full Pack Engenharia](guides/full-pack-usage.md)**: MLOps, DevOps e TDD profundo.
+Consult the `docs/` directory for comprehensive usage instructions:
+- **[Core Pack Usage Guide](docs/guides/core-pack-usage.md)**: Literature review and paper writing workflows.
+- **[Full Pack Usage Guide](docs/guides/full-pack-usage.md)**: Advanced engineering and CI/CD pipelines.
 
----
+## Acknowledgements
 
-## 🏆 Agradecimentos e Créditos
-Este ecossistema amalgama ferramentas brilhantes da comunidade Open-Source. Todo crédito vai para os autores originais:
+This ecosystem is an amalgamation of brilliant open-source tools. Credit belongs to the original authors:
+- **Original Inspiration (Claude+Obsidian Memory)**: Concept inspired by **Lucas Rosati** ([lucasrosati/claude-code-memory-setup](https://github.com/lucasrosati/claude-code-memory-setup)).
+- **Ponytail Plugin**: Developed by Dietrich Gebert ([DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)).
+- **Academic Research & ARA**: Developed by Orchestra Research ([Orchestra-Research/AI-Research-SKILLs](https://github.com/Orchestra-Research/AI-Research-SKILLs)).
+- **Engineering ML Base**: Official catalog maintained by Google ([google/antigravity-awesome-skills](https://github.com/google/antigravity-awesome-skills)).
+- **Deep Research**: Developed by sanjay3290 ([sanjay3290/ai-skills](https://github.com/sanjay3290/ai-skills/tree/main/skills/deep-research)).
 
-- **Inspiração Original (Memória Claude+Obsidian)**: O conceito inicial de integração de memória de longo prazo usando Obsidian foi inspirado no trabalho de **Lucas Rosati** ([lucasrosati/claude-code-memory-setup](https://github.com/lucasrosati/claude-code-memory-setup)).
-- **Ponytail Plugin**: Desenvolvido por Dietrich Gebert ([DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)).
-- **Pesquisa Acadêmica & ARA**: Desenvolvido por Orchestra Research ([Orchestra-Research/AI-Research-SKILLs](https://github.com/Orchestra-Research/AI-Research-SKILLs)).
-- **Base ML & Engenharia**: Catálogo oficial mantido pelo Google ([google/antigravity-awesome-skills](https://github.com/google/antigravity-awesome-skills)).
-- **Deep Research**: Desenvolvido por sanjay3290 ([sanjay3290/ai-skills](https://github.com/sanjay3290/ai-skills/tree/main/skills/deep-research)).
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
