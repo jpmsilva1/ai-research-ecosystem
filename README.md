@@ -28,7 +28,7 @@ We implement a direct integration with a local Obsidian Vault acting as the agen
 Instead of forcing the LLM to blindly read the entire codebase (which consumes massive token quotas), we utilize **Graphify**. Graphify maps the codebase into Abstract Syntax Trees (AST) and generates structural graphs stored as Markdown. The agent is strictly instructed to read these architectural maps first, obtaining a holistic understanding of the project structure at a fraction of the cost.
 
 ### Token Economy Analysis
-Empirical measurements on a medium-scale repository (`MSR-TCN-Finance`, ~17,795 lines of code) demonstrated the mathematical advantage of this architecture:
+Empirical measurements on a medium-scale repository (~17,795 lines of code) demonstrated the mathematical advantage of this architecture:
 - **Standard Baseline (Brute-force read):** ~170,000 tokens per session.
 - **Graphify + Obsidian Vault Architecture:** ~6,000 tokens per session.
 - **Net Efficiency Gain:** **~96.4% reduction** in input token consumption.
