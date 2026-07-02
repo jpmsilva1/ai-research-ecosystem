@@ -56,7 +56,7 @@ Depending on your preferred AI Agent, copy the respective configuration file to 
 ### 3. Install the Skill Ecosystem
 To maximize the potential of this architecture, you must install specialized toolsets (Skills) for the agent. We offer autonomous prompt-based installations.
 
-Refer to **[docs/auto-install.md](docs/auto-install.md)** to copy the setup prompts for your desired path:
+Refer to **[docs/installation.md](docs/installation.md)** to copy the setup prompts or terminal bash commands for your desired path:
 - **Core Pack (Academic Focus):** Scientific research tools, deep literature review, and Agent-Native Research Artifacts (ARA).
 - **Full Pack (Engineering Focus):** Over 130 skills encompassing MLOps, DevOps, TDD, and data engineering.
 
