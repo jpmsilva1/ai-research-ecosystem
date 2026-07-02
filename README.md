@@ -1,7 +1,5 @@
 # AI-Powered Research Assistant Architecture
 
-![Python](https://img.shields.io/badge/python-3.9+-blue.svg)
-![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C.svg?logo=pytorch&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Google Gemini](https://img.shields.io/badge/Google%20Gemini-Antigravity-4285F4.svg?logo=google&logoColor=white)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Anthropic-D97757.svg?logo=anthropic&logoColor=white)
