@@ -1,10 +1,20 @@
-# AI Research Workflow: Persistent Memory for LLMs
+# AI-Powered Research Assistant Architecture
 
-**Resolving Context Amnesia in Artificial Intelligence and Autonomous Agents.**
+**An integrated ecosystem for AI/ML research workflow optimization, driven by Persistent Memory and Autonomous Agents.**
 
-This repository establishes a robust framework allowing LLMs (such as Google Antigravity and Claude Code) to achieve persistent, long-term memory via an Obsidian Vault. By migrating from ephemeral session memory to a Zettelkasten-based state machine, the agent ceases to forget architectural decisions, reducing token expenditure and eliminating the friction of re-explaining context at the start of every session.
+This repository establishes a comprehensive architecture that transforms LLMs (such as Google Antigravity and Claude Code) into a highly specialized **Research Assistant**. It optimizes the entire scientific lifecycle—from literature review and data engineering to model training and paper writing—while drastically reducing token consumption through a Zettelkasten-based persistent memory state machine.
 
-## Architecture and Motivation
+## The Research Assistant Ecosystem
+
+Rather than treating AI as a simple chatbot, this architecture provides a structured, rigorous methodology for academic and enterprise ML research:
+
+1. **Behavioral Skill Engine:** A curated arsenal of up to 130+ specialized engineering "contracts" (ranging from data science to MLOps) that force the AI to behave as a senior specialist in specific domains.
+2. **Agent-Native Research Artifacts (ARA):** A methodological pipeline for ingesting complex PDFs and repositories into structured knowledge graphs, drastically decreasing literature review times while eliminating hallucination.
+3. **Extreme Productivity (Ponytail):** Built-in heuristics for clean code and YAGNI (You Aren't Gonna Need It) principles, preventing the AI from generating bloatware or over-engineered solutions.
+
+## The Persistent Memory Engine (Obsidian + Graphify)
+
+*The engine that powers the Research Assistant and prevents context amnesia.*
 
 ### The Problem: Session Amnesia
 Modern autonomous agents suffer from statelessness across sessions. When a terminal session is closed, the agent loses structural understanding of the project. Re-explaining the codebase and the work status silently consumes thousands of tokens and degrades the agent's focus.
