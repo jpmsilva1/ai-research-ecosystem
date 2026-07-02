@@ -1,55 +1,55 @@
-# Instalação via Prompt (Automação Autônoma)
+# Automated Setup (Prompt-Based Installation)
 
-Em vez de baixar pastas e copiar arquivos manualmente, você pode simplesmente pedir para o seu agente de IA preferido instalar o workflow para você. Escolha a sua IA (Antigravity ou Claude Code) e a sua trilha (Core Pack ou Full Pack), copie o bloco de texto inteiro e cole no terminal.
+Instead of downloading repositories and copying files manually, you can instruct your preferred AI agent to install the workflow autonomously. Choose your AI (Antigravity or Claude Code) and your desired track (Core Pack or Full Pack), copy the entire prompt block, and paste it into your terminal chat.
 
 ---
 
-## Antigravity
+## Google Antigravity
 
-### Opção A: Core Pack (Acadêmico)
-Copie e cole este prompt no Antigravity:
+### Option A: Core Pack (Academic Research)
+Copy and paste this exact prompt into Antigravity:
 
 ```text
-Atue como um engenheiro de configuração de sistema (System Setup Engineer).
-Por favor, instale o meu ecossistema de pesquisa acadêmica executando os seguintes passos autônomos:
+Act as a System Setup Engineer.
+Please install my academic research ecosystem by executing the following autonomous steps:
 
-1. Instale o plugin ponytail rodando: `agy plugin install https://github.com/DietrichGebert/ponytail`
-2. Clone `https://github.com/Orchestra-Research/AI-Research-SKILLs.git` para `/tmp/ai-research-skills`.
-3. Crie a pasta `~/.gemini/config/skills/` se ela não existir.
-4. Copie as pastas `ml-paper-writing`, `academic-plotting` e o diretório inteiro `22-agent-native-research-artifact` para a minha pasta de skills local. Renomeie as subpastas da `22-*` para `ara-compiler`, `ara-research-manager` e `ara-rigor-reviewer`.
-5. Clone `https://github.com/google/antigravity-awesome-skills.git` para `/tmp/awesome-skills`.
-6. Copie as skills `deep-research`, `papers-skill` e `latex-paper-conversion` para a minha pasta de skills local.
-7. Ao terminar, apague os diretórios `/tmp/ai-research-skills` e `/tmp/awesome-skills` e me dê um resumo rápido de que tudo está instalado.
+1. Install the ponytail plugin by running: `agy plugin install https://github.com/DietrichGebert/ponytail`
+2. Clone `https://github.com/Orchestra-Research/AI-Research-SKILLs.git` to `/tmp/ai-research-skills`.
+3. Create the folder `~/.gemini/config/skills/` if it does not exist.
+4. Copy the folders `ml-paper-writing`, `academic-plotting` and the entire `22-agent-native-research-artifact` directory to my local skills folder. Rename the subfolders from `22-*` to `ara-compiler`, `ara-research-manager`, and `ara-rigor-reviewer`.
+5. Clone `https://github.com/google/antigravity-awesome-skills.git` to `/tmp/awesome-skills`.
+6. Copy the following specific skills from the Google repository to my local skills folder: `papers-skill`, `deep-research`, `exa-search`, `tavily-web`, `research-brainstorming`, `creative-thinking`, `data-engineering-data-pipeline`, `data-engineering-data-driven-feature`, `data-structure-protocol`, `dbt-transformation-patterns`, `data-quality-frameworks`, `database-architect`, `database-optimizer`, `polars`, `data-scientist`, `data-storytelling`, `plotly`, `python-pro`, `python-patterns`, `ml-engineer`, `ai-ml`, `ai-engineering-toolkit`, `rag-engineer`, `embedding-strategies`, `hugging-face-datasets`, `hugging-face-community-evals`, `ml-pipeline-workflow`, `mlops-engineer`, `docker-expert`, `devops-deploy`, `unit-testing-test-generate`, `2slides-ppt-generator`, `latex-paper-conversion`, `architecture-decision-records`, `docs-architect`, `graphify`, `save-session`, `resume-session`.
+7. Once finished, delete the `/tmp/ai-research-skills` and `/tmp/awesome-skills` directories and confirm that the ecosystem is ready.
 ```
 
-### Opção B: Full Pack (Engenharia + Acadêmico)
-Copie e cole este prompt no Antigravity:
+### Option B: Full Pack (Enterprise Engineering)
+Copy and paste this exact prompt into Antigravity:
 
 ```text
-Atue como um engenheiro de configuração de sistema. 
-Por favor, instale o catálogo completo do Awesome Skills no meu ambiente:
+Act as a System Setup Engineer. 
+Please install the complete Awesome Skills catalog into my environment autonomously:
 
-1. Instale o plugin ponytail rodando: `agy plugin install https://github.com/DietrichGebert/ponytail`
-2. Clone `https://github.com/Orchestra-Research/AI-Research-SKILLs.git` para `/tmp/ai-research-skills`.
-3. Copie TODAS as skills de dentro das subpastas da Orchestra Research para a minha pasta `~/.gemini/config/skills/`.
-4. Clone `https://github.com/google/antigravity-awesome-skills.git` para `/tmp/awesome-skills`.
-5. Copie literalmente o conteúdo inteiro da pasta `skills/` do repositório clonado do Google para dentro do meu `~/.gemini/config/skills/`.
-6. Ao terminar, limpe a pasta `/tmp/` e me confirme o fim da operação.
+1. Install the ponytail plugin by running: `agy plugin install https://github.com/DietrichGebert/ponytail`
+2. Clone `https://github.com/Orchestra-Research/AI-Research-SKILLs.git` to `/tmp/ai-research-skills`.
+3. Copy ALL skills from inside the Orchestra Research subfolders to my `~/.gemini/config/skills/` folder.
+4. Clone `https://github.com/google/antigravity-awesome-skills.git` to `/tmp/awesome-skills`.
+5. Copy the entire contents of the `skills/` folder from the cloned Google repository into my `~/.gemini/config/skills/`.
+6. Once finished, clean the `/tmp/` folder and confirm the end of the operation.
 ```
 
 ---
 
 ## Claude Code CLI
 
-Se você utiliza o **Claude Code CLI** oficial da Anthropic, use este prompt:
+If you use Anthropic's official **Claude Code CLI**, use this prompt:
 
 ```text
-Você é o meu assistente Claude Code. Eu preciso que você configure o nosso ambiente de pesquisa acadêmica instalando um conjunto específico de skills e regras.
+You are my Claude Code assistant. I need you to configure our academic research environment by installing a specific set of skills and rules.
 
-Passo 1: Descubra onde fica o seu diretório global de skills (por padrão o Claude CLI tem pastas de configurações onde suporta customizações) ou onde podemos guardar scripts bash úteis para você usar. Crie essa pasta.
-Passo 2: Clone o repositório temporariamente: `git clone https://github.com/DietrichGebert/ponytail /tmp/ponytail-plugin` e implemente as regras do Ponytail nas suas instruções globais de não fazer over-engineering.
-Passo 3: Clone `https://github.com/Orchestra-Research/AI-Research-SKILLs.git` para `/tmp/ai-research-skills` e mova as ferramentas acadêmicas (`ml-paper-writing`, ecossistema `ARA`) para o nosso ambiente.
-Passo 4: Limpe a pasta `/tmp/`.
-Passo 5: Leia os arquivos README que acabamos de baixar para entender a taxonomia de "Agent-Native Research Artifacts".
-Me confirme quando acabar.
+Step 1: Find your global configuration/skills directory (usually Claude CLI has a config folder where it supports custom scripts). Create this folder if necessary.
+Step 2: Temporarily clone the repository: `git clone https://github.com/DietrichGebert/ponytail /tmp/ponytail-plugin` and implement the Ponytail rules into your global system prompt (avoiding over-engineering).
+Step 3: Clone `https://github.com/Orchestra-Research/AI-Research-SKILLs.git` to `/tmp/ai-research-skills` and move the academic tools (`ml-paper-writing`, `ARA` ecosystem) to our environment.
+Step 4: Clean the `/tmp/` folder.
+Step 5: Read the README files we just downloaded to understand the taxonomy of "Agent-Native Research Artifacts".
+Confirm when you are finished.
 ```
