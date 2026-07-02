@@ -1,36 +1,36 @@
-# Regras Globais: Integração de Memória Persistente (Zettelkasten)
+# Global Rules: Persistent Memory Integration (Zettelkasten)
 
-Abaixo estão as regras absolutas para garantir que o Antigravity utilize o Obsidian como uma Memória de Estado Persistente. 
-Estas regras resolvem o problema de amnésia entre as sessões.
+Below are the absolute rules to ensure Antigravity utilizes Obsidian as a Persistent State Memory.
+These rules resolve the issue of session amnesia.
 
 <RULE[user_global]>
 # Antigravity Brain (Obsidian Vault Integration)
 
-## 1. Consciência do Vault
-Você tem acesso a um cofre centralizado de Memória de Estado Persistente. Esse cofre armazena o histórico das suas pesquisas, decisões arquiteturais e mapas de código. Siga estritamente as regras de Zettelkasten abaixo ao interagir com ele.
+## 1. Vault Awareness
+You have access to a centralized Persistent State Memory vault. This vault stores the history of your research, architectural decisions, and code maps. Strictly follow the Zettelkasten rules below when interacting with it.
 
-## 2. Regras do Zettelkasten (Criação de Notas)
-- Use `[[wikilinks]]` sempre que mencionar outra nota para conectá-las.
-- Toda nota nova criada no Vault DEVE ter um cabeçalho Frontmatter YAML com `title`, `tags`, e `date`.
-- Salve notas de conhecimento consolidado (sobre papers, tutoriais ou arquitetura) na pasta `/permanent/`.
-- Nomes de arquivo devem usar kebab-case (ex: `arquitetura-backend.md`).
+## 2. Zettelkasten Rules (Note Creation)
+- Use `[[wikilinks]]` whenever mentioning another note to connect them.
+- Every new note created in the Vault MUST have a YAML Frontmatter header with `title`, `tags`, and `date`.
+- Save consolidated knowledge notes (about papers, tutorials, or architecture) in the `/permanent/` folder.
+- File names must use kebab-case (e.g., `backend-architecture.md`).
 
-## 3. Comandos de Sessão (Protocolos de Memória)
+## 3. Session Commands (Memory Protocols)
 
-### O Protocolo `/salvar`
-Quando o usuário disser "/salvar" ou pedir para documentar o fim da sessão:
-1. Crie imediatamente um log na pasta `logs/YYYY-MM-DD-assunto.md`.
-2. Registre: O que foi feito na sessão, decisões tomadas, e as pendências (o que falta fazer).
-3. Adicione `[[wikilinks]]` para qualquer conceito chave mencionado.
+### The `/salvar` (Save) Protocol
+When the user says "/salvar" or asks to document the end of the session:
+1. Immediately create a log in the `logs/YYYY-MM-DD-topic.md` folder.
+2. Record: What was done in the session, decisions made, and pending tasks (what is left to do).
+3. Add `[[wikilinks]]` for any key concept mentioned.
 
-### O Protocolo `/retomar`
-Quando o usuário disser "/retomar" ou pedir para recuperar o contexto:
-1. Liste e leia autonomamente os últimos arquivos da pasta `logs/`.
-2. Faça um breve resumo para o usuário afirmando: "Segundo nossos registros, paramos em X e o próximo passo é Y."
+### The `/retomar` (Resume) Protocol
+When the user says "/retomar" or asks to recover the context:
+1. Autonomously list and read the latest files from the `logs/` folder.
+2. Provide a brief summary to the user stating: "According to our records, we stopped at X and the next step is Y."
 
-## 4. Integração com Graphify
-Sempre que for necessário mapear o codebase ou quando o usuário pedir para gerar o grafo:
-1. O output do mapeamento estrutural do código deve ser armazenado na pasta `/graphify/nome-do-projeto/`.
-2. Priorize ler o grafo na pasta do Obsidian antes de tentar ler todos os arquivos brutos do repositório novamente.
+## 4. Graphify Integration
+Whenever it is necessary to map the codebase or when the user asks to generate the graph:
+1. The structural code mapping output must be stored in the `/graphify/project-name/` folder.
+2. Prioritize reading the graph in the Obsidian folder before attempting to read all raw files in the repository again.
 
 </RULE[user_global]>

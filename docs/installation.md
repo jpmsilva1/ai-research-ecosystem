@@ -105,7 +105,10 @@ echo "Full Pack Installation Complete!"
 
 ## Claude Code CLI Support
 
-If you use Anthropic's official **Claude Code CLI** instead of Antigravity, use this prompt to instruct Claude to adapt the environment:
+If you use Anthropic's official **Claude Code CLI**, you can configure the environment via prompt or manually.
+
+### Option A: Autonomous Prompt-Based Installation
+Use this prompt to instruct Claude to adapt the environment:
 
 ```text
 You are my Claude Code assistant. I need you to configure our academic research environment by installing a specific set of skills and rules.
@@ -116,4 +119,27 @@ Step 3: Clone `https://github.com/Orchestra-Research/AI-Research-SKILLs.git` to 
 Step 4: Clean the `/tmp/` folder.
 Step 5: Read the README files we just downloaded to understand the taxonomy of "Agent-Native Research Artifacts".
 Confirm when you are finished.
+```
+
+### Option B: Manual Terminal Installation (Bash)
+If you prefer to install the tools globally for Claude manually, you can run the following bash commands to copy the tools to your custom configuration directory (adjust `~/.claude/skills` to your preferred path):
+
+```bash
+# 1. Clone Repositories to Temp
+git clone https://github.com/DietrichGebert/ponytail /tmp/ponytail-plugin
+git clone https://github.com/Orchestra-Research/AI-Research-SKILLs.git /tmp/ai-research-skills
+
+# 2. Create Claude Skills Directory
+mkdir -p ~/.claude/skills
+
+# 3. Copy Academic Tools & Ponytail
+cp -r /tmp/ponytail-plugin ~/.claude/skills/ponytail
+cp -r /tmp/ai-research-skills/20-ml-paper-writing/ml-paper-writing ~/.claude/skills/
+cp -r /tmp/ai-research-skills/22-agent-native-research-artifact/compiler ~/.claude/skills/ara-compiler
+cp -r /tmp/ai-research-skills/22-agent-native-research-artifact/manager ~/.claude/skills/ara-research-manager
+cp -r /tmp/ai-research-skills/22-agent-native-research-artifact/reviewer ~/.claude/skills/ara-rigor-reviewer
+
+# 4. Cleanup
+rm -rf /tmp/ponytail-plugin /tmp/ai-research-skills
+echo "Claude Code Setup Complete!"
 ```
