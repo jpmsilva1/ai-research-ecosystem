@@ -8,9 +8,7 @@
 
 This repository establishes a comprehensive architecture that transforms LLMs (such as Google Antigravity and Claude Code) into a highly specialized **Research Assistant**. It optimizes the entire scientific lifecycle—from literature review and data engineering to model training and paper writing—while drastically reducing token consumption through a Zettelkasten-based persistent memory state machine. By moving context from the LLM prompt window into a persistent, searchable graph, we allow frontier models to focus their context on *reasoning* rather than *reading*.
 
-## Acknowledgements
 
-This architecture heavily relies on the concept of Abstract Syntax Tree codebase mapping. We want to explicitly credit and thank the original [Graphify](https://github.com/safishamsi/graphify) tool for enabling the foundational AST-to-Markdown mapping protocol that makes our 98% token reduction possible.
 
 ## The Research Assistant Ecosystem
 
@@ -110,6 +108,7 @@ This ecosystem is an amalgamation of brilliant open-source tools. Credit belongs
 - **Academic Research & ARA**: Developed by Orchestra Research ([Orchestra-Research/AI-Research-SKILLs](https://github.com/Orchestra-Research/AI-Research-SKILLs)).
 - **Engineering ML Base**: Official catalog maintained by Google ([google/antigravity-awesome-skills](https://github.com/google/antigravity-awesome-skills)).
 - **Deep Research**: Developed by sanjay3290 ([sanjay3290/ai-skills](https://github.com/sanjay3290/ai-skills/tree/main/skills/deep-research)).
+- **Codebase Mapping**: AST-to-Markdown Graphify concept originally developed by Safi Shamsi ([safishamsi/graphify](https://github.com/safishamsi/graphify)).
 
 ## License
 
