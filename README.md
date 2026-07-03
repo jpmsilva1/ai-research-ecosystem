@@ -20,10 +20,10 @@ Rather than treating AI as a simple chatbot, this architecture provides a struct
 
 While this workflow bundles several open-source community skill packs, the following highly specialized AI Research skills were authored specifically for this project by **João P. M. Silva**:
 
+- **`research-orchestrator`**: Guides the user through the full academic research lifecycle by suggesting the right skills at each stage.
 - **`distributed-gpu-engineer`**: Expert in scaling ML training across multiple GPUs and nodes. Masters SLURM, PyTorch Distributed Data Parallel (DDP), Ray, and CUDA OOM debugging.
 - **`experiment-sweeper`**: Expert in ML hyperparameter orchestration. Converts hardcoded scripts to use Hydra/OmegaConf and sets up Weights & Biases Sweeps.
 - **`academic-rebuttal-simulator`**: Simulates 'Reviewer 2' for ML papers (NeurIPS, ICLR). Critiques methodology, finds missing baselines, and helps draft author rebuttals.
-- **`research-orchestrator`**: Guides the user through the full academic research lifecycle by suggesting the right skills at each stage.
 - **`lint-vault`**: Autonomous health-check for the Obsidian Vault to ensure structural integrity and correct Zettelkasten linking.
 
 ## The Persistent Memory Engine (Obsidian + Graphify)
