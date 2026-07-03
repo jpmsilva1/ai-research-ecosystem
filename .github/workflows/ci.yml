@@ -25,13 +25,13 @@ jobs:
           echo "🔒 AegisOps-AI DevSecOps Gatekeeper Active"
           echo "==========================================================="
           echo "Checking for sensitive data leaks (hardcoded paths)..."
-          if grep -rnw . -e '/Users/[a-zA-Z0-9_-]*' --exclude-dir=.git; then
+          if grep -rnw . -e '/Users/[a-zA-Z0-9_-]*' --exclude-dir={.git,.github}; then
             echo "❌ CRITICAL: Hardcoded personal paths detected! AegisOps is blocking this merge."
             exit 1
           fi
           
           echo "Checking for hardcoded secrets..."
-          if grep -rnw . -e 'password=' -e 'api_key=' -e 'secret=' --exclude-dir=.git; then
+          if grep -rnw . -e 'password=' -e 'api_key=' -e 'secret=' --exclude-dir={.git,.github}; then
             echo "❌ CRITICAL: Hardcoded secrets detected! AegisOps is blocking this merge."
             exit 1
           fi
