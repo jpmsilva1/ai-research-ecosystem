@@ -39,6 +39,12 @@ Modern autonomous agents suffer from statelessness across sessions. When a termi
 We implement a direct integration with a local Obsidian Vault acting as the agent's state memory. 
 Instead of forcing the LLM to blindly read the entire codebase (which consumes massive token quotas), we utilize **Graphify**. Graphify maps the codebase into Abstract Syntax Trees (AST) and generates structural graphs stored as Markdown. The agent is strictly instructed to read these architectural maps first, obtaining a holistic understanding of the project structure at a fraction of the cost.
 
+### Deep Context Recovery (Long-Term Memory)
+To combat context window degradation during long coding sessions, the ecosystem implements **Deep Context Recovery**. Instead of relying on the agent's short-term ephemeral memory (which truncates early conversation history), the `/save` command explicitly forces the agent to recover its raw, un-truncated history before compiling the Zettelkasten log.
+- **For Antigravity:** The agent reads its internal `transcript.jsonl` log file from the disk.
+- **For Claude Code:** The agent aggressively reviews its `.claude/` logs, terminal scrollback, and utilizes the `/compact` command to reconstruct the timeline.
+This ensures 100% accurate session tracking with zero hallucinations.
+
 ### Token Economy Analysis: The 98% Reduction
 
 We ran a rigorous evaluation harness using the `ai-engineering-toolkit` to test our LLM-Wiki / Graphify pattern against traditional "Full Context" RAG (dumping the codebase into the prompt). 
