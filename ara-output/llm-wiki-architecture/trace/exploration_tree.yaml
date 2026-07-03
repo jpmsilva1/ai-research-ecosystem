@@ -1,0 +1,53 @@
+tree:
+  - id: N01
+    type: question
+    support_level: explicit
+    source_refs: ["§The core idea"]
+    title: "How to resolve RAG Amnesia?"
+    description: "Traditional RAG rediscovers knowledge on every question, lacking persistent accumulation."
+    children:
+      - id: N02
+        type: experiment
+        support_level: explicit
+        source_refs: ["§The core idea"]
+        title: "LLM incrementally building a wiki"
+        description: "Instead of querying raw documents, the LLM maintains a persistent markdown wiki."
+        children:
+          - id: N03
+            type: decision
+            support_level: explicit
+            source_refs: ["§Architecture"]
+            title: "Split into 3 layers"
+            description: "Raw Sources, The Wiki, and The Schema."
+            children:
+              - id: N04
+                type: question
+                support_level: explicit
+                source_refs: ["§Indexing and logging"]
+                title: "How to navigate the growing wiki?"
+                description: "Without vector search, how does the LLM find context?"
+                children:
+                  - id: N05
+                    type: decision
+                    support_level: explicit
+                    source_refs: ["§Indexing and logging"]
+                    title: "Use an index.md file"
+                    description: "A centralized catalog mapping every page with a one-line summary."
+                  - id: N06
+                    type: decision
+                    support_level: explicit
+                    source_refs: ["§Indexing and logging"]
+                    title: "Use a log.md file"
+                    description: "A chronological append-only record of wiki operations."
+              - id: N07
+                type: dead_end
+                support_level: explicit
+                source_refs: ["§Tips and tricks"]
+                title: "Natively reading inline images"
+                description: "LLMs struggle to natively read markdown with inline images in one pass."
+              - id: N08
+                type: decision
+                support_level: explicit
+                source_refs: ["§Operations"]
+                title: "Query Filing"
+                description: "Filing synthesized answers back into the wiki so explorations compound."
