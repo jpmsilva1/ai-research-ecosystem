@@ -9,7 +9,6 @@ set -euo pipefail
 BOLD="\033[1m"
 GREEN="\033[0;32m"
 CYAN="\033[0;36m"
-YELLOW="\033[0;33m"
 RESET="\033[0m"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
