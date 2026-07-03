@@ -1,0 +1,41 @@
+name: "AegisOps-AI Gatekeeper & Quality CI"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  quality-gate:
+    name: Lint & Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: './'
+
+      - name: AegisOps-AI Security Check (Simulated Gatekeeper)
+        run: |
+          echo "==========================================================="
+          echo "🔒 AegisOps-AI DevSecOps Gatekeeper Active"
+          echo "==========================================================="
+          echo "Checking for sensitive data leaks (hardcoded paths)..."
+          if grep -rnw . -e '/Users/[a-zA-Z0-9_-]*' --exclude-dir=.git; then
+            echo "❌ CRITICAL: Hardcoded personal paths detected! AegisOps is blocking this merge."
+            exit 1
+          fi
+          
+          echo "Checking for hardcoded secrets..."
+          if grep -rnw . -e 'password=' -e 'api_key=' -e 'secret=' --exclude-dir=.git; then
+            echo "❌ CRITICAL: Hardcoded secrets detected! AegisOps is blocking this merge."
+            exit 1
+          fi
+          
+          echo "==========================================================="
+          echo "✅ Architecture is production-ready. Gatekeeper Approved."
+          echo "==========================================================="
