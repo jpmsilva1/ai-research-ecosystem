@@ -46,11 +46,8 @@ We ran a rigorous evaluation harness using the `ai-engineering-toolkit` to test 
 | Metric | Scenario A: Traditional RAG | Scenario B: AI Research Ecosystem | Impact / Savings |
 |---|---|---|---|
 | **Input Tokens (Per Query)** | 190,040 tokens | **3,679 tokens** | **98.06% Reduction** |
-| **Cost per 1,000 Queries** | ~$570.00 | **~$11.00** | **$559.00 Saved** |
 | **Time-to-First-Token (TTFT)**| ~12.5 seconds | **~1.2 seconds** | 10x Faster Generation |
 | **Context Waste Ratio** | 94% Irrelevant Code | **< 2%** | Near-Zero Hallucination |
-
-*(Costs estimated based on standard $3.00 / 1M input token pricing for frontier models).*
 
 By forcing the agent to read the `wiki/index.md` catalog and Graphify AST maps *first*, the agent identifies the exact file it needs in under 4,000 tokens, then drills down only into that specific file. You get hyper-accurate answers about complex repositories without burning your wallet or hitting context limits.
 
