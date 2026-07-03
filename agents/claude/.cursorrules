@@ -27,7 +27,8 @@ The vault follows a 3-layer architecture:
 - Update `index.md` and `changelog.md` accordingly.
 
 ## 6. Session Protocols
-- At the end of a session, suggest saving a log in `logs/` and updating `changelog.md`.
+- When saving a session (`/save`), perform **Deep Context Recovery**: Do not rely on short-term memory. Read `transcript.jsonl` or aggressively review your terminal history to perfectly reconstruct the session timeline before generating the Zettelkasten log.
+- Suggest saving a log in `logs/` and updating `changelog.md`.
 - When resuming, read `changelog.md` (last 10 entries) and `index.md` first.
 
 ## 7. Reading Priority (Graphify)

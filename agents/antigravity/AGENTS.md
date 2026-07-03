@@ -37,11 +37,12 @@ Valid types: `ingest`, `session`, `query`, `lint`, `file`.
 
 ### The `/save` (Save) Protocol
 When the user says "/save" or asks to document the end of the session:
-1. Create a log in `logs/YYYY-MM-DD-topic.md`.
-2. Record: What was done, decisions made, and pending tasks.
-3. Add `[[wikilinks]]` for any key concept mentioned.
-4. Append a `session` entry to `/wiki/changelog.md`.
-5. Update `/wiki/index.md` if any new wiki pages were created during the session.
+1. **Deep Context Recovery:** Do not rely on short-term memory. Read `transcript.jsonl` (if Antigravity) or explicitly review your full terminal buffer (if Claude Code) to perfectly reconstruct the full session timeline before summarizing.
+2. Create a log in `logs/YYYY-MM-DD-topic.md`.
+3. Record: What was done, decisions made, and pending tasks.
+4. Add `[[wikilinks]]` for any key concept mentioned.
+5. Append a `session` entry to `/wiki/changelog.md`.
+6. Update `/wiki/index.md` if any new wiki pages were created during the session.
 
 ### The `/resume` (Resume) Protocol
 When the user says "/resume" or asks to recover the context:
