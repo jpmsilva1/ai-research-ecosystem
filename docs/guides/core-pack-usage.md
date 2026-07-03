@@ -63,6 +63,7 @@ graph TD
 *The creation of intelligence.*
 
 * **`ml-engineer` & `ai-ml`**: Forces the use of *Best Practices* for PyTorch or TensorFlow. Avoids data leakage in cross-validation, suggests modern architectures (ResNet, Transformers, Diffusion), and manages correct GPU (CUDA) usage.
+* **`distributed-gpu-engineer`**: Scales your models to clusters (SLURM, Ray, PyTorch DDP) and debugs CUDA OOMs. *(Created by João P. M. Silva)*
 * **`ai-engineering-toolkit`**: The Swiss Army knife of modern AI Engineering. Brings production-ready workflows: prompt evaluation across 8 dimensions, context limit planning, agent security auditing, and *eval harnesses* creation.
 * **`rag-engineer` & `embedding-strategies`**: Essential if your thesis involves Large Language Models (LLMs) reading documents. Creates perfect *Retrieval-Augmented Generation* flows, using vector databases like Pinecone or pgvector.
 * **`hugging-face-datasets` & `hugging-face-community-evals`**: Use when you need to download *Open Source* models from Hugging Face, or when you want to run *benchmarks* (standard academic evaluations) on your model locally.
@@ -70,6 +71,7 @@ graph TD
 ### 4. ⚙️ MLOps, Deploy, and Quality Assurance (QA)
 *Leaving the Jupyter Notebook and creating systems that do not break.*
 
+* **`experiment-sweeper`**: Refactors hardcoded scripts into Hydra configs and sets up W&B hyperparameter sweeps. *(Created by João P. M. Silva)*
 * **`ml-pipeline-workflow` & `mlops-engineer`**: Jupyter Notebooks are great for testing, but terrible for production. These skills encapsulate your models in REST APIs (FastAPI), implement experiment tracking (MLflow/Weights & Biases), and monitor model degradation.
 * **`docker-expert` & `devops-deploy`**: Teaches the agent to write the perfect `Dockerfile` for your model, solving Machine Learning library dependency hells, so any member of your board can run your code flawlessly.
 * **`unit-testing-test-generate`**: Autonomous test creation in `PyTest`. Use to guarantee that your custom Loss Function contains no hidden mathematical bugs.
@@ -77,6 +79,7 @@ graph TD
 ### 5. 🎓 Writing, Documentation, and Defense
 *Preparing scientific articles and the final dissertation.*
 
+* **`academic-rebuttal-simulator`**: Acts as a harsh 'Reviewer 2' to critique your methodology before submission and helps draft rebuttals. *(Created by João P. M. Silva)*
 * **`ml-paper-writing`**: The golden skill for writing *Top-Tier* articles (NeurIPS, ICML). Brings the writing style of industry giants, and features a strict "anti-hallucination" lock that fetches BibTeX directly from the Semantic Scholar API.
 * **`academic-plotting`**: The complement to Plotly, focused on generating static graphs of the highest visual quality for final article submission (using matplotlib/seaborn with specific conference styles).
 * **`2slides-ppt-generator`**: The salvation for seminars! Ask the agent to read a results summary (*abstract* or *log*) and activate this skill; it will automatically generate the structure, talking points, and code for an AI-based professional slide presentation.

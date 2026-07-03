@@ -93,7 +93,7 @@ if [[ "$AGENT_CHOICE" == "1" || "$AGENT_CHOICE" == "3" ]]; then
     # Copy repo-bundled skills
     if [ -d "$SCRIPT_DIR/skills" ]; then
         cp -r "$SCRIPT_DIR/skills/"* "$SKILLS_DIR/" 2>/dev/null || true
-        echo "  Installed bundled skills (lint-vault, research-orchestrator)"
+        echo "  Installed bundled skills (lint-vault, research-orchestrator, distributed-gpu-engineer, academic-rebuttal-simulator, experiment-sweeper)"
     fi
 
     # Ponytail

@@ -35,17 +35,18 @@ Guide the user through these stages in order. At each stage, suggest the relevan
 - **Goal**: Code models, process data, and ensure your experiments are perfectly reproducible for publication.
 - **Suggest**:
   - **For Model Dev:** `ml-engineer` (PyTorch/TensorFlow), `ai-engineering-toolkit` (Prompt/Eval design), `rag-engineer`.
+  - **For Hardware & Scale:** `distributed-gpu-engineer` (SLURM, Ray, DDP scaling - *Authored by João P. M. Silva*).
   - **For Data:** `polars` (Fast in-memory processing).
-  - **For Reproducibility:** `docker-expert` (Environment containerization) and `mlops-engineer` (Experiment tracking/seeding).
+  - **For Reproducibility:** `experiment-sweeper` (Hydra/W&B Configs - *Authored by João P. M. Silva*), `docker-expert` (Environment containerization), and `mlops-engineer` (Experiment tracking/seeding).
 - **Prompt the user**: "Ready to start coding the experiments? I highly recommend setting up a reproducible environment first."
 
 ### Stage 5: Writing
 - **Goal**: Draft the paper or thesis chapter.
 - **Suggest**: `ml-paper-writing` (for NeurIPS/ICML-style papers), `academic-plotting` (for publication figures), `latex-paper-conversion` (for format changes).
 
-### Stage 6: Review
-- **Goal**: Validate the quality of the compiled knowledge.
-- **Suggest**: `ara-rigor-reviewer` (for epistemic review of ARAs), `/lint` (for vault health-check).
+### Stage 6: Review & Rebuttal
+- **Goal**: Validate the quality of the compiled knowledge and survive peer review.
+- **Suggest**: `academic-rebuttal-simulator` (Simulates Reviewer 2 & drafts rebuttals - *Authored by João P. M. Silva*), `ara-rigor-reviewer` (for epistemic review of ARAs), `/lint` (for vault health-check).
 
 ### Stage 7: Presentation
 - **Goal**: Prepare for defense or seminar.
