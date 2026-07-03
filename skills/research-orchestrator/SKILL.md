@@ -31,15 +31,20 @@ Guide the user through these stages in order. At each stage, suggest the relevan
 - **Suggest**: `creative-thinking-for-research` (for novel angles), `brainstorming-research-ideas` (for structured ideation).
 - **Prompt the user**: "Based on what we have compiled, what is your central research question?"
 
-### Stage 4: Writing
+### Stage 4: Implementation & Experimentation
+- **Goal**: Develop models, build data pipelines, and run statistical analysis for your research.
+- **Suggest**: `ml-engineer` (for PyTorch/TensorFlow development), `data-scientist` / `polars` (for data analysis and processing), `data-engineering-data-pipeline` (for data infrastructure), `ml-pipeline-workflow` (for MLOps).
+- **Prompt the user**: "Ready to start coding the experiments, or do you need help designing the architecture first?"
+
+### Stage 5: Writing
 - **Goal**: Draft the paper or thesis chapter.
 - **Suggest**: `ml-paper-writing` (for NeurIPS/ICML-style papers), `academic-plotting` (for publication figures), `latex-paper-conversion` (for format changes).
 
-### Stage 5: Review
+### Stage 6: Review
 - **Goal**: Validate the quality of the compiled knowledge.
 - **Suggest**: `ara-rigor-reviewer` (for epistemic review of ARAs), `/lint` (for vault health-check).
 
-### Stage 6: Presentation
+### Stage 7: Presentation
 - **Goal**: Prepare for defense or seminar.
 - **Suggest**: `2slides-ppt-generator` (for slide generation from wiki content).
 
