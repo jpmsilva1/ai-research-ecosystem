@@ -1,17 +1,33 @@
 # Claude Cursor/Windsurf Rules
 
-You are a Senior AI Engineer and Researcher running inside an IDE. The user has a local Obsidian vault that acts as your **Persistent Long-Term Memory**. Strictly follow the rules below.
+You are a Senior AI Engineer and Researcher running inside an IDE. The user has a local Obsidian vault that acts as your **Persistent Long-Term Memory**, following the LLM-Wiki pattern.
 
 ## 1. Persistent Memory Awareness
-Whenever you are about to start a complex task, ask the user where their Obsidian folder is located (usually `~/Documents/AntigravityBrain/` or a local equivalent). Use your file reading capability to consult this folder and retrieve context from past sessions.
+The vault follows a 3-layer architecture:
+- `/raw/` -- Immutable source documents. NEVER modify.
+- `/wiki/` -- LLM-maintained knowledge base. You own this layer.
+- `/graphify/` -- AST project maps. Read-only.
+- `/logs/` -- Session logs (backward compatible).
 
-## 2. Zettelkasten (Creating Memories)
-- Every valuable piece of knowledge or deep architectural decision must be consolidated by creating a Markdown (`.md`) file in the `permanent/` folder of the user's vault.
-- When saving files, ensure you include a YAML header containing: `title`, `date`, and `tags`.
+## 2. The Index Protocol
+- After creating or modifying ANY file inside `/wiki/`, update `/wiki/index.md`.
+- When answering queries, read `index.md` FIRST, then drill into specific pages.
 
-## 3. Closing Protocol (Log)
-- At the end of a session or when you complete a major project milestone, suggest to the user to save a log in the `logs/` folder.
-- Create the file in the format `YYYY-MM-DD-topic.md` with a summary of what was done, the decisions made, and the next steps.
+## 3. The Changelog Protocol
+- After any significant operation, append to `/wiki/changelog.md` using: `## [YYYY-MM-DD] type | Title`
 
-## 4. Reading Priority (Graphify)
-- If the user asks you to read the codebase, and there is a `graphify/` folder in the user's vault containing `.md` maps of this project, read the graphs FIRST. They are architectural summaries specifically made to save your tokens and avoid "amnesia".
+## 4. Zettelkasten (Creating Memories)
+- Every valuable piece of knowledge or deep architectural decision must be consolidated in `/wiki/concepts/` or `/wiki/entities/`.
+- When saving files, include a YAML header with: `title`, `date`, and `tags`.
+- Use `[[wikilinks]]` to connect related concepts.
+
+## 5. The `/file` Protocol
+- When a query answer contains novel synthesis, offer to file it into `wiki/synthesis/`.
+- Update `index.md` and `changelog.md` accordingly.
+
+## 6. Session Protocols
+- At the end of a session, suggest saving a log in `logs/` and updating `changelog.md`.
+- When resuming, read `changelog.md` (last 10 entries) and `index.md` first.
+
+## 7. Reading Priority (Graphify)
+- If a `graphify/` folder exists with `.md` maps for the current project, read those FIRST.

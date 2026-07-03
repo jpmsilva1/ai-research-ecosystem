@@ -57,28 +57,28 @@ flowchart TD
 
 ## Setup Instructions
 
-### 1. Initialize the Memory Vault
-1. Download [Obsidian](https://obsidian.md/).
-2. Copy the `obsidian-vault-template/` directory provided in this repository to your local machine.
-3. Open this folder as a new Vault inside the Obsidian application.
+🚀 **The fastest way to get started is the [Quickstart Guide](QUICKSTART.md).**
 
-### 2. Configure the LLM Agent
-Depending on your preferred AI Agent, copy the respective configuration file to your project root to enforce memory awareness:
-- **Google Antigravity:** Use `agents/antigravity/AGENTS.md`. It injects the `/salvar` and `/retomar` memory protocols globally.
-- **Claude Code (Anthropic):** Use `agents/claude/.cursorrules` to instruct Claude to utilize the Obsidian vault as its long-term memory.
+If you prefer to see exactly what gets installed, you can use the single-command setup script:
 
-### 3. Install the Skill Ecosystem
-To maximize the potential of this architecture, you must install specialized toolsets (Skills) for the agent. We offer autonomous prompt-based installations.
+```bash
+git clone https://github.com/jpmsilva1/ai-research-workflow.git
+cd ai-research-workflow
+chmod +x setup.sh && ./setup.sh
+```
 
-Refer to **[docs/installation.md](docs/installation.md)** to copy the setup prompts or terminal bash commands for your desired path:
-- **Core Pack (Academic Focus):** Scientific research tools, deep literature review, and Agent-Native Research Artifacts (ARA).
-- **Full Pack (Engineering Focus):** Over 130 skills encompassing MLOps, DevOps, TDD, and data engineering.
+This interactive script will automatically:
+1. Create the 3-layer Obsidian Vault architecture.
+2. Install the correct Agent Rules (Antigravity or Claude) configured to your vault path.
+3. Download and install the curated Research Skill ecosystem.
 
 ## Documentation and Guides
 
-Consult the `docs/` directory for comprehensive usage instructions:
+- **[Quickstart (5 mins)](QUICKSTART.md)**: Zero to fully configured assistant.
+- **[Architecture Deep Dive](docs/architecture.md)**: Learn how the LLM-Wiki pattern saves 96% of tokens.
 - **[Core Pack Usage Guide](docs/guides/core-pack-usage.md)**: Literature review and paper writing workflows.
 - **[Full Pack Usage Guide](docs/guides/full-pack-usage.md)**: Advanced engineering and CI/CD pipelines.
+- **[Manual Installation](docs/installation.md)**: If you prefer not to use the `setup.sh` script.
 
 ## Acknowledgements
 
