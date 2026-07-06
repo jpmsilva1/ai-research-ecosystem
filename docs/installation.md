@@ -1,45 +1,46 @@
 # Installation Guide
 
-You can install the AI Research Workflow ecosystem using two different approaches: **Autonomous Prompt-Based Installation** (letting the AI install itself) or **Manual Terminal Installation** (running bash commands yourself).
+The AI Research Ecosystem operates on a **Two-Pillar Architecture**:
+1. **Phase 1: The Persistent Memory Engine** (An Obsidian Vault structured as a Zettelkasten).
+2. **Phase 2: The Skill Ecosystem** (The actual agent tools and capabilities).
 
-Choose your desired track (Core Pack or Full Pack) and follow the instructions below.
+You can install the ecosystem using two different approaches: **Autonomous Prompt-Based Installation** (letting the AI install itself) or **Manual Terminal Installation** (running bash commands yourself).
+
+Choose your desired track and follow the instructions below in order.
 
 ---
 
 ## 🤖 Method 1: Autonomous Prompt-Based Installation
 
-Instead of executing scripts manually, you can instruct your preferred AI agent to install the workflow autonomously. Copy the entire prompt block and paste it into your terminal chat.
+Instead of executing scripts manually, you can instruct your preferred AI agent to build the architecture autonomously. Copy the entire prompt block and paste it into your terminal chat.
 
-### Option A: Core Pack (Academic Research)
-Copy and paste this exact prompt into Antigravity:
+### Phase 1 & 2: Complete Setup Prompt (Core Pack)
+Copy and paste this exact prompt into your Agent (Antigravity or Claude Code):
 
 ```text
 Act as a System Setup Engineer.
-Please install my academic research ecosystem by executing the following autonomous steps:
+Please install my academic research ecosystem by executing the following autonomous steps in order:
 
-1. Install the ponytail plugin by running: `agy plugin install https://github.com/DietrichGebert/ponytail`
+PHASE 1: PERSISTENT MEMORY ENGINE
+1. Create the Obsidian Vault directory structure: `mkdir -p ~/Documents/AntigravityBrain/{raw/assets,wiki/{entities,concepts,synthesis},graphify,logs}`
+2. Download the catalog templates directly into the Vault:
+   - `curl -sL https://raw.githubusercontent.com/jpmsilva1/ai-research-ecosystem/main/obsidian-vault-template/wiki/index.md -o ~/Documents/AntigravityBrain/wiki/index.md`
+   - `curl -sL https://raw.githubusercontent.com/jpmsilva1/ai-research-ecosystem/main/obsidian-vault-template/wiki/changelog.md -o ~/Documents/AntigravityBrain/wiki/changelog.md`
+3. Configure my Agent:
+   - If I am using Antigravity: Create `~/.gemini/config/AGENTS.md` and instruct it that the Vault path is `~/Documents/AntigravityBrain`.
+   - If I am using Claude Code: Create `~/.claude/.cursorrules` and instruct it that the Vault path is `~/Documents/AntigravityBrain`.
+
+PHASE 2: SKILL ECOSYSTEM (Core Pack)
+1. Install the ponytail plugin by running: `agy plugin install https://github.com/DietrichGebert/ponytail` (If using Antigravity)
 2. Clone `https://github.com/Orchestra-Research/AI-Research-SKILLs.git` to `/tmp/ai-research-skills`.
-3. Create the folder `~/.gemini/config/skills/` if it does not exist.
-4. Copy the folders `ml-paper-writing`, `academic-plotting` and the entire `22-agent-native-research-artifact` directory to my local skills folder. Rename the subfolders from `22-*` to `ara-compiler`, `ara-research-manager`, and `ara-rigor-reviewer`.
+3. Create my global skills folder (`~/.gemini/config/skills/` for Antigravity OR `~/.claude/skills/` for Claude).
+4. Copy the folders `ml-paper-writing`, `academic-plotting` and the entire `22-agent-native-research-artifact` directory from `/tmp/ai-research-skills` to my local skills folder. Rename the subfolders from `22-*` to `ara-compiler`, `ara-research-manager`, and `ara-rigor-reviewer`.
 5. Clone `https://github.com/google/antigravity-awesome-skills.git` to `/tmp/awesome-skills`.
 6. Copy the following specific skills from the Google repository to my local skills folder: `papers-skill`, `deep-research`, `exa-search`, `tavily-web`, `research-brainstorming`, `creative-thinking`, `data-engineering-data-pipeline`, `data-engineering-data-driven-feature`, `data-structure-protocol`, `dbt-transformation-patterns`, `data-quality-frameworks`, `database-architect`, `database-optimizer`, `polars`, `data-scientist`, `data-storytelling`, `plotly`, `python-pro`, `python-patterns`, `ml-engineer`, `ai-ml`, `ai-engineering-toolkit`, `rag-engineer`, `embedding-strategies`, `hugging-face-datasets`, `hugging-face-community-evals`, `ml-pipeline-workflow`, `mlops-engineer`, `docker-expert`, `devops-deploy`, `unit-testing-test-generate`, `2slides-ppt-generator`, `latex-paper-conversion`, `architecture-decision-records`, `docs-architect`, `graphify`, `save-session`, `resume-session`.
 7. Once finished, delete the `/tmp/ai-research-skills` and `/tmp/awesome-skills` directories and confirm that the ecosystem is ready.
 ```
 
-### Option B: Full Pack (Enterprise Engineering)
-Copy and paste this exact prompt into Antigravity:
-
-```text
-Act as a System Setup Engineer. 
-Please install the complete Awesome Skills catalog into my environment autonomously:
-
-1. Install the ponytail plugin by running: `agy plugin install https://github.com/DietrichGebert/ponytail`
-2. Clone `https://github.com/Orchestra-Research/AI-Research-SKILLs.git` to `/tmp/ai-research-skills`.
-3. Copy ALL skills from inside the Orchestra Research subfolders to my `~/.gemini/config/skills/` folder.
-4. Clone `https://github.com/google/antigravity-awesome-skills.git` to `/tmp/awesome-skills`.
-5. Copy the entire contents of the `skills/` folder from the cloned Google repository into my `~/.gemini/config/skills/`.
-6. Once finished, clean the `/tmp/` folder and confirm the end of the operation.
-```
+*(Note: For the Full Pack, modify Phase 2 Step 6 to copy all skills instead of the specific list).*
 
 ---
 
@@ -47,9 +48,40 @@ Please install the complete Awesome Skills catalog into my environment autonomou
 
 If you prefer to maintain full control or integrate the setup into your own dotfiles, run the following bash commands directly in your terminal.
 
-### Option A: Core Pack (Academic Research)
-Run this block to install the ~38 skills curated specifically for the Academic Lifecycle:
+### Phase 1: The Persistent Memory Engine (Universal)
 
+Run this block to create the Obsidian Vault architecture (this is identical regardless of which AI Agent you use):
+
+```bash
+# 1. Create the Obsidian Vault and its Zettelkasten structure
+mkdir -p ~/Documents/AntigravityBrain/{raw/assets,wiki/{entities,concepts,synthesis},graphify,logs}
+
+# 2. Download the central catalog templates
+curl -sL https://raw.githubusercontent.com/jpmsilva1/ai-research-ecosystem/main/obsidian-vault-template/wiki/index.md -o ~/Documents/AntigravityBrain/wiki/index.md
+curl -sL https://raw.githubusercontent.com/jpmsilva1/ai-research-ecosystem/main/obsidian-vault-template/wiki/changelog.md -o ~/Documents/AntigravityBrain/wiki/changelog.md
+```
+
+**Next, configure your specific agent so it knows where the Vault is:**
+
+**For Google Antigravity Users:**
+```bash
+mkdir -p ~/.gemini/config
+curl -sL https://raw.githubusercontent.com/jpmsilva1/ai-research-ecosystem/main/agents/antigravity/AGENTS.md -o ~/.gemini/config/AGENTS.md
+sed -i.bak "s|{{VAULT_PATH}}|$HOME/Documents/AntigravityBrain|g" ~/.gemini/config/AGENTS.md && rm ~/.gemini/config/AGENTS.md.bak
+```
+
+**For Claude Code Users:**
+```bash
+mkdir -p ~/.claude
+curl -sL https://raw.githubusercontent.com/jpmsilva1/ai-research-ecosystem/main/agents/claude/.cursorrules -o ~/.claude/.cursorrules
+sed -i.bak "s|{{VAULT_PATH}}|$HOME/Documents/AntigravityBrain|g" ~/.claude/.cursorrules && rm ~/.claude/.cursorrules.bak
+```
+
+### Phase 2: The Skill Ecosystem
+
+Now that the Memory Engine is ready, install the behavioral skills.
+
+**For Google Antigravity Users (Core Pack):**
 ```bash
 # 1. Install Ponytail Plugin
 agy plugin install https://github.com/DietrichGebert/ponytail
@@ -75,55 +107,10 @@ done
 
 # 6. Cleanup
 rm -rf /tmp/ai-research-skills /tmp/awesome-skills
-echo "Core Pack Installation Complete!"
+echo "Antigravity Core Pack Installation Complete!"
 ```
 
-### Option B: Full Pack (Enterprise Engineering)
-Run this block to install the complete catalog of 130+ engineering skills:
-
-```bash
-# 1. Install Ponytail Plugin
-agy plugin install https://github.com/DietrichGebert/ponytail
-
-# 2. Clone Repositories to Temp
-git clone https://github.com/Orchestra-Research/AI-Research-SKILLs.git /tmp/ai-research-skills
-git clone https://github.com/google/antigravity-awesome-skills.git /tmp/awesome-skills
-
-# 3. Create Skills Directory
-mkdir -p ~/.gemini/config/skills
-
-# 4. Copy All Skills
-cp -r /tmp/ai-research-skills/*/* ~/.gemini/config/skills/
-cp -r /tmp/awesome-skills/skills/* ~/.gemini/config/skills/
-
-# 5. Cleanup
-rm -rf /tmp/ai-research-skills /tmp/awesome-skills
-echo "Full Pack Installation Complete!"
-```
-
----
-
-## Claude Code CLI Support
-
-If you use Anthropic's official **Claude Code CLI**, you can configure the environment via prompt or manually.
-
-### Option A: Autonomous Prompt-Based Installation
-Use this prompt to instruct Claude to adapt the environment:
-
-```text
-You are my Claude Code assistant. I need you to configure our academic research environment by installing a specific set of skills and rules.
-
-Step 1: Find your global configuration/skills directory (usually Claude CLI has a config folder where it supports custom scripts). Create this folder if necessary.
-Step 2: Temporarily clone the repository: `git clone https://github.com/DietrichGebert/ponytail /tmp/ponytail-plugin` and implement the Ponytail rules into your global system prompt (avoiding over-engineering).
-Step 3: Clone `https://github.com/Orchestra-Research/AI-Research-SKILLs.git` to `/tmp/ai-research-skills` and move the academic tools (`ml-paper-writing`, `ARA` ecosystem) to our environment.
-Step 4: Clean the `/tmp/` folder.
-Step 5: Read the README files we just downloaded to understand the taxonomy of "Agent-Native Research Artifacts".
-Confirm when you are finished.
-```
-
-### Option B: Manual Terminal Installation (Bash)
-If you prefer to install the tools globally for Claude manually, you can run the following bash commands to copy the tools to your custom configuration directory (adjust `~/.claude/skills` to your preferred path):
-
+**For Claude Code Users (Core Pack):**
 ```bash
 # 1. Clone Repositories to Temp
 git clone https://github.com/DietrichGebert/ponytail /tmp/ponytail-plugin
