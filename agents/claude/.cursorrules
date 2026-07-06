@@ -33,3 +33,7 @@ The vault follows a 3-layer architecture:
 
 ## 7. Reading Priority (Graphify)
 - If a `graphify/` folder exists with `.md` maps for the current project, read those FIRST.
+
+## 8. Headroom Compression Layer
+- A local Headroom proxy may be running on port 8787. If you are interacting via this port, all your requests are automatically compressed by Headroom to save tokens.
+- You do not need to do anything special; just behave normally. The proxy is transparent.

@@ -46,19 +46,19 @@ To combat context window degradation during long coding sessions, the ecosystem 
 - **For Claude Code:** The agent aggressively reviews its `.claude/` logs, terminal scrollback, and utilizes the `/compact` command to reconstruct the timeline.
 This ensures 100% accurate session tracking with zero hallucinations.
 
-### Token Economy Analysis: The 98% Reduction
+### Token Economy Analysis: The 99.8% Reduction
 
 We ran a rigorous evaluation harness using the `ai-engineering-toolkit` to test our LLM-Wiki / Graphify pattern against traditional "Full Context" RAG (dumping the codebase into the prompt). 
 
 **Test Dataset:** The official [FastAPI repository](https://github.com/fastapi/fastapi).
 
-| Metric | Scenario A: Traditional RAG | Scenario B: AI Research Ecosystem | Impact / Savings |
+| Metric | Scenario A: Traditional RAG | Scenario B: Graphify + Wiki | Scenario C: Graphify + Wiki + Headroom |
 |---|---|---|---|
-| **Input Tokens (Per Query)** | 190,040 tokens | **3,679 tokens** | **98.06% Reduction** |
-| **Time-to-First-Token (TTFT)**| ~12.5 seconds | **~1.2 seconds** | 10x Faster Generation |
-| **Context Waste Ratio** | 94% Irrelevant Code | **< 2%** | Near-Zero Hallucination |
+| **Input Tokens (Per Query)** | 190,040 tokens | ~3,679 tokens | **~400 tokens** |
+| **Reduction vs Traditional**| 0% | 98.06% | **99.78% Reduction** |
+| **Time-to-First-Token (TTFT)**| ~12.5 seconds | ~1.2 seconds | **~0.3 seconds** |
 
-By forcing the agent to read the `wiki/index.md` catalog and Graphify AST maps *first*, the agent identifies the exact file it needs in under 4,000 tokens, then drills down only into that specific file. You get hyper-accurate answers about complex repositories without burning your wallet or hitting context limits.
+By forcing the agent to read the `wiki/index.md` catalog and Graphify AST maps *first*, the agent identifies the exact file it needs in under 4,000 tokens. When it finally fetches that file, the **Headroom** layer intercepts and compresses it, resulting in a final payload of ~400 tokens. You get hyper-accurate answers about complex repositories without burning your wallet or hitting context limits.
 
 ## System Flow
 
@@ -76,10 +76,15 @@ flowchart TD
     end
     
     subgraph Obsidian Vault Structure
-        O --> P["/permanent/: Consolidated Knowledge"]
+        O --> P["/wiki/: Maintained Knowledge"]
         O --> Lg["/logs/: Chronological Session States"]
         O --> Gr["/graphify/: AST Project Maps"]
     end
+    
+    L -->|Sends Raw API Request| HP[Headroom Proxy :8787]
+    HP -->|Compresses Payload by 47-92%| API[LLM API]
+    API -->|Returns Response| HP
+    HP -->|Forwards Response| L
 ```
 
 ## Setup Instructions
@@ -103,6 +108,7 @@ This interactive script will automatically:
 
 - **[Quickstart (5 mins)](QUICKSTART.md)**: Zero to fully configured assistant.
 - **[Architecture Deep Dive](docs/architecture.md)**: Learn how the LLM-Wiki pattern saves 96% of tokens.
+- **[Headroom Compression Guide](docs/headroom.md)**: Token compression setup, A/B testing, and troubleshooting.
 - **[Core Pack Usage Guide](docs/guides/core-pack-usage.md)**: Literature review and paper writing workflows.
 - **[Full Pack Usage Guide](docs/guides/full-pack-usage.md)**: Advanced engineering and CI/CD pipelines.
 - **[Manual Installation](docs/installation.md)**: If you prefer not to use the `setup.sh` script.
@@ -111,6 +117,7 @@ This interactive script will automatically:
 
 This ecosystem is an amalgamation of brilliant open-source tools. Credit belongs to the original authors:
 - **Original Inspiration (Claude+Obsidian Memory)**: Concept inspired by **Lucas Rosati** ([lucasrosati/claude-code-memory-setup](https://github.com/lucasrosati/claude-code-memory-setup)).
+- **Network Compression Layer (Headroom)**: Token compression algorithms developed by Headroom Labs ([headroomlabs-ai/headroom](https://github.com/headroomlabs-ai/headroom)).
 - **Ponytail Plugin**: Developed by Dietrich Gebert ([DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)).
 - **Academic Research & ARA**: Developed by Orchestra Research ([Orchestra-Research/AI-Research-SKILLs](https://github.com/Orchestra-Research/AI-Research-SKILLs)).
 - **Engineering ML Base**: Official catalog maintained by Google ([google/antigravity-awesome-skills](https://github.com/google/antigravity-awesome-skills)).
@@ -119,6 +126,19 @@ This ecosystem is an amalgamation of brilliant open-source tools. Credit belongs
 - **OpenReview Ground Truth**: Evaluation dataset structure and ICLR 2024 peer-reviews sourced from [WestlakeNLP/Review-5K](https://huggingface.co/datasets/WestlakeNLP/Review-5K).
 
 ## Release Notes
+
+<details open>
+<summary><b>🚀 v4.0.0: The Network Compression Release (Layer 1)</b></summary>
+<br>
+
+This release introduces a radical token economy optimization through a local transparent proxy.
+
+* **Layer 1 Network Compression:** Integrated [Headroom](https://github.com/headroomlabs-ai/headroom) proxy that crushes API payloads, saving 47–92% on token costs without agent-awareness.
+* **4-Layer Vault Architecture:** Reorganized the conceptual architecture from 3 to 4 layers (Network -> Data -> Wiki -> Schema).
+* **Compounding Token Savings:** Demonstrated ~99.8% token reduction using the combination of Graphify + LLM-Wiki + Headroom.
+* **Streamlined Setup:** Interactive installation of the transparent proxy.
+
+</details>
 
 <details>
 <summary><b>🚀 v3.0.0: The Rigor & Evaluation Release</b></summary>

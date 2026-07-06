@@ -2,14 +2,20 @@
 
 This document provides a deep dive into the technical architecture of the AI-Powered Research Assistant.
 
-## The Three-Layer Vault (LLM-Wiki Pattern)
+## The 4-Layer Architecture
 
-Inspired by Andrej Karpathy's LLM-Wiki concept, the persistent memory vault follows a strict three-layer separation:
+The ecosystem is built on four distinct, orthogonal layers. Each layer has a single responsibility and can be understood independently.
 
-### Layer 1: Raw Sources (`/raw/`)
+### Layer 1: Network Compression (`headroom proxy`)
+Before any token reaches the LLM API, the **Headroom Proxy** (running locally on port 8787) intercepts the raw network request. It applies AST minification, JSON crushing, and text compression — transparently, without the agent or user doing anything different.
+- Compresses tool outputs and file reads by 47–92%.
+- Shapes model output verbosity (`HEADROOM_OUTPUT_SHAPER=1`) to save up to 30% on output tokens.
+- **Optional**: the ecosystem functions without it; it simply costs more tokens.
+
+### Layer 2: Raw Sources (`/raw/`)
 Immutable source documents: PDFs, clipped articles, data files. The LLM reads from this layer but NEVER modifies it. This is the ground truth.
 
-### Layer 2: The Wiki (`/wiki/`)
+### Layer 3: The Wiki (`/wiki/`)
 LLM-generated and LLM-maintained markdown files. The agent owns this layer entirely:
 - `index.md` -- Central catalog of all wiki pages. The agent reads this first to find relevant context.
 - `changelog.md` -- Append-only chronological log of all operations.
@@ -17,18 +23,23 @@ LLM-generated and LLM-maintained markdown files. The agent owns this layer entir
 - `concepts/` -- Pages about techniques, patterns, architectural decisions.
 - `synthesis/` -- Filed query answers, comparison tables, and deep analyses.
 
-### Layer 3: The Schema (`agents/`)
+### Layer 4: The Schema (`agents/`)
 Configuration documents (AGENTS.md, .cursorrules) that dictate how the LLM behaves. These turn a generic chatbot into a disciplined wiki maintainer.
 
 ## Token Economy
 
-The architecture achieves dramatic token savings through two mechanisms:
+The architecture achieves dramatic, compounding token savings through three orthogonal mechanisms:
 
-### 1. Graphify (Code Understanding)
+### 1. Semantic Reduction (Graphify)
 Instead of reading an entire codebase (~170,000 tokens for a medium repo), the agent reads pre-computed AST maps (~6,000 tokens). This yields a **~96.4% reduction** in input token consumption.
 
 ### 2. The Index Protocol (Knowledge Retrieval)
 Instead of scanning all wiki pages to find context, the agent reads a single `index.md` file (~200-500 tokens) and selectively loads only the 2-3 relevant pages. This prevents token waste on irrelevant content.
+
+### 3. Network Compression (Headroom)
+When the agent *does* read a file or runs a tool, the Headroom proxy compresses the raw text/JSON before sending it to the API.
+
+**Compounding Effect:** A query that would normally consume 170,000 tokens (reading full codebase) is reduced to ~3,679 tokens by Graphify, and then further compressed to **~400–800 tokens** by Headroom.
 
 ## Operations
 
@@ -58,4 +69,9 @@ flowchart TD
     subgraph Schema Layer
         AGENTS["AGENTS.md"] -->|Configures behavior| L
     end
+    
+    L -->|Sends Raw API Request| HP[Headroom Proxy :8787]
+    HP -->|Sends Compressed API Request| API[LLM API]
+    API -->|Returns Response| HP
+    HP -->|Forwards Response| L
 ```

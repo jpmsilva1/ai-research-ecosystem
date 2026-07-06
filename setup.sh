@@ -3,7 +3,7 @@ set -euo pipefail
 
 # ============================================================
 # AI Research Workflow - Interactive Setup Script
-# Version: 2.0.0
+# Version: 4.0.0
 # ============================================================
 
 BOLD="\033[1m"
@@ -15,7 +15,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo -e "${BOLD}${CYAN}"
 echo "================================================="
-echo "  AI-Powered Research Assistant - Setup v2.0.0  "
+echo "  AI-Powered Research Assistant - Setup v4.0.0  "
 echo "================================================="
 echo -e "${RESET}"
 
@@ -39,6 +39,14 @@ DEFAULT_VAULT="$HOME/Documents/AntigravityBrain"
 echo -e "${BOLD}Step 3: Where should the Obsidian vault be created?${RESET}"
 read -rp "Path (default: $DEFAULT_VAULT): " VAULT_PATH
 VAULT_PATH="${VAULT_PATH:-$DEFAULT_VAULT}"
+
+# --- Step 4: Headroom Token Compression ---
+echo ""
+echo -e "${BOLD}Step 4: Install Headroom token compression layer?${RESET}"
+echo "  Headroom compresses your prompts and tool outputs to save 47-92% tokens."
+echo "  It runs as a local transparent proxy on port 8787."
+read -rp "Install? (y/n) [Recommended: y]: " HEADROOM_CHOICE
+HEADROOM_CHOICE="${HEADROOM_CHOICE:-y}"
 
 # --- Create Vault Structure ---
 echo ""
@@ -143,6 +151,27 @@ if [[ "$AGENT_CHOICE" == "2" || "$AGENT_CHOICE" == "3" ]]; then
     echo "  Installed Claude Code skills"
 fi
 
+# --- Install Headroom ---
+if [[ "$HEADROOM_CHOICE" == "y" || "$HEADROOM_CHOICE" == "Y" ]]; then
+    echo ""
+    echo -e "${CYAN}Installing Headroom Token Compression Layer...${RESET}"
+    if command -v pip &> /dev/null; then
+        pip install "headroom-ai[all]" --quiet
+        
+        # Enable output shaping for the user
+        SHELL_RC="$HOME/.bashrc"
+        [ -f "$HOME/.zshrc" ] && SHELL_RC="$HOME/.zshrc"
+        if ! grep -q "HEADROOM_OUTPUT_SHAPER" "$SHELL_RC" 2>/dev/null; then
+            echo 'export HEADROOM_OUTPUT_SHAPER=1' >> "$SHELL_RC"
+        fi
+        
+        echo "  Headroom installed successfully."
+        echo "  Output shaper enabled in $SHELL_RC."
+    else
+        echo -e "\033[0;31mWarning: 'pip' not found. Please install Python 3.10+ and run 'pip install \"headroom-ai[all]\"' manually.\033[0m"
+    fi
+fi
+
 # --- Cleanup ---
 rm -rf /tmp/ponytail-plugin /tmp/ai-research-skills /tmp/awesome-skills /tmp/aegisops-ai
 
@@ -153,7 +182,14 @@ echo -e "${BOLD}${GREEN}  Setup Complete!${RESET}"
 echo -e "${BOLD}${GREEN}=================================================${RESET}"
 echo ""
 echo -e "Next steps:"
+if [[ "$HEADROOM_CHOICE" == "y" || "$HEADROOM_CHOICE" == "Y" ]]; then
+    echo -e "  0. Start your token compressor: ${CYAN}headroom proxy --port 8787${RESET} (in a separate terminal)"
+fi
 echo -e "  1. Open Obsidian and point it at: ${CYAN}$VAULT_PATH${RESET}"
-echo -e "  2. Start your agent and type: ${CYAN}/resume${RESET}"
+if [[ "$HEADROOM_CHOICE" == "y" || "$HEADROOM_CHOICE" == "Y" ]]; then
+    echo -e "  2. Start your agent (configure API base URL to ${CYAN}http://localhost:8787${RESET}) and type: ${CYAN}/resume${RESET}"
+else
+    echo -e "  2. Start your agent and type: ${CYAN}/resume${RESET}"
+fi
 echo -e "  3. Or start a new research workflow with: ${CYAN}/research${RESET}"
 echo ""

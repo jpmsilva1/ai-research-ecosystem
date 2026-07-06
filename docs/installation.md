@@ -1,8 +1,9 @@
 # Installation Guide
 
-The AI Research Ecosystem operates on a **Two-Pillar Architecture**:
-1. **Phase 1: The Persistent Memory Engine** (An Obsidian Vault structured as a Zettelkasten).
-2. **Phase 2: The Skill Ecosystem** (The actual agent tools and capabilities).
+The AI Research Ecosystem operates on a **Three-Pillar Architecture**:
+1. **Phase 1: The Network Compression Layer** (Headroom Proxy for token savings).
+2. **Phase 2: The Persistent Memory Engine** (An Obsidian Vault structured as a Zettelkasten).
+3. **Phase 3: The Skill Ecosystem** (The actual agent tools and capabilities).
 
 You can install the ecosystem using two different approaches: **Autonomous Prompt-Based Installation** (letting the AI install itself) or **Manual Terminal Installation** (running bash commands yourself).
 
@@ -14,14 +15,18 @@ Choose your desired track and follow the instructions below in order.
 
 Instead of executing scripts manually, you can instruct your preferred AI agent to build the architecture autonomously. Copy the entire prompt block and paste it into your terminal chat.
 
-### Phase 1 & 2: Complete Setup Prompt (Core Pack)
+### Phase 1, 2 & 3: Complete Setup Prompt (Core Pack)
 Copy and paste this exact prompt into your Agent (Antigravity or Claude Code):
 
 ```text
 Act as a System Setup Engineer.
 Please install my academic research ecosystem by executing the following autonomous steps in order:
 
-PHASE 1: PERSISTENT MEMORY ENGINE
+PHASE 1: NETWORK COMPRESSION LAYER
+1. Ask me if I want to install the Headroom compression layer (optional but recommended).
+2. If yes, run `pip install "headroom-ai[all]"` and set `export HEADROOM_OUTPUT_SHAPER=1` in my shell rc file. Remind me to run `headroom proxy --port 8787` in a separate terminal.
+
+PHASE 2: PERSISTENT MEMORY ENGINE
 1. Create the Obsidian Vault directory structure: `mkdir -p ~/Documents/AntigravityBrain/{raw/assets,wiki/{entities,concepts,synthesis},graphify,logs}`
 2. Download the catalog templates directly into the Vault:
    - `curl -sL https://raw.githubusercontent.com/jpmsilva1/ai-research-ecosystem/main/obsidian-vault-template/wiki/index.md -o ~/Documents/AntigravityBrain/wiki/index.md`
@@ -30,7 +35,7 @@ PHASE 1: PERSISTENT MEMORY ENGINE
    - If I am using Antigravity: Create `~/.gemini/config/AGENTS.md` and instruct it that the Vault path is `~/Documents/AntigravityBrain`.
    - If I am using Claude Code: Create `~/.claude/.cursorrules` and instruct it that the Vault path is `~/Documents/AntigravityBrain`.
 
-PHASE 2: SKILL ECOSYSTEM (Core Pack)
+PHASE 3: SKILL ECOSYSTEM (Core Pack)
 1. Install the ponytail plugin by running: `agy plugin install https://github.com/DietrichGebert/ponytail` (If using Antigravity)
 2. Clone `https://github.com/Orchestra-Research/AI-Research-SKILLs.git` to `/tmp/ai-research-skills`.
 3. Create my global skills folder (`~/.gemini/config/skills/` for Antigravity OR `~/.claude/skills/` for Claude).
@@ -40,7 +45,7 @@ PHASE 2: SKILL ECOSYSTEM (Core Pack)
 7. Once finished, delete the `/tmp/ai-research-skills` and `/tmp/awesome-skills` directories and confirm that the ecosystem is ready.
 ```
 
-*(Note: For the Full Pack, modify Phase 2 Step 6 to copy all skills instead of the specific list).*
+*(Note: For the Full Pack, modify Phase 3 Step 6 to copy all skills instead of the specific list).*
 
 ---
 
@@ -48,7 +53,26 @@ PHASE 2: SKILL ECOSYSTEM (Core Pack)
 
 If you prefer to maintain full control or integrate the setup into your own dotfiles, run the following bash commands directly in your terminal.
 
-### Phase 1: The Persistent Memory Engine (Universal)
+### Phase 1: The Network Compression Layer (Optional but Recommended)
+
+Headroom transparently compresses your agent's API requests by 47-92%.
+
+```bash
+# 1. Install Headroom
+pip install "headroom-ai[all]"
+
+# 2. Enable output shaping (reduces model verbosity)
+export HEADROOM_OUTPUT_SHAPER=1
+echo 'export HEADROOM_OUTPUT_SHAPER=1' >> ~/.zshrc
+
+# 3. Verify setup
+headroom doctor
+
+# Important: Before starting your agent, you must run the proxy in a separate terminal:
+# headroom proxy --port 8787
+```
+
+### Phase 2: The Persistent Memory Engine (Universal)
 
 Run this block to create the Obsidian Vault architecture (this is identical regardless of which AI Agent you use):
 
@@ -77,7 +101,7 @@ curl -sL https://raw.githubusercontent.com/jpmsilva1/ai-research-ecosystem/main/
 sed -i.bak "s|{{VAULT_PATH}}|$HOME/Documents/AntigravityBrain|g" ~/.claude/.cursorrules && rm ~/.claude/.cursorrules.bak
 ```
 
-### Phase 2: The Skill Ecosystem
+### Phase 3: The Skill Ecosystem
 
 Now that the Memory Engine is ready, install the behavioral skills.
 

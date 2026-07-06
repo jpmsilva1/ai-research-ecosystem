@@ -63,4 +63,8 @@ Whenever it is necessary to map the codebase or when the user asks to generate t
 1. The structural code mapping output must be stored in the `/graphify/project-name/` folder.
 2. Prioritize reading the graph in the Obsidian folder before attempting to read all raw files in the repository again.
 
+## 8. Headroom Compression Layer
+A local Headroom proxy may be running on port 8787. You are interacting with the LLM API through this proxy, meaning all your requests are automatically compressed to save tokens.
+You do not need to do anything special; just behave normally. The proxy is transparent.
+
 </RULE[user_global]>

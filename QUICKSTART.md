@@ -2,6 +2,16 @@
 
 Get from zero to a fully configured AI Research Assistant in one command.
 
+## 0. Prerequisites
+
+Make sure you have **Python 3.10+** and `git` installed. You can verify with:
+
+```bash
+python3 --version && git --version
+```
+
+*(The setup script will offer to install Headroom token compression automatically. No manual steps needed.)*
+
 ## 1. Clone and Run Setup
 
 ```bash
@@ -23,6 +33,8 @@ Open the vault folder the script created. You should see:
 - `raw/` -- Drop your PDFs and source documents here.
 
 ## 3. Start Researching
+
+**If you installed Headroom:** Open a separate terminal and run `headroom proxy --port 8787`.
 
 Open your agent (Antigravity or Claude) and type:
 

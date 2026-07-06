@@ -110,6 +110,12 @@ graph TD
   * **Upon closing (`/save`):** When finishing a day of research, type `/save`. An official log will be created in the `/logs/` folder detailing decisions, context, and pending tasks.
   * **Upon starting (`/resume`):** In a new conversation, type `/resume`. The agent will read the latest files generated in your vault and perfectly recover the context of where you left off.
 
+### 8. 🗜️ Network Compression (Headroom)
+*To prevent massive token bills when the agent reads large files or logs, all your interactions are invisibly compressed.*
+
+* **The Concept:** A local background service (`headroom proxy`) intercepts the data your agent tries to send to the LLM API. It crushes JSONs, minifies ASTs, and compresses text without losing meaning.
+* **How it works:** It is completely transparent. As long as you run `headroom proxy --port 8787` in a separate terminal before starting your agent, you are saving 47–92% on token costs automatically.
+
 ---
 
 > [!NOTE]
