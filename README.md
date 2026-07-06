@@ -29,7 +29,17 @@ While this workflow bundles several open-source community skill packs, the follo
   - *Empirical Validation:* This skill is rigorously validated using a custom **Eval Harness** against a Ground Truth dataset of 20 real papers from ICLR and NeurIPS. It mathematically scores Weakness Recall (M1), Grade Calibration (M2), Hallucination (M3), and Scope Guards (M4) to ensure anti-sycophancy and high academic rigor.
 - **`lint-vault`**: Autonomous health-check for the Obsidian Vault to ensure structural integrity and correct Zettelkasten linking.
 
-## The Persistent Memory Engine (Obsidian + Graphify)
+## The Network Compression Engine (Layer 1)
+
+*The invisible proxy that saves up to 92% of your token costs.*
+
+Before any data reaches the LLM, the ecosystem routes traffic through a local **[Headroom Proxy](https://github.com/headroomlabs-ai/headroom)** (running on port `8787`). This transparent proxy intercepts raw API payloads and applies extreme compression (AST minification, JSON crushing, text reduction) without the agent or user noticing any difference.
+
+* **Input Savings:** Tool outputs and large file reads are compressed by **47–92%**.
+* **Output Shaping:** By injecting `HEADROOM_OUTPUT_SHAPER=1`, it forces the model to be more concise, saving up to **30% on output tokens**.
+* **Completely Transparent:** Your agent interacts exactly as it normally would.
+
+## The Persistent Memory Engine (Layer 2 & 3)
 
 *The engine that powers the Research Assistant and prevents context amnesia.*
 
