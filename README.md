@@ -39,6 +39,9 @@ Before any data reaches the LLM, the ecosystem routes traffic through a local **
 * **Output Shaping:** By injecting `HEADROOM_OUTPUT_SHAPER=1`, it forces the model to be more concise, saving up to **30% on output tokens**.
 * **Completely Transparent:** Your agent interacts exactly as it normally would.
 
+> [!WARNING]
+> **Antigravity Users:** Google Antigravity connects directly to the Google API and cannot route traffic through the Headroom proxy. The token compression and output shaping features currently only apply to supported clients like Claude Code, Cursor, and Aider.
+
 ## The Persistent Memory Engine (Layer 2 & 3)
 
 *The engine that powers the Research Assistant and prevents context amnesia.*
@@ -68,7 +71,7 @@ We ran a rigorous evaluation harness using the `ai-engineering-toolkit` to test 
 | **Reduction vs Traditional**| 0% | 98.06% | **99.78% Reduction** |
 | **Time-to-First-Token (TTFT)**| ~12.5 seconds | ~1.2 seconds | **~0.3 seconds** |
 
-By forcing the agent to read the `wiki/index.md` catalog and Graphify AST maps *first*, the agent identifies the exact file it needs in under 4,000 tokens. When it finally fetches that file, the **Headroom** layer intercepts and compresses it, resulting in a final payload of ~400 tokens. You get hyper-accurate answers about complex repositories without burning your wallet or hitting context limits.
+By forcing the agent to read the `wiki/index.md` catalog and Graphify AST maps *first*, the agent identifies the exact file it needs in under 4,000 tokens. When it finally fetches that file (for supported clients like Claude Code), the **Headroom** layer intercepts and compresses it, resulting in a final payload of ~400 tokens. You get hyper-accurate answers about complex repositories without burning your wallet or hitting context limits.
 
 ## System Flow
 

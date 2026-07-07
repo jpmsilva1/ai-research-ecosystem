@@ -155,20 +155,39 @@ fi
 if [[ "$HEADROOM_CHOICE" == "y" || "$HEADROOM_CHOICE" == "Y" ]]; then
     echo ""
     echo -e "${CYAN}Installing Headroom Token Compression Layer...${RESET}"
-    if command -v pip &> /dev/null; then
-        pip install "headroom-ai[all]" --quiet
-        
-        # Enable output shaping for the user
-        SHELL_RC="$HOME/.bashrc"
-        [ -f "$HOME/.zshrc" ] && SHELL_RC="$HOME/.zshrc"
-        if ! grep -q "HEADROOM_OUTPUT_SHAPER" "$SHELL_RC" 2>/dev/null; then
-            echo 'export HEADROOM_OUTPUT_SHAPER=1' >> "$SHELL_RC"
+    # Robust Python Detection
+    PYTHON_CMD="python3"
+    if ! command -v $PYTHON_CMD &> /dev/null; then
+        if command -v python &> /dev/null; then
+            PYTHON_CMD="python"
+        else
+            PYTHON_CMD=""
         fi
-        
-        echo "  Headroom installed successfully."
-        echo "  Output shaper enabled in $SHELL_RC."
+    fi
+
+    if [[ -n "$PYTHON_CMD" ]]; then
+        # Check if version is >= 3.10 using Python itself
+        if $PYTHON_CMD -c "import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)" 2>/dev/null; then
+            PY_VER=$($PYTHON_CMD -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
+            echo "  Found Python $PY_VER. Installing headroom-ai[all] via PyPI..."
+            $PYTHON_CMD -m pip install "headroom-ai[all]" --quiet
+            
+            # Enable output shaping for the user
+            SHELL_RC="$HOME/.bashrc"
+            [ -f "$HOME/.zshrc" ] && SHELL_RC="$HOME/.zshrc"
+            if ! grep -q "HEADROOM_OUTPUT_SHAPER" "$SHELL_RC" 2>/dev/null; then
+                echo 'export HEADROOM_OUTPUT_SHAPER=1' >> "$SHELL_RC"
+            fi
+            
+            echo "  Headroom installed successfully."
+            echo "  Output shaper enabled in $SHELL_RC."
+        else
+            PY_VER=$($PYTHON_CMD -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')" 2>/dev/null || echo "unknown")
+            echo -e "\033[0;31mWarning: Found Python $PY_VER. Headroom requires Python 3.10+.\033[0m"
+            echo -e "\033[0;33mPlease install a newer version of Python and run '$PYTHON_CMD -m pip install \"headroom-ai[all]\"' manually.\033[0m"
+        fi
     else
-        echo -e "\033[0;31mWarning: 'pip' not found. Please install Python 3.10+ and run 'pip install \"headroom-ai[all]\"' manually.\033[0m"
+        echo -e "\033[0;31mWarning: 'python3' or 'python' not found. Please install Python 3.10+ and run 'python3 -m pip install \"headroom-ai[all]\"' manually.\033[0m"
     fi
 fi
 
@@ -188,6 +207,7 @@ fi
 echo -e "  1. Open Obsidian and point it at: ${CYAN}$VAULT_PATH${RESET}"
 if [[ "$HEADROOM_CHOICE" == "y" || "$HEADROOM_CHOICE" == "Y" ]]; then
     echo -e "  2. Start your agent (configure API base URL to ${CYAN}http://localhost:8787${RESET}) and type: ${CYAN}/resume${RESET}"
+    echo -e "     ${BOLD}(Note: Antigravity does not support overriding base URL; Headroom proxy only intercepts Claude Code/Cursor/Aider).${RESET}"
 else
     echo -e "  2. Start your agent and type: ${CYAN}/resume${RESET}"
 fi

@@ -7,10 +7,10 @@ This document provides a deep dive into the technical architecture of the AI-Pow
 The ecosystem is built on four distinct, orthogonal layers. Each layer has a single responsibility and can be understood independently.
 
 ### Layer 1: Network Compression (`headroom proxy`)
-Before any token reaches the LLM API, the **Headroom Proxy** (running locally on port 8787) intercepts the raw network request. It applies AST minification, JSON crushing, and text compression — transparently, without the agent or user doing anything different.
+For supported clients (Claude Code, Cursor), the **Headroom Proxy** (running locally on port 8787) intercepts raw network requests. It applies AST minification, JSON crushing, and text compression transparently.
 - Compresses tool outputs and file reads by 47–92%.
 - Shapes model output verbosity (`HEADROOM_OUTPUT_SHAPER=1`) to save up to 30% on output tokens.
-- **Optional**: the ecosystem functions without it; it simply costs more tokens.
+- **Optional & Client-Dependent**: Google Antigravity bypasses this proxy entirely.
 
 ### Layer 2: Raw Sources (`/raw/`)
 Immutable source documents: PDFs, clipped articles, data files. The LLM reads from this layer but NEVER modifies it. This is the ground truth.
@@ -70,8 +70,9 @@ flowchart TD
         AGENTS["AGENTS.md"] -->|Configures behavior| L
     end
     
-    L -->|Sends Raw API Request| HP[Headroom Proxy :8787]
-    HP -->|Sends Compressed API Request| API[LLM API]
-    API -->|Returns Response| HP
-    HP -->|Forwards Response| L
+    L -->|Direct API Request (Antigravity)| API[LLM API]
+    L -.->|Proxied Request (Claude/Cursor)| HP[Headroom Proxy :8787]
+    HP -.->|Compressed API Request| API
+    API -.->|Returns Response| HP
+    HP -.->|Forwards Response| L
 ```

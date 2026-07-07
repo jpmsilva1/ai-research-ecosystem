@@ -64,7 +64,6 @@ Whenever it is necessary to map the codebase or when the user asks to generate t
 2. Prioritize reading the graph in the Obsidian folder before attempting to read all raw files in the repository again.
 
 ## 8. Headroom Compression Layer
-A local Headroom proxy may be running on port 8787. You are interacting with the LLM API through this proxy, meaning all your requests are automatically compressed to save tokens.
-You do not need to do anything special; just behave normally. The proxy is transparent.
+A local Headroom proxy may be running on port 8787. Note that Antigravity connects directly to the Google API and DOES NOT route traffic through this proxy natively. The proxy is meant for other agents (like Claude Code or Cursor) running alongside you in the same environment.
 
 </RULE[user_global]>
