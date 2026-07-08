@@ -66,13 +66,13 @@ We ran a rigorous evaluation harness using the `ai-engineering-toolkit` to test 
 
 **Test Dataset:** The official [FastAPI repository](https://github.com/fastapi/fastapi).
 
-| Metric | Scenario A: Traditional RAG | Scenario B: Graphify + Wiki | Scenario C: Graphify + Wiki + Headroom |
+| Metric | Scenario A: Full Codebase Injection | Scenario B: Graphify + Wiki | Scenario C: Graphify + Wiki + Headroom |
 |---|---|---|---|
-| **Input Tokens (Per Query)** | 190,040 tokens | ~3,679 tokens | **~400 tokens** |
-| **Reduction vs Traditional**| 0% | 98.06% | **99.78% Reduction** |
+| **Input Tokens (Per Query)** | 190,040 tokens | ~3,679 tokens | **~400 tokens** (Effective) |
+| **Reduction vs Baseline**| 0% | 98.06% | **99.78% Reduction** |
 | **Time-to-First-Token (TTFT)**| ~12.5 seconds | ~1.2 seconds | **~0.3 seconds** |
 
-By forcing the agent to read the `wiki/index.md` catalog and Graphify AST maps *first*, the agent identifies the exact file it needs in under 4,000 tokens. When it finally fetches that file (for supported clients like Claude Code), the **Headroom** layer intercepts and compresses it, resulting in a final payload of ~400 tokens. You get hyper-accurate answers about complex repositories without burning your wallet or hitting context limits.
+Instead of relying on inefficient *Long-Context Injection* (dumping the entire 190k+ token codebase into the prompt), our architecture forces the agent to read the `wiki/index.md` catalog and Graphify AST maps first. This isolates the exact context needed, dropping the query to under 4,000 tokens. When the agent makes the request, the local **Headroom** proxy intercepts and compresses the payload—leveraging algorithmic token compression and caching heuristics—dropping the effective billed payload to a staggering ~400 tokens.
 
 ## System Flow
 
