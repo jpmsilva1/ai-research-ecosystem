@@ -13,6 +13,21 @@ RESET="\033[0m"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# --- Spinner Function ---
+spin() {
+    local pid=$1
+    local delay=0.1
+    local spinstr='|/-\'
+    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+        local temp=${spinstr#?}
+        printf " [%c]  " "$spinstr"
+        local spinstr=$temp${spinstr%"$temp"}
+        sleep $delay
+        printf "\b\b\b\b\b\b"
+    done
+    printf "    \b\b\b\b"
+}
+
 if ! command -v git &> /dev/null; then
     echo -e "\033[0;31mError: 'git' is not installed or not in PATH. Please install git to continue.\033[0m"
     exit 1
@@ -105,10 +120,13 @@ TEMP_DIR=$(mktemp -d)
 trap 'rm -rf "$TEMP_DIR"' EXIT ERR
 
 # Clone repos to temp (disable terminal prompts for private/missing repos)
-env GIT_TERMINAL_PROMPT=0 git clone --quiet https://github.com/DietrichGebert/ponytail "$TEMP_DIR/ponytail-plugin" 2>/dev/null || true
-env GIT_TERMINAL_PROMPT=0 git clone --quiet https://github.com/Orchestra-Research/AI-Research-SKILLs.git "$TEMP_DIR/ai-research-skills" 2>/dev/null || true
-env GIT_TERMINAL_PROMPT=0 git clone --quiet https://github.com/google/antigravity-awesome-skills.git "$TEMP_DIR/awesome-skills" 2>/dev/null || true
-env GIT_TERMINAL_PROMPT=0 git clone --quiet https://github.com/Champbreed/AegisOps-AI.git "$TEMP_DIR/aegisops-ai" 2>/dev/null || true
+(
+    env GIT_TERMINAL_PROMPT=0 git clone --quiet https://github.com/DietrichGebert/ponytail "$TEMP_DIR/ponytail-plugin" 2>/dev/null || true
+    env GIT_TERMINAL_PROMPT=0 git clone --quiet https://github.com/Orchestra-Research/AI-Research-SKILLs.git "$TEMP_DIR/ai-research-skills" 2>/dev/null || true
+    env GIT_TERMINAL_PROMPT=0 git clone --quiet https://github.com/google/antigravity-awesome-skills.git "$TEMP_DIR/awesome-skills" 2>/dev/null || true
+    env GIT_TERMINAL_PROMPT=0 git clone --quiet https://github.com/Champbreed/AegisOps-AI.git "$TEMP_DIR/aegisops-ai" 2>/dev/null || true
+) &
+spin $!
 
 if [[ "$AGENT_CHOICE" == "1" || "$AGENT_CHOICE" == "3" ]]; then
     SKILLS_DIR="$HOME/.gemini/config/skills"
@@ -187,8 +205,10 @@ if [[ "$HEADROOM_CHOICE" == "y" || "$HEADROOM_CHOICE" == "Y" ]]; then
         # Check if version is >= 3.10 using Python itself
         if $PYTHON_CMD -c "import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)" 2>/dev/null; then
             PY_VER=$($PYTHON_CMD -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
-            echo "  Found Python $PY_VER. Installing headroom-ai[all] via PyPI..."
-            $PYTHON_CMD -m pip install "headroom-ai[all]" --quiet
+            echo -n "  Found Python $PY_VER. Installing headroom-ai[all] via PyPI..."
+            ($PYTHON_CMD -m pip install "headroom-ai[all]" --quiet) &
+            spin $!
+            echo " Done."
             
             # Enable output shaping and Claude proxy alias for the user
             SHELL_RC="$HOME/.bashrc"
