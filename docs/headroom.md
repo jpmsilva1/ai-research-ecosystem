@@ -73,38 +73,38 @@ Want to prove how much tokens you are saving? Turn on the holdout mode. This wil
 export HEADROOM_OUTPUT_HOLDOUT=0.1
 ```
 
-## 5. Instalação e Troubleshooting Avançado (macOS & Linux)
+## 5. Advanced Installation and Troubleshooting (macOS & Linux)
 
-Durante testes de campo em sistemas reais (especialmente macOS), mapeamos os erros mais comuns e os passos precisos para instalar a Layer 1.
+During field tests on real systems (especially macOS), we mapped the most common errors and the precise steps to install Layer 1.
 
-### O Básico da Instalação
-O pacote `headroom-ai` está publicado no PyPI. Instale-o com o sufixo `[all]` para incluir as dependências do proxy:
+### Installation Basics
+The `headroom-ai` package is published on PyPI. Install it with the `[all]` suffix to include the proxy dependencies:
 ```bash
 pip3 install "headroom-ai[all]"
 ```
-*(Nota: O sufixo `[all]` é vital. Se você rodar apenas a instalação base sem o sufixo, ele esquecerá as dependências do servidor proxy como `fastapi` e `httpx[http2]`, causando erro no boot).*
+*(Note: The `[all]` suffix is vital. If you only run the base installation without the suffix, it will miss the proxy server dependencies like `fastapi` and `httpx[http2]`, causing boot errors).*
 
-### Erros Comuns e Como Resolver
+### Common Errors and How to Solve Them
 
-**1. Erro: `command not found: pip` ou `exit 127`**
-* **Causa:** O terminal não encontrou o executável do Headroom (falta de instalação) ou o pip não está no seu PATH. No macOS, o pip se chama `pip3`.
-* **Solução:** Rode a instalação usando `pip3 install...` ou `python3 -m pip install...`.
+**1. Error: `command not found: pip` or `exit 127`**
+* **Cause:** The terminal did not find the Headroom executable (missing installation) or pip is not in your PATH. On macOS, pip is called `pip3`.
+* **Solution:** Run the installation using `pip3 install...` or `python3 -m pip install...`.
 
-**2. Erro: `Package 'headroom-ai' requires a different Python: 3.9.6 not in '>=3.10'`**
-* **Causa:** O ecossistema de IA moderno rejeita o Python 3.9 nativo que vem de fábrica nos Macs antigos.
-* **Solução:** **Não tente apagar a versão do sistema.** Baixe o instalador do Python 3.12+ no [python.org](https://www.python.org/downloads/) ou instale via `brew install python`. Após a instalação, feche e abra o terminal para recarregar o PATH.
+**2. Error: `Package 'headroom-ai' requires a different Python: 3.9.6 not in '>=3.10'`**
+* **Cause:** The modern AI ecosystem rejects the native Python 3.9 that comes pre-installed on older Macs.
+* **Solution:** **Do not try to delete the system version.** Download the Python 3.12+ installer from [python.org](https://www.python.org/downloads/) or install via `brew install python`. After installation, close and reopen the terminal to reload the PATH.
 
-**3. Erro: `No matching distribution found for headroom-ai[all]`**
-* **Causa:** Seu gerenciador `pip` é muito antigo (ex: v21) e não entende os metadados dos pacotes modernos.
-* **Solução:** Atualize o pip (`python3 -m pip install --upgrade pip`) e tente novamente.
+**3. Error: `No matching distribution found for headroom-ai[all]`**
+* **Cause:** Your `pip` package manager is too old (e.g., v21) and cannot understand the metadata of modern packages.
+* **Solution:** Upgrade pip (`python3 -m pip install --upgrade pip`) and try again.
 
-**4. Erro: `ImportError: Using http2=True, but the 'h2' package is not installed`**
-* **Causa:** O proxy exige HTTP/2 para alta performance na compressão de tokens. Acontece se você instalou as dependências pela metade.
-* **Solução:** Force a instalação do driver HTTP/2 rodando: `pip3 install "httpx[http2]" fastapi uvicorn`.
+**4. Error: `ImportError: Using http2=True, but the 'h2' package is not installed`**
+* **Cause:** The proxy requires HTTP/2 for high-performance token compression. This happens if you only partially installed the dependencies.
+* **Solution:** Force the installation of the HTTP/2 driver by running: `pip3 install "httpx[http2]" fastapi uvicorn`.
 
-### Dica Profissional: Rodando no Background
-Para não ocupar uma aba do terminal infinitamente com o servidor ligado, inicie o proxy em background enviando os logs para a pasta temporária:
+### Pro Tip: Running in the Background
+To avoid occupying a terminal tab indefinitely with the running server, start the proxy in the background and pipe the logs to a temporary folder:
 ```bash
 nohup headroom proxy --port 8787 > /tmp/headroom.log 2>&1 &
 ```
-Se precisar ver se ele está bem, basta ler o log: `tail -f /tmp/headroom.log`.
+If you need to check if it's running properly, just read the log: `tail -f /tmp/headroom.log`.
