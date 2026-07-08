@@ -136,6 +136,17 @@ This ecosystem is an amalgamation of brilliant open-source tools. Credit belongs
 ## Release Notes
 
 <details open>
+<summary><b>🚀 v4.2.0: Academic Code Discovery</b></summary>
+<br>
+
+This release introduces a new research capability and improves token management.
+
+* **Paper-Code-Finder Skill:** A highly efficient code-hunting skill that cross-references Hugging Face, PapersWithCode, and GitHub to find official and unofficial implementations for academic papers.
+* **Output-Shaper Improvements:** Refined the logic to properly handle redundant tool invocations and enforce strict token compression constraints in `balanced` mode.
+
+</details>
+
+<details>
 <summary><b>🚀 v4.0.0: The Network Compression Release (Layer 1)</b></summary>
 <br>
 
