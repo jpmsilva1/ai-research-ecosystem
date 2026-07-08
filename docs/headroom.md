@@ -30,12 +30,15 @@ headroom proxy --port 8787
 
 You must tell your agent to send its API requests to the proxy instead of the real internet.
 
+> [!TIP]
+> **How to verify it's working:** Watch the terminal where `headroom proxy` is running. Every time you ask your agent a question, you should see log lines in the proxy terminal showing token compression ratios. If the proxy terminal is completely silent while your agent is answering, **your agent is bypassing the proxy** and you are not saving tokens!
+
 **For Claude Code:**
+If you ran `setup.sh`, you can simply use the pre-configured alias:
 ```bash
-# Set the base URL environment variable before launching:
-export ANTHROPIC_BASE_URL="http://localhost:8787"
-claude
+claude-headroom
 ```
+*(If you are setting it up manually, you must export the base URL before launching: `export ANTHROPIC_BASE_URL="http://localhost:8787" && claude`)*
 
 **For Cursor / Windsurf:**
 Set the OpenAI-compatible base URL in your IDE settings to `http://localhost:8787`.

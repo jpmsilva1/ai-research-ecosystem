@@ -36,9 +36,23 @@ Open the vault folder the script created. You should see:
 
 **If you installed Headroom:** Open a separate terminal and run `headroom proxy --port 8787`.
 
-Open your agent (Antigravity or Claude) and type:
+Now, start your agent depending on your choice during setup:
 
+**Path A: Google Antigravity**
+Simply type:
+```bash
+agy
 ```
+
+**Path B: Claude Code (with Headroom Proxy)**
+To ensure Claude routes through the token compressor, use the alias created by the setup script:
+```bash
+claude-headroom
+```
+*(If you didn't run the setup script, you must manually run `export ANTHROPIC_BASE_URL="http://localhost:8787" && claude`)*
+
+Once your agent is running, type:
+```text
 /research
 ```
 

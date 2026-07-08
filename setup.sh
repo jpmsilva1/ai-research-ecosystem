@@ -190,15 +190,18 @@ if [[ "$HEADROOM_CHOICE" == "y" || "$HEADROOM_CHOICE" == "Y" ]]; then
             echo "  Found Python $PY_VER. Installing headroom-ai[all] via PyPI..."
             $PYTHON_CMD -m pip install "headroom-ai[all]" --quiet
             
-            # Enable output shaping for the user
+            # Enable output shaping and Claude proxy alias for the user
             SHELL_RC="$HOME/.bashrc"
             [ -f "$HOME/.zshrc" ] && SHELL_RC="$HOME/.zshrc"
             if ! grep -q "HEADROOM_OUTPUT_SHAPER" "$SHELL_RC" 2>/dev/null; then
                 echo 'export HEADROOM_OUTPUT_SHAPER=1' >> "$SHELL_RC"
             fi
+            if ! grep -q "claude-headroom" "$SHELL_RC" 2>/dev/null; then
+                echo 'alias claude-headroom='\''export ANTHROPIC_BASE_URL="http://localhost:8787" && claude'\''' >> "$SHELL_RC"
+            fi
             
             echo "  Headroom installed successfully."
-            echo "  Output shaper enabled in $SHELL_RC."
+            echo "  Output shaper and 'claude-headroom' alias enabled in $SHELL_RC."
         else
             PY_VER=$($PYTHON_CMD -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')" 2>/dev/null || echo "unknown")
             echo -e "\033[0;31mWarning: Found Python $PY_VER. Headroom requires Python 3.10+.\033[0m"
@@ -224,10 +227,14 @@ if [[ "$HEADROOM_CHOICE" == "y" || "$HEADROOM_CHOICE" == "Y" ]]; then
 fi
 echo -e "  1. Open Obsidian and point it at: ${CYAN}$VAULT_PATH${RESET}"
 if [[ "$HEADROOM_CHOICE" == "y" || "$HEADROOM_CHOICE" == "Y" ]]; then
-    echo -e "  2. Start your agent (configure API base URL to ${CYAN}http://localhost:8787${RESET}) and type: ${CYAN}/resume${RESET}"
-    echo -e "     ${BOLD}(Note: Antigravity does not support overriding base URL; Headroom proxy only intercepts Claude Code/Cursor/Aider).${RESET}"
+    if [[ "$AGENT_CHOICE" == "2" || "$AGENT_CHOICE" == "3" ]]; then
+        echo -e "  2. Start Claude Code with the pre-configured alias: ${CYAN}claude-headroom${RESET}"
+    fi
+    if [[ "$AGENT_CHOICE" == "1" || "$AGENT_CHOICE" == "3" ]]; then
+        echo -e "  2. Start Antigravity: ${CYAN}agy${RESET} (Note: Antigravity bypasses local proxies natively)"
+    fi
 else
-    echo -e "  2. Start your agent and type: ${CYAN}/resume${RESET}"
+    echo -e "  2. Start your agent (e.g., ${CYAN}claude${RESET} or ${CYAN}agy${RESET})"
 fi
-echo -e "  3. Or start a new research workflow with: ${CYAN}/research${RESET}"
+echo -e "  3. Type: ${CYAN}/resume${RESET} to continue your last session, or ${CYAN}/research${RESET} for a new workflow"
 echo ""
