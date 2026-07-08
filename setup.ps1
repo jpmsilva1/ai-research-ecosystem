@@ -172,8 +172,9 @@ if ($HeadroomChoice -match "^[yY]") {
     if (Get-Command "python3" -ErrorAction SilentlyContinue) { $PyCmd = "python3" }
     
     if (Get-Command $PyCmd -ErrorAction SilentlyContinue) {
-        $PyVer = & $PyCmd -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')"
-        if ([double]$PyVer -ge 3.10) {
+        & $PyCmd -c "import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)" 2>$null
+        if ($LASTEXITCODE -eq 0) {
+            $PyVer = & $PyCmd -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')"
             Write-Host "  Found Python $PyVer. Installing headroom-ai[all] via PyPI..."
             & $PyCmd -m pip install "headroom-ai[all]" --quiet
             
