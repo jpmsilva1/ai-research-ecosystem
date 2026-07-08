@@ -5,6 +5,11 @@ Version: 4.0.0
 #>
 $ErrorActionPreference = "Stop"
 
+if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+    Write-Host "Error: 'git' is not installed or not in PATH. Please install git to continue." -ForegroundColor Red
+    exit 1
+}
+
 Write-Host "=================================================" -ForegroundColor Cyan -NoNewline
 Write-Host " " -NoNewline
 Write-Host "AI-Powered Research Assistant - Setup v4.0.0" -ForegroundColor Cyan -NoNewline
