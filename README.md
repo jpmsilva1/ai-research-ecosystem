@@ -36,6 +36,13 @@ While this workflow bundles several open-source community skill packs, the follo
 
 *The dual-layer engine that saves up to 92% of your token costs.*
 
+### Compatibility Matrix
+
+| Agent | Layer 0 (RTK) | Layer 1 (Headroom) | How it works |
+|---|---|---|---|
+| **Google Antigravity** | ✅ Supported | ❌ Bypassed | Antigravity connects directly to native Google APIs, bypassing local proxies. RTK is the **exclusive** compression layer, intercepting and crushing terminal output before Antigravity reads it. |
+| **Claude Code** | ✅ Supported | ✅ Supported | Claude benefits from a **Dual-Layer** approach. RTK semantically crushes CLI outputs, and Headroom algorithmically crushes the final API payloads over the network. They work perfectly together. |
+
 ### Layer 0: Execution Compression (RTK)
 Before terminal output reaches the agent, **[RTK](https://github.com/rtk-ai/rtk)** intercepts shell commands and semantically summarizes them. This provides **first-class token savings for Google Antigravity users** who bypass network proxies.
 

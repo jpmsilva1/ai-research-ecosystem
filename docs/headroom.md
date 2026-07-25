@@ -47,7 +47,8 @@ Set the OpenAI-compatible base URL in your IDE settings to `http://localhost:878
 Antigravity connects directly to the Google Gemini API and **does not support proxy interception**. It completely bypasses Headroom. 
 
 > [!WARNING]
-> Full proxy-based compression and the Output Shaper (`HEADROOM_OUTPUT_SHAPER`) only work for tools that route traffic through the proxy. Because Antigravity bypasses the proxy, these features will have zero effect when using Antigravity.
+> **For Google Antigravity Users:** 
+> Antigravity connects directly to the Google Gemini API and **does not support proxy interception**. It completely bypasses Headroom. However, Antigravity users still get massive token savings because **Layer 0 (RTK)** natively compresses shell outputs. See [rtk.md](rtk.md) for details. For Claude Code users, both layers run simultaneously.
 
 ## 4. Advanced Configuration
 

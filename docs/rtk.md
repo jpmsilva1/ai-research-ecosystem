@@ -3,7 +3,11 @@
 The AI Research Ecosystem uses **RTK (Rust Token Killer)** to compress shell command outputs before the AI agent reads them.
 
 ## 1. Why RTK?
-While Headroom (Layer 1) compresses API network payloads, it is bypassed by agents like Google Antigravity. RTK operates at the **execution layer**, intercepting commands like `pytest` or `git` and semantically summarizing them (e.g., stripping passing tests, showing only failures).
+While Headroom (Layer 1) compresses API network payloads, it is bypassed by agents like Google Antigravity. RTK operates at the **execution layer**, intercepting commands like `pytest` or `git` and semantically summarizing them (e.g., stripping passing tests, showing only failures). 
+
+**The Dual-Layer Synergy:**
+- **For Google Antigravity:** RTK is your exclusive compression layer, solving the token bloat by intercepting large shell outputs natively.
+- **For Claude Code:** RTK works perfectly alongside Headroom. RTK semantically crushes the terminal output first, and then Headroom algorithmically crushes the final API payload sent over the network.
 
 ## 2. Installation
 ```bash

@@ -42,7 +42,9 @@ Instead of scanning all wiki pages to find context, the agent reads a single `in
 ### 3. Network Compression (Headroom)
 When the agent *does* read a file or runs a tool, the Headroom proxy compresses the raw text/JSON before sending it to the API.
 
-**Compounding Effect:** A query that would normally consume 170,000 tokens (reading full codebase) is reduced to ~3,679 tokens by Graphify, and then further compressed to **~400–800 tokens** by Headroom.
+**Compounding Effect (The Dual-Layer Approach):** A query that would normally consume 170,000 tokens (reading full codebase) is reduced to ~3,679 tokens by Graphify. 
+- For **Claude Code**, it is then further compressed to **~400–800 tokens** by Headroom (Layer 1) working in tandem with RTK (Layer 0).
+- For **Google Antigravity**, since it connects directly to Google and bypasses Headroom, RTK (Layer 0) serves as the exclusive token compressor, drastically reducing shell output tokens before Antigravity even reads them.
 
 ## Operations
 
