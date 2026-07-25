@@ -46,6 +46,9 @@ While this workflow bundles several open-source community skill packs, the follo
 ### Layer 0: Execution Compression (RTK)
 Before terminal output reaches the agent, **[RTK](https://github.com/rtk-ai/rtk)** intercepts shell commands and semantically summarizes them. This provides **first-class token savings for Google Antigravity users** who bypass network proxies.
 
+> [!TIP]
+> **Track Your Savings:** You can view a live dashboard of exactly how many tokens Layer 0 is saving you by opening a terminal and running `rtk gain`.
+
 ### Layer 1: Network Compression (Headroom)
 
 Before any data reaches the LLM, the ecosystem routes traffic through a local **[Headroom Proxy](https://github.com/headroomlabs-ai/headroom)** (running on port `8787`). This transparent proxy intercepts raw API payloads and applies extreme compression (AST minification, JSON crushing, text reduction) without the agent or user noticing any difference.
