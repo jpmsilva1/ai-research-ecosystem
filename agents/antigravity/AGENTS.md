@@ -63,7 +63,13 @@ Whenever it is necessary to map the codebase or when the user asks to generate t
 1. The structural code mapping output must be stored in the `/graphify/project-name/` folder.
 2. Prioritize reading the graph in the Obsidian folder before attempting to read all raw files in the repository again.
 
-## 8. Headroom Compression Layer
-A local Headroom proxy may be running on port 8787. Note that Antigravity connects directly to the Google API and DOES NOT route traffic through this proxy natively. The proxy is meant for other agents (like Claude Code or Cursor) running alongside you in the same environment.
+## 8. Token Compression Layers
+
+### Layer 0: RTK (Execution Compression)
+RTK intercepts your shell commands and compresses their output. Commands like `pytest` and `pip` are rewritten to `rtk pytest`. 
+**SAFETY PROTOCOL:** If a command produces unexpected empty output or you need full logs to debug, run `rtk proxy <command>` to bypass compression.
+
+### Layer 1: Headroom (Network Compression)
+A local Headroom proxy may be running on port 8787. Antigravity bypasses this natively.
 
 </RULE[user_global]>

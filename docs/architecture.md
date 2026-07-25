@@ -2,9 +2,12 @@
 
 This document provides a deep dive into the technical architecture of the AI-Powered Research Assistant.
 
-## The 4-Layer Architecture
+## The 5-Layer Architecture
 
-The ecosystem is built on four distinct, orthogonal layers. Each layer has a single responsibility and can be understood independently.
+The ecosystem is built on five distinct, orthogonal layers. Each layer has a single responsibility and can be understood independently.
+
+### Layer 0: Pre-Execution Compression (RTK)
+Before output is even printed to the terminal, **RTK** intercepts shell commands (`git`, `cargo`, `pip`) and semantically compresses them. This is critical for agents like Google Antigravity that bypass network proxies.
 
 ### Layer 1: Network Compression (`headroom proxy`)
 For supported clients (Claude Code, Cursor), the **Headroom Proxy** (running locally on port 8787) intercepts raw network requests. It applies AST minification, JSON crushing, and text compression transparently.
@@ -59,7 +62,11 @@ The system supports five core operations:
 flowchart TD
     U[User] -->|Interacts via CLI| L[LLM Agent]
     
-    subgraph Obsidian Vault
+    subgraph Local Environment
+        L -->|shell cmd| RTK[RTK - Layer 0\nPre-Execution]
+        RTK -->|compact output| Shell[OS Shell / Terminal]
+        Shell -->|raw output| RTK
+
         L -->|Reads index.md first| W["wiki/"]
         L -->|Reads AST maps| G["graphify/"]
         L -->|Reads sources| R["raw/"]

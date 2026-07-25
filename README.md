@@ -32,9 +32,14 @@ While this workflow bundles several open-source community skill packs, the follo
 | 🧠 **`lint-vault`** | Memory | Autonomous health-check for the Obsidian Vault to ensure structural integrity and correct Zettelkasten linking. |
 | 🧬 **`academic-code-replicator`** | Reproducibility | Safely reproduces legacy academic code experiments. Enforces strict execution boundaries and prevents supply-chain attacks. |
 
-## The Network Compression Engine (Layer 1)
+## Token Compression Engines (Layer 0 & Layer 1)
 
-*The invisible proxy that saves up to 92% of your token costs.*
+*The dual-layer engine that saves up to 92% of your token costs.*
+
+### Layer 0: Execution Compression (RTK)
+Before terminal output reaches the agent, **[RTK](https://github.com/rtk-ai/rtk)** intercepts shell commands and semantically summarizes them. This provides **first-class token savings for Google Antigravity users** who bypass network proxies.
+
+### Layer 1: Network Compression (Headroom)
 
 Before any data reaches the LLM, the ecosystem routes traffic through a local **[Headroom Proxy](https://github.com/headroomlabs-ai/headroom)** (running on port `8787`). This transparent proxy intercepts raw API payloads and applies extreme compression (AST minification, JSON crushing, text reduction) without the agent or user noticing any difference.
 
@@ -74,7 +79,7 @@ We ran a rigorous evaluation harness using the `ai-engineering-toolkit` to test 
 | **Reduction vs Baseline**| 0% | 98.06% | **99.78% Reduction** |
 | **Time-to-First-Token (TTFT)**| ~12.5 seconds | ~1.2 seconds | **~0.3 seconds** |
 
-Instead of relying on inefficient *Long-Context Injection* (dumping the entire 190k+ token codebase into the prompt), our architecture forces the agent to read the `wiki/index.md` catalog and Graphify AST maps first. This isolates the exact context needed, dropping the query to under 4,000 tokens. When the agent makes the request, the local **Headroom** proxy intercepts and compresses the payload—leveraging algorithmic token compression and caching heuristics—dropping the effective billed payload to a staggering ~400 tokens.
+Instead of relying on inefficient *Long-Context Injection* (dumping the entire 190k+ token codebase into the prompt), our architecture forces the agent to read the `wiki/index.md` catalog and Graphify AST maps first. This isolates the exact context needed, dropping the query to under 4,000 tokens. When the agent makes the request, the local **Headroom** proxy intercepts and compresses the payload—leveraging algorithmic token compression and caching heuristics—dropping the effective billed payload to a staggering ~400 tokens. Furthermore, with RTK (Layer 0) active, raw shell executions during research drop by an additional 60-90%.
 
 ## System Flow
 
@@ -86,7 +91,10 @@ flowchart LR
     
     subgraph Local [Local Environment]
         Agent <-->|Reads & Updates| Vault[(Obsidian Vault<br/>/wiki, /logs, /graphify)]
-        Agent -->|Code Changes| Code[Local Codebase]
+        Agent -->|Code Changes via RTK| RTK[RTK - Layer 0]
+        RTK -->|Executes| Code[Local Codebase]
+        Code -->|Raw Output| RTK
+        RTK -->|Compressed CLI Output| Agent
         Code -->|Parsed by| Graphify[Graphify Engine]
         Graphify -->|AST Maps| Vault
         
@@ -126,6 +134,7 @@ This interactive script will automatically:
 
 This ecosystem is an amalgamation of brilliant open-source tools. Credit belongs to the original authors:
 - **Original Inspiration (Claude+Obsidian Memory)**: Concept inspired by **Lucas Rosati** ([lucasrosati/claude-code-memory-setup](https://github.com/lucasrosati/claude-code-memory-setup)).
+- **Execution Compression Layer (RTK)**: Semantic token compression developed by Patrick Szymkowiak and the RTK-AI team ([rtk-ai/rtk](https://github.com/rtk-ai/rtk)).
 - **Network Compression Layer (Headroom)**: Token compression algorithms developed by Headroom Labs ([headroomlabs-ai/headroom](https://github.com/headroomlabs-ai/headroom)).
 - **Ponytail Plugin**: Developed by Dietrich Gebert ([DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)).
 - **Academic Research & ARA**: Developed by Orchestra Research ([Orchestra-Research/AI-Research-SKILLs](https://github.com/Orchestra-Research/AI-Research-SKILLs)).
@@ -137,6 +146,16 @@ This ecosystem is an amalgamation of brilliant open-source tools. Credit belongs
 ## Release Notes
 
 <details open>
+<summary><b>🚀 v5.0.0: The Execution Compression Release</b></summary>
+<br>
+
+This release introduces a 5-Layer architecture by adding Layer 0 Execution Compression.
+*   **RTK Integration:** Added `rtk-ai/rtk` to semantically compress shell outputs. This solves the long-standing token bloat issue for Google Antigravity users.
+*   **Setup Script:** `setup.sh` now installs RTK natively for both Antigravity and Claude Code.
+
+</details>
+
+<details>
 <summary><b>🚀 v4.3.0: The Academic Replication Release</b></summary>
 <br>
 

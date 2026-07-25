@@ -75,6 +75,14 @@ fi
 read -rp "Install? (y/n) [Recommended: y]: " HEADROOM_CHOICE
 HEADROOM_CHOICE="${HEADROOM_CHOICE:-y}"
 
+# --- Step 4.5: RTK Execution Compression ---
+echo ""
+echo -e "${BOLD}Step 4.5: Install RTK (Rust Token Killer) execution compression?${RESET}"
+echo "  RTK compresses shell command outputs (git, pytest, pip...) by 60-90%."
+echo "  Works with ALL agents, including Google Antigravity."
+read -rp "Install? (y/n) [Recommended: y]: " RTK_CHOICE
+RTK_CHOICE="${RTK_CHOICE:-y}"
+
 # --- Create Vault Structure ---
 echo ""
 echo -e "${CYAN}Creating vault structure at: $VAULT_PATH${RESET}"
@@ -185,6 +193,27 @@ if [[ "$AGENT_CHOICE" == "2" || "$AGENT_CHOICE" == "3" ]]; then
         cp -r "$TEMP_DIR/ai-research-skills/22-agent-native-research-artifact/reviewer" "$CLAUDE_SKILLS/ara-rigor-reviewer" 2>/dev/null || true
     }
     echo "  Installed Claude Code skills"
+fi
+
+# --- Install RTK ---
+if [[ "$RTK_CHOICE" == "y" || "$RTK_CHOICE" == "Y" ]]; then
+    echo ""
+    echo -e "${CYAN}Installing RTK Execution Compression Layer...${RESET}"
+    if command -v brew &>/dev/null; then
+        brew install rtk --quiet || true
+        echo "  RTK installed via Homebrew."
+    else
+        echo -e "\033[0;33m  Warning: Installing via curl. Ensure you trust the source binary.\033[0m"
+        curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh || true
+    fi
+
+    if [[ "$AGENT_CHOICE" == "1" || "$AGENT_CHOICE" == "3" ]]; then
+        rtk init -g --agent antigravity 2>/dev/null || true
+    fi
+    if [[ "$AGENT_CHOICE" == "2" || "$AGENT_CHOICE" == "3" ]]; then
+        rtk init -g 2>/dev/null || true
+    fi
+    echo "  RTK Initialized."
 fi
 
 # --- Install Headroom ---

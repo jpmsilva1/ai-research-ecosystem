@@ -4,7 +4,7 @@ Get from zero to a fully configured AI Research Assistant in one command.
 
 ## 0. Prerequisites
 
-Make sure you have **Python 3.10+** and `git` installed. You can verify with:
+Make sure you have **Python 3.10+**, `git`, and optionally **Homebrew** (for RTK compression) installed. You can verify with:
 
 ```bash
 python3 --version && git --version
@@ -32,9 +32,18 @@ Open the vault folder the script created. You should see:
 - `wiki/changelog.md` -- Timeline of all operations.
 - `raw/` -- Drop your PDFs and source documents here.
 
+## 1.5. Enable Token Compression (RTK)
+
+RTK compresses terminal output by up to 90%.
+```bash
+brew install rtk
+rtk init -g --agent antigravity  # Use 'rtk init -g' if using Claude Code
+```
+
 ## 3. Start Researching
 
 **If you installed Headroom:** Open a separate terminal and run `headroom proxy --port 8787`.
+*(Note: RTK is active transparently and will compress your shell commands natively without a proxy server).*
 
 Now, start your agent depending on your choice during setup:
 

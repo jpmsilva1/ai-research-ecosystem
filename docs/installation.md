@@ -22,6 +22,10 @@ Copy and paste this exact prompt into your Agent (Antigravity or Claude Code):
 Act as a System Setup Engineer.
 Please install my academic research ecosystem by executing the following autonomous steps in order:
 
+PHASE 0: EXECUTION COMPRESSION LAYER
+1. Install RTK via Homebrew (`brew install rtk`) or curl fallback.
+2. Initialize it for the user's agent (e.g., `rtk init -g --agent antigravity`).
+
 PHASE 1: NETWORK COMPRESSION LAYER
 1. Ask me if I want to install the Headroom compression layer (optional but recommended). Skip this phase entirely if I am using Google Antigravity, as it bypasses local proxies.
 2. If yes, run `pip install "headroom-ai[all]"` and set `export HEADROOM_OUTPUT_SHAPER=1` in my shell rc file. Remind me to run `headroom proxy --port 8787` in a separate terminal.
@@ -56,6 +60,18 @@ PHASE 3: SKILL ECOSYSTEM (Core Pack)
 ## 💻 Method 2: Manual Terminal Installation (Bash)
 
 If you prefer to maintain full control or integrate the setup into your own dotfiles, run the following bash commands directly in your terminal.
+
+### Phase 0: The Execution Compression Layer (RTK)
+
+RTK cuts CLI output tokens by 60-90% before the agent reads them.
+
+```bash
+# 1. Install RTK
+brew install rtk
+
+# 2. Initialize for your agent
+rtk init -g --agent antigravity  # Or: rtk init -g (for Claude)
+```
 
 ### Phase 1: The Network Compression Layer (Optional but Recommended)
 
