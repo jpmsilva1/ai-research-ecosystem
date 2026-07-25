@@ -40,6 +40,8 @@ brew install rtk
 rtk init --agent antigravity  # Use 'rtk init -g' if using Claude Code
 ```
 
+> **Note for Antigravity Users:** You must run this initialization command in the root folder of **every new project** you create. It is project-scoped for your safety. See the [RTK FAQ](docs/rtk.md#5-frequently-asked-questions-faq).
+
 ## 3. Start Researching
 
 **If you installed Headroom:** Open a separate terminal and run `headroom proxy --port 8787`.

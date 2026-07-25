@@ -24,3 +24,19 @@ rtk init -g                       # For Claude Code
 
 ## 4. Verifying Savings
 Run `rtk gain` in your terminal to see a dashboard of how many tokens RTK has saved you.
+
+## 5. Frequently Asked Questions (FAQ)
+
+### Why does `rtk gain` show a warning saying "No hook installed"?
+If you are using Google Antigravity, **this warning is completely safe to ignore**. The dashboard defaults to checking for a *global* hook (which Claude Code uses). Antigravity uses a strict *project-scoped* hook (`.agents/rules/`). As long as you ran `rtk init --agent antigravity` inside your project, it is working perfectly!
+
+### Do I need to initialize RTK for every new project?
+**Yes.** Antigravity has a strict security model that prevents it from blindly intercepting your entire Mac's terminal. You must `cd` into your new project's root folder and run `rtk init --agent antigravity` once for that specific project.
+> [!TIP]
+> **Pro Tip:** To save time, add an alias to your `~/.zshrc` profile: `alias rtk-antigravity='rtk init --agent antigravity'`. Then, inside any new project folder, just type `rtk-antigravity`.
+
+### Can I hook the `cd` command to initialize it automatically?
+Technically yes, but **it is highly discouraged**. If you hook `cd`, your terminal will attempt to inject AI rules into *every single folder* you navigate into on your machine (like your Downloads or system folders). It is much safer to run the command manually only when creating a new AI-assisted project.
+
+### When I run `rtk gain`, which project's savings does it show?
+The `rtk gain` dashboard displays your **Global** token savings across *all* projects combined. Even though you initialize the agent hooks per-project, the actual telemetry database is stored globally. You can run `rtk gain` from any directory on your computer to see your total machine-wide savings.

@@ -47,7 +47,10 @@ While this workflow bundles several open-source community skill packs, the follo
 Before terminal output reaches the agent, **[RTK](https://github.com/rtk-ai/rtk)** intercepts shell commands and semantically summarizes them. This provides **first-class token savings for Google Antigravity users** who bypass network proxies.
 
 > [!TIP]
-> **Track Your Savings:** You can view a live dashboard of exactly how many tokens Layer 0 is saving you by opening a terminal and running `rtk gain`.
+> **Track Your Savings:** You can view a live dashboard of exactly how many tokens Layer 0 is saving you by opening a terminal and running `rtk gain`. *(Note: Antigravity users can safely ignore the "No global hook" warning in the dashboard, as Antigravity uses a strict per-project security model. See the [RTK FAQ](docs/rtk.md#5-frequently-asked-questions-faq) for details).*
+
+> [!IMPORTANT]
+> **Per-Project Initialization (Antigravity Only):** Because of Antigravity's security sandboxing, you must initialize RTK inside **each new project** you create by running `rtk init --agent antigravity` in its root folder. It does not run globally.
 
 ### Layer 1: Network Compression (Headroom)
 
