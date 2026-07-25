@@ -208,7 +208,7 @@ if [[ "$RTK_CHOICE" == "y" || "$RTK_CHOICE" == "Y" ]]; then
     fi
 
     if [[ "$AGENT_CHOICE" == "1" || "$AGENT_CHOICE" == "3" ]]; then
-        rtk init -g --agent antigravity 2>/dev/null || true
+        rtk init --agent antigravity 2>/dev/null || true
     fi
     if [[ "$AGENT_CHOICE" == "2" || "$AGENT_CHOICE" == "3" ]]; then
         rtk init -g 2>/dev/null || true

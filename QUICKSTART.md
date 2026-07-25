@@ -37,7 +37,7 @@ Open the vault folder the script created. You should see:
 RTK compresses terminal output by up to 90%.
 ```bash
 brew install rtk
-rtk init -g --agent antigravity  # Use 'rtk init -g' if using Claude Code
+rtk init --agent antigravity  # Use 'rtk init -g' if using Claude Code
 ```
 
 ## 3. Start Researching

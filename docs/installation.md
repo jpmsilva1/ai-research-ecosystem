@@ -24,7 +24,7 @@ Please install my academic research ecosystem by executing the following autonom
 
 PHASE 0: EXECUTION COMPRESSION LAYER
 1. Install RTK via Homebrew (`brew install rtk`) or curl fallback.
-2. Initialize it for the user's agent (e.g., `rtk init -g --agent antigravity`).
+2. Initialize it for the user's agent (e.g., `rtk init --agent antigravity`).
 
 PHASE 1: NETWORK COMPRESSION LAYER
 1. Ask me if I want to install the Headroom compression layer (optional but recommended). Skip this phase entirely if I am using Google Antigravity, as it bypasses local proxies.
@@ -70,7 +70,7 @@ RTK cuts CLI output tokens by 60-90% before the agent reads them.
 brew install rtk
 
 # 2. Initialize for your agent
-rtk init -g --agent antigravity  # Or: rtk init -g (for Claude)
+rtk init --agent antigravity  # Or: rtk init -g (for Claude)
 ```
 
 ### Phase 1: The Network Compression Layer (Optional but Recommended)

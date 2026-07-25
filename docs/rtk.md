@@ -18,7 +18,7 @@ brew install rtk
 ## 3. Agent Configuration
 Run the initialization command for your specific agent:
 ```bash
-rtk init -g --agent antigravity   # For Google Antigravity
+rtk init --agent antigravity   # For Google Antigravity
 rtk init -g                       # For Claude Code
 ```
 
