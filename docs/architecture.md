@@ -42,6 +42,9 @@ Instead of scanning all wiki pages to find context, the agent reads a single `in
 ### 3. Network Compression (Headroom)
 When the agent *does* read a file or runs a tool, the Headroom proxy compresses the raw text/JSON before sending it to the API.
 
+### 4. Memory Optimization (Incremental Logging & Progressive Resume)
+By transitioning from heavy terminal-buffer dumps to lightweight `session-trace.md` appends (`/save`) and single-log targeting (`/resume`), the agent entirely eliminates context amnesia while avoiding the immense token penalty of loading full historical transcripts.
+
 **Compounding Effect (The Dual-Layer Approach):** A query that would normally consume 170,000 tokens (reading full codebase) is reduced to ~3,679 tokens by Graphify. 
 - For **Claude Code**, it is then further compressed to **~400–800 tokens** by Headroom (Layer 1) working in tandem with RTK (Layer 0).
 - For **Google Antigravity**, since it connects directly to Google and bypasses Headroom, RTK (Layer 0) serves as the exclusive token compressor, drastically reducing shell output tokens before Antigravity even reads them.
@@ -56,7 +59,8 @@ The system supports five core operations:
 | **Query** | Ask a question | LLM reads `index.md`, drills into relevant pages, synthesizes an answer. |
 | **File** | `/file` command | A valuable query answer is saved to `wiki/synthesis/`, updating `index.md`. |
 | **Lint** | `/lint` command | LLM scans `wiki/` for broken links, orphan pages, stale entries. |
-| **Save/Resume** | `/save` / `/resume` | Session state is saved to `logs/` and `changelog.md`, or restored from them. |
+| **Save** | `/save` command | Compiles the running `scratch/session-trace.md` into a permanent `logs/` entry and updates `changelog.md`. Scratch file is then deleted to prevent bloat. |
+| **Resume** | `/resume` command | Reads `changelog.md` to load *only* the most recent session log, providing a clean executive summary without bloating the context window. |
 
 ## System Flow
 

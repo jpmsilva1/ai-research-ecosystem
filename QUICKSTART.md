@@ -72,11 +72,13 @@ Discovery -> Ingestion -> Synthesis -> Writing -> Review -> Presentation.
 
 ## 4. Save Your Session
 
-When you are done, type `/save`. Your progress is permanently stored in the vault.
+When you are done, type `/save`. 
+*Behind the scenes:* The agent compiles a permanent Zettelkasten log from its lightweight, running scratch trace (`scratch/session-trace.md`), rather than retroactively scanning thousands of tokens from the terminal buffer. Your progress is permanently stored in the vault, and the scratch trace is securely deleted.
 
 ## 5. Resume Tomorrow
 
-In a new session, type `/resume`. The agent reads your `changelog.md` and `index.md` to pick up exactly where you left off.
+In a new session, type `/resume`. 
+*Behind the scenes:* The agent reads your `changelog.md` to identify and load **only** your most recent session log. It provides an executive summary of pending tasks and will explicitly ask if you need older context, ensuring your fresh session starts with a perfectly clean, low-token context window.
 
 ## Key Commands
 

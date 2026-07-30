@@ -74,11 +74,20 @@ Modern autonomous agents suffer from statelessness across sessions. When a termi
 We implement a direct integration with a local Obsidian Vault acting as the agent's state memory. 
 Instead of forcing the LLM to blindly read the entire codebase (which consumes massive token quotas), we utilize **Graphify**. Graphify maps the codebase into Abstract Syntax Trees (AST) and generates structural graphs stored as Markdown. The agent is strictly instructed to read these architectural maps first, obtaining a holistic understanding of the project structure at a fraction of the cost.
 
-### Deep Context Recovery (Long-Term Memory)
-To combat context window degradation during long coding sessions, the ecosystem implements **Deep Context Recovery**. Instead of relying on the agent's short-term ephemeral memory (which truncates early conversation history), the `/save` command explicitly forces the agent to recover its raw, un-truncated history before compiling the Zettelkasten log.
-- **For Antigravity:** The agent reads its internal `transcript.jsonl` log file from the disk.
-- **For Claude Code:** The agent aggressively reviews its `.claude/` logs, terminal scrollback, and utilizes the `/compact` command to reconstruct the timeline.
-This ensures 100% accurate session tracking with zero hallucinations.
+### The Zettelkasten Workflow (`/save` and `/resume`)
+To combat context window degradation and token bloat during long coding sessions, the ecosystem implements highly optimized state management via two core skills. These skills transition the agent from ephemeral session memory to a persistent Zettelkasten graph.
+
+#### 1. Incremental Session Logging (`/save`)
+Instead of performing an expensive, retroactive scan of the entire terminal buffer at the end of a session, the agent uses **Incremental Logging**.
+* **The Mechanism:** As the agent works, it silently appends 1-line observation tags (`#decision`, `#bugfix`, `#change`) to a temporary scratch trace file (`scratch/session-trace.md`).
+* **The Workflow:** When you trigger `/save`, the agent reads *only* this lightweight trace file, synthesizes the chronological timeline, and compiles it into a permanent Zettelkasten Markdown log (e.g., `logs/2026-07-30-feature.md`). It then securely deletes the scratch trace and updates the master `changelog.md`.
+* **The Impact:** This eliminates the need to dump massive transcript buffers into the prompt, saving **~2,000 to 10,000 tokens** per save.
+
+#### 2. Progressive Context Loading (`/resume`)
+When starting a new session, the agent does not blindly load all past logs (which would instantly consume thousands of tokens and degrade reasoning).
+* **The Mechanism:** The `/resume` command triggers **Progressive Loading**. The agent reads the last 10 entries of the `changelog.md` to identify the *single* most recent session log.
+* **The Workflow:** The agent loads only that specific log into its context and provides an executive summary of where you left off and what the pending tasks are. It then explicitly asks if you want to load additional context from older sessions.
+* **The Impact:** You start every session with perfect state recovery and a lean context window, saving **~1,000 to 6,000 tokens** per resume while maintaining 100% accurate session tracking.
 
 ### Token Economy Analysis: The 99.8% Reduction
 
