@@ -143,6 +143,9 @@ if [[ "$AGENT_CHOICE" == "1" || "$AGENT_CHOICE" == "3" ]]; then
     # Copy repo-bundled skills
     if [ -d "$SCRIPT_DIR/skills" ]; then
         cp -r "$SCRIPT_DIR/skills/"* "$SKILLS_DIR/" 2>/dev/null || true
+        # Interpolate variables in skills
+        [ -f "$SKILLS_DIR/save-session/SKILL.md" ] && sed -i.bak "s|{{VAULT_PATH}}|$VAULT_PATH|g" "$SKILLS_DIR/save-session/SKILL.md" && rm "$SKILLS_DIR/save-session/SKILL.md.bak"
+        [ -f "$SKILLS_DIR/resume-session/SKILL.md" ] && sed -i.bak "s|{{VAULT_PATH}}|$VAULT_PATH|g" "$SKILLS_DIR/resume-session/SKILL.md" && rm "$SKILLS_DIR/resume-session/SKILL.md.bak"
         echo "  Installed bundled skills (lint-vault, research-orchestrator, distributed-gpu-engineer, academic-rebuttal-simulator, experiment-sweeper, save-session, resume-session)"
     fi
 

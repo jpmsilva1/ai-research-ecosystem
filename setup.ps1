@@ -132,6 +132,15 @@ function Install-Skills ($TargetDir) {
     $BundledDir = Join-Path $ScriptDir "skills"
     if (Test-Path $BundledDir) {
         Copy-Item -Recurse -Force "$BundledDir\*" $TargetDir 2>$null
+        
+        $SaveSessionSkill = Join-Path $TargetDir "save-session\SKILL.md"
+        $ResumeSessionSkill = Join-Path $TargetDir "resume-session\SKILL.md"
+        if (Test-Path $SaveSessionSkill) {
+            (Get-Content $SaveSessionSkill) -replace '\{\{VAULT_PATH\}\}', $VaultPathForward | Set-Content $SaveSessionSkill
+        }
+        if (Test-Path $ResumeSessionSkill) {
+            (Get-Content $ResumeSessionSkill) -replace '\{\{VAULT_PATH\}\}', $VaultPathForward | Set-Content $ResumeSessionSkill
+        }
     }
     
     if (Test-Path $PonytailDir) { Copy-Item -Recurse -Force $PonytailDir (Join-Path $TargetDir "ponytail") 2>$null }
@@ -151,7 +160,7 @@ if ($AgentChoice -eq "1" -or $AgentChoice -eq "3") {
     Install-Skills $AgSkillsDir
     
     if ($PackChoice -eq "1") {
-        $CoreSkills = @("papers-skill", "deep-research", "exa-search", "tavily-web", "research-brainstorming", "creative-thinking", "data-engineering-data-pipeline", "data-engineering-data-driven-feature", "data-structure-protocol", "data-quality-frameworks", "polars", "data-scientist", "data-storytelling", "plotly", "ml-engineer", "ai-ml", "ai-engineering-toolkit", "rag-engineer", "embedding-strategies", "ml-pipeline-workflow", "mlops-engineer", "docker-expert", "devops-deploy", "unit-testing-test-generate", "2slides-ppt-generator", "latex-paper-conversion", "architecture-decision-records", "docs-architect", "graphify", "save-session", "resume-session")
+        $CoreSkills = @("papers-skill", "deep-research", "exa-search", "tavily-web", "research-brainstorming", "creative-thinking", "data-engineering-data-pipeline", "data-engineering-data-driven-feature", "data-structure-protocol", "data-quality-frameworks", "polars", "data-scientist", "data-storytelling", "plotly", "ml-engineer", "ai-ml", "ai-engineering-toolkit", "rag-engineer", "embedding-strategies", "ml-pipeline-workflow", "mlops-engineer", "docker-expert", "devops-deploy", "unit-testing-test-generate", "2slides-ppt-generator", "latex-paper-conversion", "architecture-decision-records", "docs-architect", "graphify")
         foreach ($skill in $CoreSkills) {
             $Src = Join-Path $AwesomeSkillsDir "skills\$skill"
             if (Test-Path $Src) { Copy-Item -Recurse -Force $Src $AgSkillsDir 2>$null }

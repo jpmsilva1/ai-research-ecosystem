@@ -22,7 +22,7 @@ Formate um documento `markdown` com as informações extraídas:
    - Registre as decisões tomadas.
    - Registre as pendências (próximos passos).
    - Use `[[wikilinks]]` para ligar conceitos.
-3. Utilize sua capacidade de escrever arquivos para gerar uma nota `YYYY-MM-DD-assunto.md` dentro do caminho exato: `/Users/joaopms/Documents/AntigravityBrain/logs/`.
+3. Utilize sua capacidade de escrever arquivos para gerar uma nota `YYYY-MM-DD-assunto.md` dentro do caminho exato: `{{VAULT_PATH}}/logs/`.
 4. Atualize `/wiki/changelog.md` com uma entrada do tipo `session`.
 5. Atualize `/wiki/index.md` se novas páginas wiki foram criadas durante a sessão.
 6. **Delete o arquivo de trace** `<appDataDir>/brain/<conversation-id>/scratch/session-trace.md`. O log permanente foi gerado; o trace é memória temporária e deve ser removido agora.
