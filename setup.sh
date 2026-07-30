@@ -143,7 +143,7 @@ if [[ "$AGENT_CHOICE" == "1" || "$AGENT_CHOICE" == "3" ]]; then
     # Copy repo-bundled skills
     if [ -d "$SCRIPT_DIR/skills" ]; then
         cp -r "$SCRIPT_DIR/skills/"* "$SKILLS_DIR/" 2>/dev/null || true
-        echo "  Installed bundled skills (lint-vault, research-orchestrator, distributed-gpu-engineer, academic-rebuttal-simulator, experiment-sweeper)"
+        echo "  Installed bundled skills (lint-vault, research-orchestrator, distributed-gpu-engineer, academic-rebuttal-simulator, experiment-sweeper, save-session, resume-session)"
     fi
 
     # Ponytail
@@ -163,7 +163,7 @@ if [[ "$AGENT_CHOICE" == "1" || "$AGENT_CHOICE" == "3" ]]; then
 
     if [[ "$PACK_CHOICE" == "1" ]]; then
         # Core Pack
-        CORE_SKILLS=(papers-skill deep-research exa-search tavily-web research-brainstorming creative-thinking data-engineering-data-pipeline data-engineering-data-driven-feature data-structure-protocol data-quality-frameworks polars data-scientist data-storytelling plotly ml-engineer ai-ml ai-engineering-toolkit rag-engineer embedding-strategies ml-pipeline-workflow mlops-engineer docker-expert devops-deploy unit-testing-test-generate 2slides-ppt-generator latex-paper-conversion architecture-decision-records docs-architect graphify save-session resume-session)
+        CORE_SKILLS=(papers-skill deep-research exa-search tavily-web research-brainstorming creative-thinking data-engineering-data-pipeline data-engineering-data-driven-feature data-structure-protocol data-quality-frameworks polars data-scientist data-storytelling plotly ml-engineer ai-ml ai-engineering-toolkit rag-engineer embedding-strategies ml-pipeline-workflow mlops-engineer docker-expert devops-deploy unit-testing-test-generate 2slides-ppt-generator latex-paper-conversion architecture-decision-records docs-architect graphify)
         for skill in "${CORE_SKILLS[@]}"; do
             [ -d "$TEMP_DIR/awesome-skills/skills/$skill" ] && cp -r "$TEMP_DIR/awesome-skills/skills/$skill" "$SKILLS_DIR/" 2>/dev/null || true
         done

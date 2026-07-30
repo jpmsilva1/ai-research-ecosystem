@@ -18,6 +18,14 @@ This vault follows a 3-layer architecture:
 - Every new note created in the Vault MUST have a YAML Frontmatter header with `title`, `tags`, and `date`.
 - Save consolidated knowledge notes in `/wiki/concepts/` or `/wiki/entities/`.
 - File names must use kebab-case (e.g., `backend-architecture.md`).
+- Session logs in `/logs/` MUST tag entries with observation type tags inline:
+  - `#decision` — An architectural or design decision was made.
+  - `#bugfix` — A bug was identified and fixed.
+  - `#feature` — A new feature or capability was implemented.
+  - `#discovery` — An important finding or insight was uncovered.
+  - `#change` — A file or configuration was modified.
+  - `#file` — A new wiki page or artifact was created.
+  Example entry: `- Added RTK compression rule for silent commands. #decision #change`
 
 ## 3. The Index Protocol
 After creating or modifying ANY file inside `/wiki/`, you MUST update `/wiki/index.md`:
@@ -35,21 +43,47 @@ Valid types: `ingest`, `session`, `query`, `lint`, `file`.
 
 ## 5. Session Commands (Memory Protocols)
 
+### Incremental Session Logging (Automatic — runs throughout every session)
+During every session, you MUST proactively maintain a running scratch trace log at:
+`<appDataDir>/brain/<conversation-id>/scratch/session-trace.md`
+
+After each significant action, silently append ONE line in this format:
+`- [HH:MM] <type>: <one-line description>`
+
+Valid types: `decision`, `change`, `debug`, `discovery`, `file`.
+
+Examples:
+- `- [10:42] decision: Chose SQLite over Postgres for local storage due to zero-dep requirement`
+- `- [10:51] change: Modified agents/antigravity/AGENTS.md — added incremental logging rule`
+- `- [11:03] discovery: Found save-session skill has hardcoded path, not using {{VAULT_PATH}}`
+- `- [11:15] file: Wrote wiki/concepts/session-memory-optimization.md`
+
+Rules:
+- Entries MUST be 1 line only. No multi-line entries.
+- Write ONLY after actions that a future session would need to know about.
+- Do NOT write entries for routine reads, planning, or intermediate steps.
+- If the file does not exist yet, create it and the scratch/ directory.
+- This trace is temporary working memory. It is consumed — and then deleted — by `/save`.
+
 ### The `/save` (Save) Protocol
 When the user says "/save" or asks to document the end of the session:
-1. **Deep Context Recovery:** Do not rely on short-term memory. Read `transcript.jsonl` (if Antigravity) or explicitly review your full terminal buffer (if Claude Code) to perfectly reconstruct the full session timeline before summarizing.
+1. **Read your session trace first:** Read the scratch file at `<appDataDir>/brain/<conversation-id>/scratch/session-trace.md`.
+   - If the scratch file exists and has content: use it as the primary source. Do NOT read `transcript.jsonl`.
+   - If the scratch file is missing or empty: fall back to reading `transcript.jsonl` (Antigravity) or the terminal buffer (Claude Code) as before.
 2. Create a log in `logs/YYYY-MM-DD-topic.md`.
 3. Record: What was done, decisions made, and pending tasks.
 4. Add `[[wikilinks]]` for any key concept mentioned.
 5. Append a `session` entry to `/wiki/changelog.md`.
 6. Update `/wiki/index.md` if any new wiki pages were created during the session.
+7. **Delete the scratch trace file** `<appDataDir>/brain/<conversation-id>/scratch/session-trace.md` now that the permanent log exists. This is mandatory — do not skip it.
 
 ### The `/resume` (Resume) Protocol
 When the user says "/resume" or asks to recover the context:
-1. Read `/wiki/changelog.md` (last 10 entries) for a timeline of recent actions.
+1. Read `/wiki/changelog.md` (last 10 entries only) — identify the most recent `session` entry and the log filename it references.
 2. Read `/wiki/index.md` for the current state of knowledge.
-3. Optionally read the latest files from `logs/` for detailed session context.
+3. Load ONLY the single log file identified in step 1. Do not speculatively load additional logs.
 4. Provide a brief summary: "According to our records, we stopped at X and the next step is Y."
+5. Ask: "Would you like me to load additional context from earlier sessions?" — Load more logs ONLY if the user explicitly asks.
 
 ## 6. The `/file` Protocol (Filing Answers)
 When a query produces a valuable synthesis (comparison table, architectural analysis, deep research report):
