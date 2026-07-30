@@ -109,21 +109,21 @@ The interaction between the user, the LLM, and the persistent memory state is de
 
 ```mermaid
 flowchart LR
-    User([User]) -->|CLI| Agent[LLM Agent]
+    User(["User"]) -->|CLI| Agent["LLM Agent"]
     
     subgraph Local [Local Environment]
-        Agent <-->|Reads & Updates| Vault[(Obsidian Vault<br/>/wiki, /logs, /graphify)]
-        Agent -->|Code Changes via RTK| RTK[RTK - Layer 0]
-        RTK -->|Executes| Code[Local Codebase]
-        Code -->|Raw Output| RTK
-        RTK -->|Compressed CLI Output| Agent
-        Code -->|Parsed by| Graphify[Graphify Engine]
-        Graphify -->|AST Maps| Vault
+        Agent <-->|"Reads & Updates"| Vault[("Obsidian Vault<br/>/wiki, /logs, /graphify")]
+        Agent -->|"Code Changes via RTK"| RTK["RTK - Layer 0"]
+        RTK -->|Executes| Code["Local Codebase"]
+        Code -->|"Raw Output"| RTK
+        RTK -->|"Compressed CLI Output"| Agent
+        Code -->|"Parsed by"| Graphify["Graphify Engine"]
+        Graphify -->|"AST Maps"| Vault
         
-        Agent <-->|Raw API Requests| Proxy[Headroom Proxy]
+        Agent <-->|"Raw API Requests"| Proxy["Headroom Proxy"]
     end
     
-    Proxy <-->|Compressed Payload| API((LLM API))
+    Proxy <-->|"Compressed Payload"| API(("LLM API"))
 ```
 
 ## Setup Instructions

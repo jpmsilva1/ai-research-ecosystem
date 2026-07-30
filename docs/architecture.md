@@ -66,11 +66,11 @@ The system supports five core operations:
 
 ```mermaid
 flowchart TD
-    U[User] -->|Interacts via CLI| L[LLM Agent]
+    U["User"] -->|Interacts via CLI| L["LLM Agent"]
     
     subgraph Local Environment
-        L -->|shell cmd| RTK[RTK - Layer 0\nPre-Execution]
-        RTK -->|compact output| Shell[OS Shell / Terminal]
+        L -->|shell cmd| RTK["RTK - Layer 0\nPre-Execution"]
+        RTK -->|compact output| Shell["OS Shell / Terminal"]
         Shell -->|raw output| RTK
 
         L -->|Reads index.md first| W["wiki/"]
@@ -83,8 +83,8 @@ flowchart TD
         AGENTS["AGENTS.md"] -->|Configures behavior| L
     end
     
-    L -->|Direct API Request (Antigravity)| API[LLM API]
-    L -.->|Proxied Request (Claude/Cursor)| HP[Headroom Proxy :8787]
+    L -->|"Direct API Request (Antigravity)"| API["LLM API"]
+    L -.->|"Proxied Request (Claude/Cursor)"| HP["Headroom Proxy :8787"]
     HP -.->|Compressed API Request| API
     API -.->|Returns Response| HP
     HP -.->|Forwards Response| L
