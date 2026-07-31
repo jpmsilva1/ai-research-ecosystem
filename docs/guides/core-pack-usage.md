@@ -35,6 +35,8 @@ graph TD
 * **`exa-search` & `tavily-web`**: Semantic search engines built for AI. Instead of just reading Google titles, they navigate pages, extract complete tutorials, and scour the deep web.
 * **`research-brainstorming`**: Structured ideation framework. Use it when trying to find new research problems or explore non-obvious angles on the state of the art.
 * **`creative-thinking`**: Uses cognitive science models (associations, constraint manipulation) to force creative thinking in research. Excellent for seeking genuinely novel approaches.
+* **`scientific-thinking-literature-review`**: Systematic literature-review workflow for search planning, source screening, synthesis, citation checks, and evidence logging.
+* **`scientific-thinking-scholar-evaluation`**: Structured scholarly-work evaluation rubric for grading papers, proposals, and methods sections.
 * **ARA Ecosystem**: The machine for grinding articles and mapping the scientific method. Use only for the MOST important references of your research.
   * **`ara-compiler`**: The main engine. Pass a PDF, a repository, or raw notes, and it will deconstruct the article into a structured "data web". Extracts logical claims, isolated evidence tables, and exploration graphs.
   * **`ara-research-manager`**: The provenance logger. Use at the end of a long experimentation session. It scans the conversation history and extracts the decisions made, dead ends faced, and "pivots", saving everything in ARA format so your research history is never lost.
@@ -64,6 +66,7 @@ graph TD
 
 * **`academic-code-replicator`**: The archaeology tool for reproducing experiments from legacy academic papers. Enforces the "Sacred Boundary Principle" to never modify original code, and includes rigorous security guardrails against malicious datasets or dependencies. *(Created by João P. M. Silva)*
 * **`ml-engineer` & `ai-ml`**: Forces the use of *Best Practices* for PyTorch or TensorFlow. Avoids data leakage in cross-validation, suggests modern architectures (ResNet, Transformers, Diffusion), and manages correct GPU (CUDA) usage.
+* **`pytorch-patterns`**: Deep learning patterns and best practices for building robust, efficient, and reproducible PyTorch training pipelines and data loaders.
 * **`distributed-gpu-engineer`**: Scales your models to clusters (SLURM, Ray, PyTorch DDP) and debugs CUDA OOMs. **Mandates and deeply analyzes cluster documentation to prevent configuration errors.** *(Created by João P. M. Silva)*
 * **`ai-engineering-toolkit`**: The Swiss Army knife of modern AI Engineering. Brings production-ready workflows: prompt evaluation across 8 dimensions, context limit planning, agent security auditing, and *eval harnesses* creation.
 * **`rag-engineer` & `embedding-strategies`**: Essential if your thesis involves Large Language Models (LLMs) reading documents. Creates perfect *Retrieval-Augmented Generation* flows, using vector databases like Pinecone or pgvector.
@@ -76,6 +79,9 @@ graph TD
 * **`ml-pipeline-workflow` & `mlops-engineer`**: Jupyter Notebooks are great for testing, but terrible for production. These skills encapsulate your models in REST APIs (FastAPI), implement experiment tracking (MLflow/Weights & Biases), and monitor model degradation.
 * **`docker-expert` & `devops-deploy`**: Teaches the agent to write the perfect `Dockerfile` for your model, solving Machine Learning library dependency hells, so any member of your board can run your code flawlessly.
 * **`unit-testing-test-generate`**: Autonomous test creation in `PyTest`. Use to guarantee that your custom Loss Function contains no hidden mathematical bugs.
+* **`mle-workflow`**: Production machine-learning engineering workflow for data contracts, reproducible training, model evaluation, deployment, monitoring, and rollback.
+* **`eval-harness`**: Formal evaluation framework implementing eval-driven development (EDD) principles for systematic testing.
+* **`ai-regression-testing`**: Regression testing strategies for AI-assisted development, identifying systematic blind spots and setting up sandbox-mode API testing.
 
 ### 5. 🎓 Writing, Documentation, and Defense
 *Preparing scientific articles and the final dissertation.*

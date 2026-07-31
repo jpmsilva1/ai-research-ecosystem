@@ -18,6 +18,12 @@ Rather than treating AI as a simple chatbot, this architecture provides a struct
 2. **Agent-Native Research Artifacts (ARA):** A methodological pipeline for ingesting complex PDFs and repositories into structured knowledge graphs, drastically decreasing literature review times while eliminating hallucination.
 3. **Extreme Productivity (Ponytail):** Built-in heuristics for clean code and YAGNI (You Aren't Gonna Need It) principles, preventing the AI from generating bloatware or over-engineered solutions.
 
+### Skill Packs
+
+The ecosystem offers two curated skill packs during installation to tailor the agent to your needs:
+- **Core Pack (44 skills)**: A streamlined, lightweight pack focused specifically on Academic Research, Machine Learning, and Data Science. It provides the essential workflows without overwhelming the agent's context window.
+- **Full Pack (130+ skills)**: The complete enterprise engineering suite. Includes everything in the Core Pack plus advanced DevOps, generic software architecture, frontend development, and exhaustive community plugins.
+
 ## Original Custom Skills
 
 While this workflow bundles several open-source community skill packs, the following highly specialized AI Research skills were authored specifically for this project by **João P. M. Silva**:
@@ -161,6 +167,7 @@ This ecosystem is an amalgamation of brilliant open-source tools. Credit belongs
 - **Ponytail Plugin**: Developed by Dietrich Gebert ([DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)).
 - **Academic Research & ARA**: Developed by Orchestra Research ([Orchestra-Research/AI-Research-SKILLs](https://github.com/Orchestra-Research/AI-Research-SKILLs)).
 - **Engineering ML Base**: Official catalog maintained by Google ([google/antigravity-awesome-skills](https://github.com/google/antigravity-awesome-skills)).
+- **ECC Framework**: Adapted community skills for ML workflows and evaluation sourced from ([affaan-m/ECC](https://github.com/affaan-m/ECC)).
 - **Deep Research**: Developed by sanjay3290 ([sanjay3290/ai-skills](https://github.com/sanjay3290/ai-skills/tree/main/skills/deep-research)).
 - **Codebase Mapping**: AST-to-Markdown Graphify concept originally developed by Safi Shamsi ([safishamsi/graphify](https://github.com/safishamsi/graphify)).
 - **OpenReview Ground Truth**: Evaluation dataset structure and ICLR 2024 peer-reviews sourced from [WestlakeNLP/Review-5K](https://huggingface.co/datasets/WestlakeNLP/Review-5K).
@@ -168,6 +175,17 @@ This ecosystem is an amalgamation of brilliant open-source tools. Credit belongs
 ## Release Notes
 
 <details open>
+<summary><b>🚀 v5.1.0: Core Pack Expansion (ECC Skills)</b></summary>
+<br>
+
+This release integrates 6 highly specialized ML and scientific thinking skills adapted from the ECC framework, expanding the Core Pack from ~38 to 44 skills:
+*   **Scientific Thinking:** `scientific-thinking-literature-review`, `scientific-thinking-scholar-evaluation`
+*   **Machine Learning:** `pytorch-patterns`, `mle-workflow`
+*   **Testing & Evals:** `eval-harness`, `ai-regression-testing`
+
+</details>
+
+<details>
 <summary><b>🚀 v5.0.0: The Execution Compression Release</b></summary>
 <br>
 

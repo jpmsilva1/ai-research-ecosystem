@@ -25,7 +25,7 @@ $AgentChoice = Read-Host "Select (1/2/3)"
 
 # --- Step 2: Pack Selection ---
 Write-Host "`nStep 2: Which skill pack do you want to install?" -ForegroundColor White
-Write-Host "  [1] Core Pack (Academic Research - ~38 skills)"
+Write-Host "  [1] Core Pack (Academic Research - 44 skills)"
 Write-Host "  [2] Full Pack (Enterprise Engineering - 130+ skills)"
 $PackChoice = Read-Host "Select (1/2)"
 
@@ -160,12 +160,12 @@ if ($AgentChoice -eq "1" -or $AgentChoice -eq "3") {
     Install-Skills $AgSkillsDir
     
     if ($PackChoice -eq "1") {
-        $CoreSkills = @("papers-skill", "deep-research", "exa-search", "tavily-web", "research-brainstorming", "creative-thinking", "data-engineering-data-pipeline", "data-engineering-data-driven-feature", "data-structure-protocol", "data-quality-frameworks", "polars", "data-scientist", "data-storytelling", "plotly", "ml-engineer", "ai-ml", "ai-engineering-toolkit", "rag-engineer", "embedding-strategies", "ml-pipeline-workflow", "mlops-engineer", "docker-expert", "devops-deploy", "unit-testing-test-generate", "2slides-ppt-generator", "latex-paper-conversion", "architecture-decision-records", "docs-architect", "graphify")
+        $CoreSkills = @("papers-skill", "deep-research", "exa-search", "tavily-web", "research-brainstorming", "creative-thinking", "data-engineering-data-pipeline", "data-engineering-data-driven-feature", "data-structure-protocol", "data-quality-frameworks", "polars", "data-scientist", "data-storytelling", "plotly", "ml-engineer", "ai-ml", "ai-engineering-toolkit", "rag-engineer", "embedding-strategies", "ml-pipeline-workflow", "mlops-engineer", "docker-expert", "devops-deploy", "unit-testing-test-generate", "2slides-ppt-generator", "latex-paper-conversion", "architecture-decision-records", "docs-architect", "graphify", "pytorch-patterns", "scientific-thinking-literature-review", "scientific-thinking-scholar-evaluation", "mle-workflow", "eval-harness", "ai-regression-testing")
         foreach ($skill in $CoreSkills) {
             $Src = Join-Path $AwesomeSkillsDir "skills\$skill"
             if (Test-Path $Src) { Copy-Item -Recurse -Force $Src $AgSkillsDir 2>$null }
         }
-        Write-Host "  Installed Core Pack (~38 skills) to Antigravity"
+        Write-Host "  Installed Core Pack (44 skills) to Antigravity"
     } else {
         if (Test-Path $AwesomeSkillsDir) { Copy-Item -Recurse -Force "$AwesomeSkillsDir\skills\*" $AgSkillsDir 2>$null }
         Write-Host "  Installed Full Pack (130+ skills) to Antigravity"
