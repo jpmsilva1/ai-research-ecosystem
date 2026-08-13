@@ -1,4 +1,4 @@
-# ADR 001: Introduce RTK as Layer 0 (Pre-Execution Compression)
+# ADR 003: Introduce RTK as Layer 0 (Pre-Execution Compression)
 
 ## Context
 Google Antigravity connects directly to native APIs, bypassing our Layer 1 Headroom HTTP proxy. Antigravity users suffer from high token consumption on shell commands (e.g., `git status`, `pytest`).

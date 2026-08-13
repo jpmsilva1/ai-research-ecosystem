@@ -1,6 +1,7 @@
 # Installation Guide
 
-The AI Research Ecosystem operates on a **Three-Pillar Architecture**:
+Installation proceeds in four phases:
+0. **Phase 0: The Execution Compression Layer** (RTK for shell-output savings).
 1. **Phase 1: The Network Compression Layer** (Headroom Proxy for token savings).
 2. **Phase 2: The Persistent Memory Engine** (An Obsidian Vault structured as a Zettelkasten).
 3. **Phase 3: The Skill Ecosystem** (The actual agent tools and capabilities).
@@ -49,7 +50,7 @@ PHASE 3: SKILL ECOSYSTEM (Core Pack)
 7. Copy `/tmp/ponytail-plugin` to my local skills folder as `ponytail`.
 8. Copy `/tmp/aegisops-ai` to my local skills folder as `aegisops-ai`.
 9. Clone `https://github.com/google/antigravity-awesome-skills.git` to `/tmp/awesome-skills`.
-10. Copy the following specific skills from the Google repository to my local skills folder: `papers-skill`, `deep-research`, `exa-search`, `tavily-web`, `research-brainstorming`, `creative-thinking`, `data-engineering-data-pipeline`, `data-engineering-data-driven-feature`, `data-structure-protocol`, `data-quality-frameworks`, `polars`, `data-scientist`, `data-storytelling`, `plotly`, `ml-engineer`, `ai-ml`, `ai-engineering-toolkit`, `rag-engineer`, `embedding-strategies`, `ml-pipeline-workflow`, `mlops-engineer`, `docker-expert`, `devops-deploy`, `unit-testing-test-generate`, `2slides-ppt-generator`, `latex-paper-conversion`, `architecture-decision-records`, `docs-architect`, `graphify`, `save-session`, `resume-session`, `pytorch-patterns`, `scientific-thinking-literature-review`, `scientific-thinking-scholar-evaluation`, `mle-workflow`, `eval-harness`, `ai-regression-testing`.
+10. Copy the following specific skills from the Google repository to my local skills folder (this is the Core Pack; `save-session` and `resume-session` are NOT part of it -- they were already installed from this repo's own `skills/` directory in step 5, do not overwrite them): `papers-skill`, `deep-research`, `exa-search`, `tavily-web`, `research-brainstorming`, `creative-thinking`, `data-engineering-data-pipeline`, `data-engineering-data-driven-feature`, `data-structure-protocol`, `data-quality-frameworks`, `polars`, `data-scientist`, `data-storytelling`, `plotly`, `ml-engineer`, `ai-ml`, `ai-engineering-toolkit`, `rag-engineer`, `embedding-strategies`, `ml-pipeline-workflow`, `mlops-engineer`, `docker-expert`, `devops-deploy`, `unit-testing-test-generate`, `2slides-ppt-generator`, `latex-paper-conversion`, `architecture-decision-records`, `docs-architect`, `graphify`, `pytorch-patterns`, `scientific-thinking-literature-review`, `scientific-thinking-scholar-evaluation`, `mle-workflow`, `eval-harness`, `ai-regression-testing`.
 11. Once finished, delete the `/tmp/ai-research-skills`, `/tmp/awesome-skills`, `/tmp/ponytail-plugin`, and `/tmp/aegisops-ai` directories and confirm that the ecosystem is ready.
 ```
 
@@ -125,63 +126,17 @@ sed -i.bak "s|{{VAULT_PATH}}|$HOME/Documents/AntigravityBrain|g" ~/.claude/.curs
 
 Now that the Memory Engine is ready, install the behavioral skills.
 
-**For Google Antigravity Users (Core Pack):**
+This step has enough moving parts (four upstream repos, path renames, per-target skill lists) that
+hand-copying it into a doc has drifted out of sync with the real installer more than once. Rather
+than duplicate that logic here again, run the installer itself for this phase. It is idempotent, so
+if you already did Phases 0-2 manually above, re-running it now only fills in the skills step:
+
 ```bash
-# 1. Clone Repositories to Temp
-git clone https://github.com/DietrichGebert/ponytail /tmp/ponytail-plugin
-git clone https://github.com/Orchestra-Research/AI-Research-SKILLs.git /tmp/ai-research-skills
-git clone https://github.com/google/antigravity-awesome-skills.git /tmp/awesome-skills
-git clone https://github.com/Champbreed/AegisOps-AI.git /tmp/aegisops-ai
-
-# 2. Create Skills Directory
-mkdir -p ~/.gemini/config/skills
-
-# 3. Copy Native Proprietary Skills
-cp -r skills/* ~/.gemini/config/skills/
-
-# 4. Copy Ponytail & AegisOps-AI
-cp -r /tmp/ponytail-plugin ~/.gemini/config/skills/ponytail
-cp -r /tmp/aegisops-ai ~/.gemini/config/skills/aegisops-ai
-
-# 5. Copy Orchestra Academic & ARA Skills
-cp -r /tmp/ai-research-skills/20-ml-paper-writing/ml-paper-writing ~/.gemini/config/skills/
-cp -r /tmp/ai-research-skills/20-ml-paper-writing/academic-plotting ~/.gemini/config/skills/
-cp -r /tmp/ai-research-skills/22-agent-native-research-artifact/compiler ~/.gemini/config/skills/ara-compiler
-cp -r /tmp/ai-research-skills/22-agent-native-research-artifact/manager ~/.gemini/config/skills/ara-research-manager
-cp -r /tmp/ai-research-skills/22-agent-native-research-artifact/reviewer ~/.gemini/config/skills/ara-rigor-reviewer
-
-# 6. Copy Google Awesome Skills
-for skill in papers-skill deep-research exa-search tavily-web research-brainstorming creative-thinking data-engineering-data-pipeline data-engineering-data-driven-feature data-structure-protocol data-quality-frameworks polars data-scientist data-storytelling plotly ml-engineer ai-ml ai-engineering-toolkit rag-engineer embedding-strategies ml-pipeline-workflow mlops-engineer docker-expert devops-deploy unit-testing-test-generate 2slides-ppt-generator latex-paper-conversion architecture-decision-records docs-architect graphify save-session resume-session; do
-    cp -r /tmp/awesome-skills/skills/$skill ~/.gemini/config/skills/
-done
-
-# 7. Cleanup
-rm -rf /tmp/ai-research-skills /tmp/awesome-skills /tmp/ponytail-plugin /tmp/aegisops-ai
-echo "Antigravity Core Pack Installation Complete!"
+./setup.sh   # or .\setup.ps1 on Windows
 ```
 
-**For Claude Code Users (Core Pack):**
-```bash
-# 1. Clone Repositories to Temp
-git clone https://github.com/DietrichGebert/ponytail /tmp/ponytail-plugin
-git clone https://github.com/Orchestra-Research/AI-Research-SKILLs.git /tmp/ai-research-skills
-git clone https://github.com/Champbreed/AegisOps-AI.git /tmp/aegisops-ai
-
-# 2. Create Claude Skills Directory
-mkdir -p ~/.claude/skills
-
-# 3. Copy Native Proprietary Skills
-cp -r skills/* ~/.claude/skills/
-
-# 4. Copy Academic Tools, Ponytail & AegisOps-AI
-cp -r /tmp/ponytail-plugin ~/.claude/skills/ponytail
-cp -r /tmp/aegisops-ai ~/.claude/skills/aegisops-ai
-cp -r /tmp/ai-research-skills/20-ml-paper-writing/ml-paper-writing ~/.claude/skills/
-cp -r /tmp/ai-research-skills/22-agent-native-research-artifact/compiler ~/.claude/skills/ara-compiler
-cp -r /tmp/ai-research-skills/22-agent-native-research-artifact/manager ~/.claude/skills/ara-research-manager
-cp -r /tmp/ai-research-skills/22-agent-native-research-artifact/reviewer ~/.claude/skills/ara-rigor-reviewer
-
-# 5. Cleanup
-rm -rf /tmp/ponytail-plugin /tmp/ai-research-skills /tmp/aegisops-ai
-echo "Claude Code Setup Complete!"
-```
+If you specifically want to inspect or copy the skill-installation commands themselves, read
+`install_skills()` and `install_pack()`/`CORE_SKILLS` in [`setup.sh`](../setup.sh) (or the
+equivalent `Install-Skills`/`Install-Pack`/`$CoreSkills` in [`setup.ps1`](../setup.ps1)) -- that
+script is the source of truth this guide is generated against, so copying from it directly can't
+drift the way a second hand-written copy would.

@@ -48,9 +48,7 @@ graph TD
 * **`data-engineering-data-pipeline`**: Transforms the agent into a Data Pipeline Architecture Specialist to build massive batch or streaming processing flows.
 * **`data-engineering-data-driven-feature`**: Helps build features (*Feature Engineering*) guided by data insights, A/B testing, and continuous measurement before training.
 * **`data-structure-protocol`**: Provides "persistent structural memory" over your research code. Allows the agent to navigate your architecture and understand connections without rereading the entire repository.
-* **`dbt-transformation-patterns`**: The gold standard for creating scalable data transformation pipelines using SQL and `dbt`. Transforms raw logs into analytical tables.
 * **`data-quality-frameworks`**: Research without reliable data is invalid. This skill applies *Great Expectations* and data contracts to validate anomalies, missing data, and schema breaks.
-* **`database-architect` & `database-optimizer`**: Use when designing the database that will store experiments. The agent will choose the right indexes and optimize slow queries in PostgreSQL or MongoDB.
 * **`polars`**: A "turbocharged" alternative to Pandas. When dealing with massive academic datasets that crash your RAM, invoke this skill to write ultra-fast code with *Lazy Evaluation*.
 
 ### 2. 📊 Data Science and Statistical Analysis
@@ -59,7 +57,6 @@ graph TD
 * **`data-scientist`**: Transforms the assistant into a statistical researcher. Instead of just "taking the average", it evaluates probability distributions, removes outliers, chooses between parametric/non-parametric tests (ANOVA, T-Test, Kruskal-Wallis), and calculates *p-values* rigorously.
 * **`data-storytelling`**: Perfect models are useless if not communicated well. This skill transforms raw matrices into engaging and visually logical narratives, fundamental for the "Results Discussion" of your paper.
 * **`plotly`**: The definitive library for interactive data visualization. Invoke this skill when you need to generate rich graphs (with zoom, hover, pan) in the browser to explore data, instead of generating basic static images (`.png`).
-* **`python-pro` & `python-patterns`**: Ensures all analytical code is written in the most modern Python versions (3.12+), using static typing, list comprehensions, and vectorized code with **NumPy/SciPy**.
 
 ### 3. 🧠 Machine Learning and Deep Learning Training
 *The creation of intelligence.*
@@ -70,7 +67,6 @@ graph TD
 * **`distributed-gpu-engineer`**: Scales your models to clusters (SLURM, Ray, PyTorch DDP) and debugs CUDA OOMs. **Mandates and deeply analyzes cluster documentation to prevent configuration errors.** *(Created by João P. M. Silva)*
 * **`ai-engineering-toolkit`**: The Swiss Army knife of modern AI Engineering. Brings production-ready workflows: prompt evaluation across 8 dimensions, context limit planning, agent security auditing, and *eval harnesses* creation.
 * **`rag-engineer` & `embedding-strategies`**: Essential if your thesis involves Large Language Models (LLMs) reading documents. Creates perfect *Retrieval-Augmented Generation* flows, using vector databases like Pinecone or pgvector.
-* **`hugging-face-datasets` & `hugging-face-community-evals`**: Use when you need to download *Open Source* models from Hugging Face, or when you want to run *benchmarks* (standard academic evaluations) on your model locally.
 
 ### 4. ⚙️ MLOps, Deploy, and Quality Assurance (QA)
 *Leaving the Jupyter Notebook and creating systems that do not break.*
@@ -136,4 +132,4 @@ graph TD
 ---
 
 > [!NOTE]
-> **Daily Tip for your Master's:** The AI is not just for generating code! If you are stuck on the design of an experiment, use the `/grill-me` command. The assistant will conduct a battery of methodological questions about your paper to uncover logical holes *before* you spend money running models in the cloud!
+> **Daily Tip for your Master's:** The AI is not just for generating code! If you are stuck on the design of an experiment, invoke the `academic-rebuttal-simulator` or `scientific-thinking-scholar-evaluation` skill directly and ask it to critique your experimental design. It will conduct a battery of methodological questions about your paper to uncover logical holes *before* you spend money running models in the cloud!
