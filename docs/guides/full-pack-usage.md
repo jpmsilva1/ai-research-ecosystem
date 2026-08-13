@@ -140,7 +140,21 @@ Tools for maintaining clean codebases and pristine documentation.
 - `ponytail-review`: Strict PR reviews hunting for speculative abstractions.
 - `output-shaper`: Dynamic token compression and verbosity controller. Control how much the agent talks via /output-shaper lite, balanced, ultra.
 
-## 9. Persistent Memory & Workflow Integration
+## 9. Academic Research (bundled with every pack)
+These come from this repo's own `skills/` directory and are installed regardless of which pack
+you choose -- see the [Core Pack Usage Guide](core-pack-usage.md) for the full detail on each.
+
+- `research-orchestrator`: Guides the full academic research lifecycle stage by stage.
+- `paper-code-finder`: Finds official and unofficial code implementations for academic papers.
+- `lint-vault`: Health-checks the Obsidian Vault for broken links and stale entries.
+- `pytorch-patterns`: Reproducible PyTorch training pipeline patterns.
+- `mle-workflow`: Data contracts, reproducible training, evaluation, deployment, rollback.
+- `eval-harness`: Eval-driven development framework for regression suites.
+- `ai-regression-testing`: Regression strategies for AI-assisted development.
+- `scientific-thinking-literature-review`: Systematic literature-review workflow.
+- `scientific-thinking-scholar-evaluation`: Structured scholarly-work evaluation rubric.
+
+## 10. Persistent Memory & Workflow Integration
 Tools enabling the Zettelkasten state machine and project intelligence.
 
 - `antigravity-guide`: Deep guidance on utilizing the Antigravity ecosystem.
