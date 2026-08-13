@@ -1,5 +1,12 @@
 #!/usr/bin/env bats
 
+bats_require_minimum_version 1.5.0
+
+# `run !` below needs bats-core >= 1.5.0; without this, bare `! cmd` never
+# fails the test (bash ignores `set -e` for commands whose status is
+# inverted with `!`), silently defeating the assertion.
+bats_require_minimum_version 1.5.0
+
 setup() {
   # bats-core already provides and populates BATS_TEST_TMPDIR; overwriting it
   # here was undefined behaviour and leaked a redundant mktemp -d directory.
@@ -84,7 +91,10 @@ EOF
   # literal placeholder -- this is the exact regression that motivated
   # collapsing the two install branches into one function.
   grep -q "$HOME/Documents/AntigravityBrain" "$HOME/.gemini/config/AGENTS.md"
-  ! grep -q '{{VAULT_PATH}}' "$HOME/.gemini/config/AGENTS.md"
+  # `! cmd` does not trip bats'/bash's errexit on failure (bash ignores set -e
+  # for commands whose status is inverted with !), so a bare `!` here would
+  # never actually fail this test even if the placeholder were left behind.
+  run ! grep -q '{{VAULT_PATH}}' "$HOME/.gemini/config/AGENTS.md"
 
   # The Core Pack upstream repo is mocked as an empty clone, so 0 of 35 pack
   # skills can land; the script must say so rather than claim success.
@@ -108,7 +118,7 @@ EOF
   # Code user: interpolation ran only in the Antigravity branch.
   [ -f "$HOME/.claude/skills/save-session/SKILL.md" ]
   grep -q "$HOME/Documents/AntigravityBrain" "$HOME/.claude/skills/save-session/SKILL.md"
-  ! grep -rq '{{VAULT_PATH}}' "$HOME/.claude/skills/"
+  run ! grep -rq '{{VAULT_PATH}}' "$HOME/.claude/skills/"
 
   [[ "$output" == *"Headroom installed successfully"* ]]
   [ ! -f "$BATS_TEST_TMPDIR/curl.called" ]
