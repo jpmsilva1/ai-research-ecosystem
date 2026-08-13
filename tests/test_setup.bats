@@ -1,7 +1,5 @@
 #!/usr/bin/env bats
 
-bats_require_minimum_version 1.5.0
-
 # `run !` below needs bats-core >= 1.5.0; without this, bare `! cmd` never
 # fails the test (bash ignores `set -e` for commands whose status is
 # inverted with `!`), silently defeating the assertion.
