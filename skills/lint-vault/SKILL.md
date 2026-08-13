@@ -7,14 +7,14 @@ description: "Triggered when the user types /lint or asks to health-check the Ob
 When this skill is invoked, perform the following autonomous health-check on the user's Obsidian Vault:
 
 ## Phase 1: Structural Integrity
-1. Read `/wiki/index.md` and extract all listed page references.
-2. List all actual `.md` files inside `/wiki/` (including subdirectories: `entities/`, `concepts/`, `synthesis/`).
+1. Read `{{VAULT_PATH}}/wiki/index.md` and extract all listed page references.
+2. List all actual `.md` files inside `{{VAULT_PATH}}/wiki/` (including subdirectories: `entities/`, `concepts/`, `synthesis/`).
 3. Identify:
    - **Stale index entries**: Pages listed in `index.md` that no longer exist on disk.
    - **Unlisted pages**: Pages on disk that are not cataloged in `index.md`.
 
 ## Phase 2: Link Integrity
-1. Scan all `.md` files inside `/wiki/` for `[[wikilinks]]`.
+1. Scan all `.md` files inside `{{VAULT_PATH}}/wiki/` for `[[wikilinks]]`.
 2. Identify:
    - **Broken wikilinks**: Links pointing to pages that do not exist.
    - **Orphan pages**: Pages with zero inbound wikilinks from other pages.
@@ -36,4 +36,4 @@ If the user approves fixes:
 - Remove stale entries from `index.md`.
 - Add unlisted pages to `index.md`.
 - Add missing frontmatter to pages that lack it.
-- Append a `lint` entry to `/wiki/changelog.md`.
+- Append a `lint` entry to `{{VAULT_PATH}}/wiki/changelog.md`.
