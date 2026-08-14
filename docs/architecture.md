@@ -35,7 +35,7 @@ The architecture achieves dramatic, compounding token savings through four ortho
 
 ### 1. Semantic Reduction (Graphify)
 Instead of reading an entire codebase, the agent reads pre-computed AST maps. In our
-[FastAPI benchmark](../README.md#token-economy-analysis-the-998-reduction)
+[FastAPI benchmark](../README.md#token-economy-analysis)
 (190,040 tokens for a full-codebase read), this yields **~3,679 tokens**, a **98.06% reduction**
 in input token consumption.
 
@@ -48,9 +48,18 @@ When the agent *does* read a file or runs a tool, the Headroom proxy compresses 
 ### 4. Memory Optimization (Incremental Logging & Progressive Resume)
 By transitioning from heavy terminal-buffer dumps to lightweight `session-trace.md` appends (`/save`) and single-log targeting (`/resume`), the agent entirely eliminates context amnesia while avoiding the immense token penalty of loading full historical transcripts.
 
-**Compounding Effect (The Dual-Layer Approach):** A query that would normally consume 190,040 tokens (reading full codebase) is reduced to ~3,679 tokens by Graphify. 
-- For **Claude Code**, it is then further compressed to **~400–800 tokens** by Headroom (Layer 1) working in tandem with RTK (Layer 0).
-- For **Google Antigravity**, since it connects directly to Google and bypasses Headroom, RTK (Layer 0) serves as the exclusive token compressor, drastically reducing shell output tokens before Antigravity even reads them.
+**Two separate layers, not one compounding number:** A query that would normally consume 190,040
+tokens (reading full codebase) is reduced to ~3,679 tokens by Graphify -- this is the dominant,
+architectural lever.
+- For **Claude Code**, that payload is then further compressed by Headroom (Layer 1) by a ratio
+  that depends on payload verbosity, not a fixed multiplier -- see the
+  [Token Economy Analysis](../README.md#token-economy-analysis) for how to measure your own ratio
+  with `headroom stats`. RTK (Layer 0) compresses a *different* token stream (local shell/tool
+  output, before it reaches the agent's context) and does not stack onto the Headroom-compressed
+  API payload figure.
+- For **Google Antigravity**, since it connects directly to Google and bypasses Headroom, RTK
+  (Layer 0) serves as the exclusive token compressor, drastically reducing shell output tokens
+  before Antigravity even reads them. Run `rtk gain` for your real measured savings.
 
 ## Operations
 

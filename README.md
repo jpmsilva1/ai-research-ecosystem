@@ -99,19 +99,44 @@ When starting a new session, the agent does not blindly load all past logs (whic
 * **The Workflow:** The agent loads only that specific log into its context and provides an executive summary of where you left off and what the pending tasks are. It then explicitly asks if you want to load additional context from older sessions.
 * **The Impact:** You start every session with perfect state recovery and a lean context window, saving **~1,000 to 6,000 tokens** per resume while maintaining 100% accurate session tracking.
 
-### Token Economy Analysis: The 99.8% Reduction
+### Token Economy Analysis
 
-We ran a rigorous evaluation harness using the `ai-engineering-toolkit` to test our LLM-Wiki / Graphify pattern against traditional "Full Context" RAG (dumping the codebase into the prompt). 
+Two independent effects drive token savings here, and they must be measured separately rather than
+added into one number -- they act on different token streams. **Context architecture** (Graphify +
+Wiki) changes what gets put *into* the prompt in the first place. **Headroom** (Layer 1) then
+compresses that outbound API payload; **RTK** (Layer 0) separately compresses local shell/tool
+output *before* it becomes part of the agent's context at all. Headroom and RTK do not compound
+into a single "final tokens" figure, and neither replaces the other.
 
 **Test Dataset:** The official [FastAPI repository](https://github.com/fastapi/fastapi).
 
-| Metric | Scenario A: Full Codebase Injection | Scenario B: Graphify + Wiki | Scenario C: Graphify + Wiki + Headroom |
+| Metric | Scenario A: Full Codebase Injection | Scenario B: Graphify + Wiki | Scenario B + Headroom (Claude Code only) |
 |---|---|---|---|
-| **Input Tokens (Per Query)** | 190,040 tokens | ~3,679 tokens | **~400-800 tokens** (Effective) |
-| **Reduction vs Baseline**| 0% | 98.06% | **99.78% Reduction** |
-| **Time-to-First-Token (TTFT)**| ~12.5 seconds | ~1.2 seconds | **~0.3 seconds** |
+| **Input Tokens (Per Query)** | 190,040 tokens | ~3,679 tokens | **~2,800-3,500 tokens*** |
+| **Reduction vs Baseline** | 0% | 98.06% | **~98.2-98.5%** |
 
-Instead of relying on inefficient *Long-Context Injection* (dumping the entire 190k+ token codebase into the prompt), our architecture forces the agent to read the `wiki/index.md` catalog and Graphify AST maps first. This isolates the exact context needed, dropping the query to under 4,000 tokens. When the agent makes the request, the local **Headroom** proxy intercepts and compresses the payload—leveraging algorithmic token compression and caching heuristics—dropping the effective billed payload to a staggering ~400-800 tokens. Furthermore, with RTK (Layer 0) active, raw shell executions during research drop by an additional 60-90%.
+\* Headroom's compression ratio varies with payload verbosity rather than being a fixed multiplier.
+Applied here to the already-small Scenario B payload using the range observed on this repo's own
+traffic (avg 4.7%, best case 24.3% -- see "Verify these numbers yourself" below), not a vendor
+best-case assumption.
+
+Instead of relying on inefficient *Long-Context Injection* (dumping the entire 190k+ token codebase
+into the prompt), our architecture forces the agent to read the `wiki/index.md` catalog and Graphify
+AST maps first. This isolates the exact context needed, dropping the query to under 4,000 tokens --
+that architectural change is the dominant lever, well before any proxy compression runs.
+
+**RTK is a separate metric, not part of the table above.** It compresses local shell/tool output
+(git, grep, file listings) before that output ever reaches the agent's context, so it never touches
+the "Input Tokens (Per Query)" figure. Its savings vary sharply by command verbosity -- a verbose
+`git log -p` or directory listing compresses far more than an already-terse command.
+
+**Verify these numbers yourself:** these are reproducible, not fixed claims.
+- Run `rtk gain` after a normal working session for RTK's real average and a per-command breakdown.
+- Run `headroom stats` (or have the agent call the `headroom_stats` MCP tool) for Headroom's actual
+  compression ratio on your real traffic.
+- The 190,040 / 3,679 baseline figures are specific to the FastAPI repo used in this test; count
+  tokens for your own `wiki/index.md` + loaded Graphify maps against a full-repo read to get your
+  project's real Scenario A/B numbers.
 
 ## System Flow
 
