@@ -21,7 +21,7 @@ Rather than treating AI as a simple chatbot, this architecture provides a struct
 ### Skill Packs
 
 The ecosystem offers two curated skill packs during installation to tailor the agent to your needs:
-- **Core Pack (58 skills)**: A streamlined, lightweight pack focused specifically on Academic Research, Machine Learning, and Data Science. It provides the essential workflows without overwhelming the agent's context window.
+- **Core Pack (52 skills)**: A streamlined, lightweight pack focused specifically on Academic Research, Machine Learning, and Data Science. It provides the essential workflows without overwhelming the agent's context window.
 - **Full Pack (130+ skills)**: The complete enterprise engineering suite. Includes everything in the Core Pack plus advanced DevOps, generic software architecture, frontend development, and exhaustive community plugins.
 
 ## Original Custom Skills
@@ -107,11 +107,11 @@ We ran a rigorous evaluation harness using the `ai-engineering-toolkit` to test 
 
 | Metric | Scenario A: Full Codebase Injection | Scenario B: Graphify + Wiki | Scenario C: Graphify + Wiki + Headroom |
 |---|---|---|---|
-| **Input Tokens (Per Query)** | 190,040 tokens | ~3,679 tokens | **~400 tokens** (Effective) |
+| **Input Tokens (Per Query)** | 190,040 tokens | ~3,679 tokens | **~400-800 tokens** (Effective) |
 | **Reduction vs Baseline**| 0% | 98.06% | **99.78% Reduction** |
 | **Time-to-First-Token (TTFT)**| ~12.5 seconds | ~1.2 seconds | **~0.3 seconds** |
 
-Instead of relying on inefficient *Long-Context Injection* (dumping the entire 190k+ token codebase into the prompt), our architecture forces the agent to read the `wiki/index.md` catalog and Graphify AST maps first. This isolates the exact context needed, dropping the query to under 4,000 tokens. When the agent makes the request, the local **Headroom** proxy intercepts and compresses the payload—leveraging algorithmic token compression and caching heuristics—dropping the effective billed payload to a staggering ~400 tokens. Furthermore, with RTK (Layer 0) active, raw shell executions during research drop by an additional 60-90%.
+Instead of relying on inefficient *Long-Context Injection* (dumping the entire 190k+ token codebase into the prompt), our architecture forces the agent to read the `wiki/index.md` catalog and Graphify AST maps first. This isolates the exact context needed, dropping the query to under 4,000 tokens. When the agent makes the request, the local **Headroom** proxy intercepts and compresses the payload—leveraging algorithmic token compression and caching heuristics—dropping the effective billed payload to a staggering ~400-800 tokens. Furthermore, with RTK (Layer 0) active, raw shell executions during research drop by an additional 60-90%.
 
 ## System Flow
 
@@ -190,7 +190,7 @@ This ecosystem is an amalgamation of brilliant open-source tools. Credit belongs
 This release fixes a set of installer and documentation bugs found in a full repo audit:
 *   **Fixed:** `setup.sh` no longer skips vault-path interpolation or the skill pack for Claude Code-only installs -- both were previously Antigravity-only due to duplicated install logic. `setup.sh` and `setup.ps1` now share one install path per agent.
 *   **Fixed:** re-running the installer no longer nests skill directories (e.g. `ponytail/ponytail-plugin/...`).
-*   **Corrected Core Pack count:** 58 skills (35 upstream + 16 bundled + 7 companion), the same for both agents now that Claude Code gets the pack too. The previous "44" figure was never accurate.
+*   **Corrected Core Pack count:** 52 unique skills (35 upstream + 16 bundled - 6 that ship as both, + 7 companion), the same for both agents now that Claude Code gets the pack too. The previous "44" figure was never accurate.
 *   **CI now runs the test suite** (`tests/test_setup.bats`), which previously existed but was never invoked.
 *   Repo hygiene: added `.gitignore`, untracked committed `.DS_Store` files, hardened the CI path-leak gatekeeper.
 

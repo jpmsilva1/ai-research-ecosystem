@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
 AI Research Ecosystem - Interactive Setup Script for Windows
-Version: 5.1.0
+Version: 5.1.1
 #>
 $ErrorActionPreference = "Stop"
 
@@ -11,21 +11,36 @@ if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 }
 
 Write-Host "================================================="  -ForegroundColor Cyan
-Write-Host "  AI-Powered Research Assistant - Setup v5.1.0  "   -ForegroundColor Cyan
+Write-Host "  AI-Powered Research Assistant - Setup v5.1.1  "   -ForegroundColor Cyan
 Write-Host "================================================="  -ForegroundColor Cyan
+
+# Skills pulled from google/antigravity-awesome-skills for the Core Pack.
+# This is the exact original list -- do not rename, reorder, or add to it.
+$CoreSkills = @("papers-skill", "deep-research", "exa-search", "tavily-web", "research-brainstorming", "creative-thinking", "data-engineering-data-pipeline", "data-engineering-data-driven-feature", "data-structure-protocol", "data-quality-frameworks", "polars", "data-scientist", "data-storytelling", "plotly", "ml-engineer", "ai-ml", "ai-engineering-toolkit", "rag-engineer", "embedding-strategies", "ml-pipeline-workflow", "mlops-engineer", "docker-expert", "devops-deploy", "unit-testing-test-generate", "2slides-ppt-generator", "latex-paper-conversion", "architecture-decision-records", "docs-architect", "graphify", "pytorch-patterns", "scientific-thinking-literature-review", "scientific-thinking-scholar-evaluation", "mle-workflow", "eval-harness", "ai-regression-testing")
+
+# Loops on an invalid answer instead of silently proceeding -- an unmatched
+# choice used to fall through every `-eq` check below, install nothing, and
+# still print "Setup Complete!" at the end.
+function Read-Choice ($Prompt, $Valid) {
+    while ($true) {
+        $answer = Read-Host $Prompt
+        if ($Valid -contains $answer) { return $answer }
+        Write-Host "  Invalid choice '$answer'. Please enter one of: $($Valid -join '/')" -ForegroundColor Red
+    }
+}
 
 # --- Step 1: Agent Selection ---
 Write-Host "`nStep 1: Which AI agent do you use?" -ForegroundColor White
 Write-Host "  [1] Google Antigravity"
 Write-Host "  [2] Claude Code (Anthropic)"
 Write-Host "  [3] Both"
-$AgentChoice = Read-Host "Select (1/2/3)"
+$AgentChoice = Read-Choice "Select (1/2/3)" @("1", "2", "3")
 
 # --- Step 2: Pack Selection ---
 Write-Host "`nStep 2: Which skill pack do you want to install?" -ForegroundColor White
-Write-Host "  [1] Core Pack (Academic Research - 44 skills)"
+Write-Host "  [1] Core Pack (Academic Research - $($CoreSkills.Count) skills)"
 Write-Host "  [2] Full Pack (Enterprise Engineering - 130+ skills)"
-$PackChoice = Read-Host "Select (1/2)"
+$PackChoice = Read-Choice "Select (1/2)" @("1", "2")
 
 # --- Step 3: Vault Location ---
 $DefaultVault = Join-Path $env:USERPROFILE "Documents\AntigravityBrain"
@@ -133,10 +148,18 @@ $AwesomeSkillsDir = Join-Path $TempDir "awesome-skills"
 $AegisOpsDir = Join-Path $TempDir "aegisops-ai"
 
 Write-Host "  Cloning repositories..."
-git clone --quiet --depth 1 https://github.com/DietrichGebert/ponytail $PonytailDir 2>$null
-git clone --quiet --depth 1 https://github.com/Orchestra-Research/AI-Research-SKILLs.git $AiResearchSkillsDir 2>$null
-git clone --quiet --depth 1 https://github.com/google/antigravity-awesome-skills.git $AwesomeSkillsDir 2>$null
-git clone --quiet --depth 1 https://github.com/Champbreed/AegisOps-AI.git $AegisOpsDir 2>$null
+# A failed clone must not be fatal -- $ErrorActionPreference = "Stop" turns
+# git's non-zero exit into a terminating error, which used to abort the whole
+# script (skipping every remaining install step) on a single offline/renamed
+# repo. Wrap each clone so a failure just leaves its Test-Path check below
+# to report the skill source as unavailable, same as setup.sh's `|| true`.
+function Invoke-Clone ($Url, $Dest) {
+    try { git clone --quiet --depth 1 $Url $Dest 2>$null } catch { }
+}
+Invoke-Clone "https://github.com/DietrichGebert/ponytail" $PonytailDir
+Invoke-Clone "https://github.com/Orchestra-Research/AI-Research-SKILLs.git" $AiResearchSkillsDir
+Invoke-Clone "https://github.com/google/antigravity-awesome-skills.git" $AwesomeSkillsDir
+Invoke-Clone "https://github.com/Champbreed/AegisOps-AI.git" $AegisOpsDir
 foreach ($pair in @(@($PonytailDir,"ponytail-plugin"), @($AiResearchSkillsDir,"ai-research-skills"), @($AwesomeSkillsDir,"awesome-skills"), @($AegisOpsDir,"aegisops-ai"))) {
     if (-not (Test-Path $pair[0])) {
         Write-Host "  Warning: could not fetch '$($pair[1])' (offline or unavailable); its skills will be skipped." -ForegroundColor Yellow
@@ -154,6 +177,19 @@ function Copy-DirContents ($Src, $Dest) {
     return $true
 }
 
+# Sweeps every installed file under $Dir for the {{VAULT_PATH}} placeholder,
+# not just save-session/resume-session -- lint-vault and research-orchestrator
+# (and any future skill) carry the same placeholder and were shipping broken.
+function Set-VaultPathPlaceholder ($Dir) {
+    if (-not (Test-Path $Dir)) { return }
+    Get-ChildItem -Recurse -File $Dir -ErrorAction SilentlyContinue | ForEach-Object {
+        $content = Get-Content $_.FullName -Raw -ErrorAction SilentlyContinue
+        if ($content -and $content.Contains('{{VAULT_PATH}}')) {
+            $content.Replace('{{VAULT_PATH}}', $VaultPathForward) | Set-Content $_.FullName -NoNewline
+        }
+    }
+}
+
 function Install-Skills ($TargetDir) {
     New-Item -ItemType Directory -Force -Path $TargetDir | Out-Null
     $Bundled = 0
@@ -163,15 +199,6 @@ function Install-Skills ($TargetDir) {
     if (Test-Path $BundledDir) {
         Get-ChildItem -Directory $BundledDir | ForEach-Object {
             if (Copy-DirContents $_.FullName (Join-Path $TargetDir $_.Name)) { $Bundled++ }
-        }
-
-        $SaveSessionSkill = Join-Path $TargetDir "save-session\SKILL.md"
-        $ResumeSessionSkill = Join-Path $TargetDir "resume-session\SKILL.md"
-        if (Test-Path $SaveSessionSkill) {
-            (Get-Content $SaveSessionSkill) -replace '\{\{VAULT_PATH\}\}', $VaultPathForward | Set-Content $SaveSessionSkill
-        }
-        if (Test-Path $ResumeSessionSkill) {
-            (Get-Content $ResumeSessionSkill) -replace '\{\{VAULT_PATH\}\}', $VaultPathForward | Set-Content $ResumeSessionSkill
         }
     }
 
@@ -185,10 +212,6 @@ function Install-Skills ($TargetDir) {
 
     Write-Host "  Installed $Bundled bundled + $Extras companion skills -> $TargetDir"
 }
-
-# Skills pulled from google/antigravity-awesome-skills for the Core Pack.
-# This is the exact original list -- do not rename, reorder, or add to it.
-$CoreSkills = @("papers-skill", "deep-research", "exa-search", "tavily-web", "research-brainstorming", "creative-thinking", "data-engineering-data-pipeline", "data-engineering-data-driven-feature", "data-structure-protocol", "data-quality-frameworks", "polars", "data-scientist", "data-storytelling", "plotly", "ml-engineer", "ai-ml", "ai-engineering-toolkit", "rag-engineer", "embedding-strategies", "ml-pipeline-workflow", "mlops-engineer", "docker-expert", "devops-deploy", "unit-testing-test-generate", "2slides-ppt-generator", "latex-paper-conversion", "architecture-decision-records", "docs-architect", "graphify", "pytorch-patterns", "scientific-thinking-literature-review", "scientific-thinking-scholar-evaluation", "mle-workflow", "eval-harness", "ai-regression-testing")
 
 function Install-Pack ($TargetDir, $Label) {
     $PackCount = 0
@@ -206,6 +229,7 @@ function Install-Pack ($TargetDir, $Label) {
             }
         }
     }
+    Set-VaultPathPlaceholder $TargetDir
     Write-Host "  $Label`: installed $PackCount pack skills (plus bundled and companion skills above)"
 }
 

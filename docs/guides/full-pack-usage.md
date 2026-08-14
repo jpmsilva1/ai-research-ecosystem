@@ -141,8 +141,12 @@ Tools for maintaining clean codebases and pristine documentation.
 - `output-shaper`: Dynamic token compression and verbosity controller. Control how much the agent talks via /output-shaper lite, balanced, ultra.
 
 ## 9. Academic Research (bundled with every pack)
-These come from this repo's own `skills/` directory and are installed regardless of which pack
-you choose -- see the [Core Pack Usage Guide](core-pack-usage.md) for the full detail on each.
+The first three below ship only from this repo's own `skills/` directory. The remaining six
+(`pytorch-patterns` through `scientific-thinking-scholar-evaluation`) also exist upstream in
+`google/antigravity-awesome-skills`; whichever pack you choose installs last and its copy wins,
+overwriting the bundled version of the same name. Either way they land in your skills directory
+regardless of pack choice -- see the [Core Pack Usage Guide](core-pack-usage.md) for the full
+detail on each.
 
 - `research-orchestrator`: Guides the full academic research lifecycle stage by stage.
 - `paper-code-finder`: Finds official and unofficial code implementations for academic papers.

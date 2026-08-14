@@ -3,7 +3,7 @@ set -euo pipefail
 
 # ============================================================
 # AI Research Ecosystem - Interactive Setup Script
-# Version: 5.1.0
+# Version: 5.1.1
 # ============================================================
 
 BOLD="\033[1m"
@@ -33,9 +33,16 @@ CORE_SKILLS=(
 
 # Bundled skills shipped in this repo (skills/), counted for the menu blurb.
 BUNDLED_COUNT=$(find "$SCRIPT_DIR/skills" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d ' ')
-# Core Pack total = upstream skills + bundled skills + the 7 fixed extras
-# (ponytail, aegisops-ai, ml-paper-writing, academic-plotting, and the 3 ARA skills).
-CORE_TOTAL=$(( ${#CORE_SKILLS[@]} + BUNDLED_COUNT + 7 ))
+# Some upstream CORE_SKILLS entries (the 6 ECC skills) are also shipped as
+# bundled skills, so a plain sum double-counts them under one directory name.
+OVERLAP_COUNT=0
+for skill in "${CORE_SKILLS[@]}"; do
+    [ -d "$SCRIPT_DIR/skills/$skill" ] && OVERLAP_COUNT=$((OVERLAP_COUNT + 1))
+done
+# Core Pack total = unique upstream skills + unique bundled skills + the 7
+# fixed extras (ponytail, aegisops-ai, ml-paper-writing, academic-plotting,
+# and the 3 ARA skills).
+CORE_TOTAL=$(( ${#CORE_SKILLS[@]} + BUNDLED_COUNT - OVERLAP_COUNT + 7 ))
 
 # --- Spinner (cosmetic only; callers must still `wait` for the real status) ---
 spin() {
@@ -166,7 +173,7 @@ fi
 
 echo -e "${BOLD}${CYAN}"
 echo "================================================="
-echo "  AI-Powered Research Assistant - Setup v5.1.0  "
+echo "  AI-Powered Research Assistant - Setup v5.1.1  "
 echo "================================================="
 echo -e "${RESET}"
 
