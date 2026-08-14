@@ -32,9 +32,10 @@ Open the vault folder the script created. You should see:
 - `wiki/changelog.md` -- Timeline of all operations.
 - `raw/` -- Drop your PDFs and source documents here.
 
-## 1.5. Enable Token Compression (RTK)
+## 3. Token Compression (RTK)
 
-RTK compresses terminal output by up to 90%.
+The setup script already offers to install and initialize RTK for you (Step 5 of the prompt).
+If you skipped it or need to redo it, RTK compresses terminal output by up to 90%:
 ```bash
 brew install rtk
 rtk init --agent antigravity  # Use 'rtk init -g' if using Claude Code
@@ -42,7 +43,7 @@ rtk init --agent antigravity  # Use 'rtk init -g' if using Claude Code
 
 > **Note for Antigravity Users:** You must run this initialization command in the root folder of **every new project** you create. It is project-scoped for your safety. See the [RTK FAQ](docs/rtk.md#5-frequently-asked-questions-faq).
 
-## 3. Start Researching
+## 4. Start Researching
 
 **If you installed Headroom:** Open a separate terminal and run `headroom proxy --port 8787`.
 *(Note: RTK is active transparently and will compress your shell commands natively without a proxy server).*
@@ -70,12 +71,12 @@ Once your agent is running, type:
 The Research Orchestrator will guide you through the full academic lifecycle:
 Discovery -> Ingestion -> Synthesis -> Writing -> Review -> Presentation.
 
-## 4. Save Your Session
+## 5. Save Your Session
 
 When you are done, type `/save`. 
 *Behind the scenes:* The agent compiles a permanent Zettelkasten log from its lightweight, running scratch trace (`scratch/session-trace.md`), rather than retroactively scanning thousands of tokens from the terminal buffer. Your progress is permanently stored in the vault, and the scratch trace is securely deleted.
 
-## 5. Resume Tomorrow
+## 6. Resume Tomorrow
 
 In a new session, type `/resume`. 
 *Behind the scenes:* The agent reads your `changelog.md` to identify and load **only** your most recent session log. It provides an executive summary of pending tasks and will explicitly ask if you need older context, ensuring your fresh session starts with a perfectly clean, low-token context window.
@@ -85,7 +86,7 @@ In a new session, type `/resume`.
 | Command | What It Does |
 |---|---|
 | `/research` | Start a guided research workflow |
-| `/paper-code-finder` | Find source code for an academic paper |
+| "find code for this paper" | Triggers `paper-code-finder` (no slash command -- ask in natural language) |
 | `/save` | Save session to persistent memory |
 | `/resume` | Resume from last session |
 | `/lint` | Health-check the knowledge vault |

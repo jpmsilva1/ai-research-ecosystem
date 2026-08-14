@@ -31,10 +31,13 @@ Configuration documents (AGENTS.md, .cursorrules) that dictate how the LLM behav
 
 ## Token Economy
 
-The architecture achieves dramatic, compounding token savings through three orthogonal mechanisms:
+The architecture achieves dramatic, compounding token savings through four orthogonal mechanisms:
 
 ### 1. Semantic Reduction (Graphify)
-Instead of reading an entire codebase (~170,000 tokens for a medium repo), the agent reads pre-computed AST maps (~6,000 tokens). This yields a **~96.4% reduction** in input token consumption.
+Instead of reading an entire codebase, the agent reads pre-computed AST maps. In our
+[FastAPI benchmark](../README.md#token-economy-analysis-the-998-reduction)
+(190,040 tokens for a full-codebase read), this yields **~3,679 tokens**, a **98.06% reduction**
+in input token consumption.
 
 ### 2. The Index Protocol (Knowledge Retrieval)
 Instead of scanning all wiki pages to find context, the agent reads a single `index.md` file (~200-500 tokens) and selectively loads only the 2-3 relevant pages. This prevents token waste on irrelevant content.
@@ -45,13 +48,13 @@ When the agent *does* read a file or runs a tool, the Headroom proxy compresses 
 ### 4. Memory Optimization (Incremental Logging & Progressive Resume)
 By transitioning from heavy terminal-buffer dumps to lightweight `session-trace.md` appends (`/save`) and single-log targeting (`/resume`), the agent entirely eliminates context amnesia while avoiding the immense token penalty of loading full historical transcripts.
 
-**Compounding Effect (The Dual-Layer Approach):** A query that would normally consume 170,000 tokens (reading full codebase) is reduced to ~3,679 tokens by Graphify. 
+**Compounding Effect (The Dual-Layer Approach):** A query that would normally consume 190,040 tokens (reading full codebase) is reduced to ~3,679 tokens by Graphify. 
 - For **Claude Code**, it is then further compressed to **~400–800 tokens** by Headroom (Layer 1) working in tandem with RTK (Layer 0).
 - For **Google Antigravity**, since it connects directly to Google and bypasses Headroom, RTK (Layer 0) serves as the exclusive token compressor, drastically reducing shell output tokens before Antigravity even reads them.
 
 ## Operations
 
-The system supports five core operations:
+The system supports six core operations:
 
 | Operation | Trigger | What Happens |
 |---|---|---|
@@ -68,8 +71,8 @@ The system supports five core operations:
 flowchart TD
     U["User"] -->|Interacts via CLI| L["LLM Agent"]
     
-    subgraph Local Environment
-        L -->|shell cmd| RTK["RTK - Layer 0\nPre-Execution"]
+    subgraph Local ["Local Environment"]
+        L -->|shell cmd| RTK["RTK - Layer 0<br/>Pre-Execution"]
         RTK -->|compact output| Shell["OS Shell / Terminal"]
         Shell -->|raw output| RTK
 
@@ -79,7 +82,7 @@ flowchart TD
         L -->|Writes logs| Lg["logs/"]
     end
     
-    subgraph Schema Layer
+    subgraph Schema ["Schema Layer"]
         AGENTS["AGENTS.md"] -->|Configures behavior| L
     end
     

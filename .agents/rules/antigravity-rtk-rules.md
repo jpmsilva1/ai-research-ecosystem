@@ -70,6 +70,7 @@ git fetch                         # Same
 git clone                         # Same
 git add <file>                    # Produces NO stdout
 git rm <file>                     # Produces NO stdout
+git commit                        # Trivial stdout (hash + stat summary), not worth compressing
 git checkout <branch>             # Minimal output
 git stash                         # Minimal output
 git tag <name>                    # Minimal/no output
@@ -101,7 +102,6 @@ RTK tracks every command in a global telemetry database. Every 0%-saving command
 | Command | Typical Savings |
 |---|---|
 | `rtk git log -p` | 80–90% |
-| `rtk git commit` | 80–90% |
 | `rtk pytest` | 70–85% |
 | `rtk python train.py` | 60–80% |
 | `rtk grep` | 40–60% |

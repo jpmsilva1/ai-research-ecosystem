@@ -4,13 +4,13 @@ description: "Triggered when the user types /resume or asks to resume. Reads the
 ---
 # Skill: resume-session
 
-Sempre que a skill for invocada, o Agente executará mandatoriamente os seguintes passos:
+Whenever this skill is invoked, the Agent must mandatorily execute the following steps:
 
-1. Leia o arquivo `{{VAULT_PATH}}/wiki/changelog.md` (apenas as últimas 10 entradas). Identifique a entrada mais recente do tipo `session` e extraia o nome do arquivo de log referenciado nela.
-2. Leia o arquivo `{{VAULT_PATH}}/wiki/index.md` para entender o estado atual do conhecimento no vault.
-3. Leia SOMENTE o arquivo de log identificado no passo 1. Não carregue múltiplos logs sem ser solicitado pelo usuário.
-4. Elabore e exiba um Resumo Executivo para o usuário, informando:
-   - O que estávamos fazendo antes.
-   - Quais eram as pendências deixadas pela sessão anterior.
-   - Pergunte: **"Deseja que eu carregue contexto adicional de sessões anteriores?"**
-5. Somente carregue logs adicionais se o usuário confirmar explicitamente. Cada log extra custa ~500-2.000 tokens — sempre pergunte antes de gastar.
+1. Read the file `{{VAULT_PATH}}/wiki/changelog.md` (only the last 10 entries). Identify the most recent `session`-type entry and extract the log filename referenced in it.
+2. Read the file `{{VAULT_PATH}}/wiki/index.md` to understand the current state of knowledge in the vault.
+3. Read ONLY the log file identified in step 1. Do not load multiple logs unless requested by the user.
+4. Prepare and display an executive summary for the user, stating:
+   - What we were working on before.
+   - What pending items were left by the previous session.
+   - Ask: **"Would you like me to load additional context from previous sessions?"**
+5. Only load additional logs if the user explicitly confirms. Each extra log costs ~500-2,000 tokens -- always ask before spending them.

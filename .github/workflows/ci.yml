@@ -15,9 +15,18 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run ShellCheck
-        uses: ludeeus/action-shellcheck@master
+        # Pinned by SHA (tag 2.0.0) rather than @master: a mutable ref on the
+        # action that bills itself as this repo's supply-chain gatekeeper is
+        # the exact hole it claims to close.
+        uses: ludeeus/action-shellcheck@00cae500b08a931fb5698e11e79bfbd38e612a38 # v2.0.0
         with:
           scandir: './'
+
+      - name: Set up Bats
+        uses: bats-core/bats-action@42fcc8700f773c075a16a90eb11674c0318ad507 # v3.0.1
+
+      - name: Run installer tests
+        run: bats tests/
 
       - name: AegisOps-AI Security Check (Simulated Gatekeeper)
         run: |
@@ -25,13 +34,28 @@ jobs:
           echo "🔒 AegisOps-AI DevSecOps Gatekeeper Active"
           echo "==========================================================="
           echo "Checking for sensitive data leaks (hardcoded paths)..."
-          if grep -rnw . -e '/Users/[a-zA-Z0-9_-]*' --exclude-dir={.git,.github}; then
+          # --binary-files=without-match: a committed binary otherwise yields an
+          # unactionable "Binary file ... matches" and fails the build with no location.
+          # Patterns cover macOS (/Users/x), Linux (/home/x) and Windows (C:\Users\x).
+          # Generic placeholders used in documentation examples are allowlisted below;
+          # skills/academic-code-replicator teaches the agent to *detect* hardcoded
+          # paths, so it necessarily contains illustrative ones.
+          PLACEHOLDERS='(user|users|username|author|owner|example|name|you|me|bob|alice|runner|home|\.\.\.|<|\{|\$|%)'
+          if grep -rnE --binary-files=without-match --exclude-dir={.git,.github} \
+               -e '/Users/[a-zA-Z0-9_.-]+' \
+               -e '/home/[a-zA-Z0-9_.-]+' \
+               -e '[A-Za-z]:\\+Users\\+[a-zA-Z0-9_.-]+' \
+               . \
+             | grep -vExe ".*(/Users/|/home/|Users\\\\+)${PLACEHOLDERS}.*" ; then
             echo "❌ CRITICAL: Hardcoded personal paths detected! AegisOps is blocking this merge."
+            echo "   If this is a documentation example, use a generic placeholder"
+            echo "   such as /home/user, /Users/user, or C:\\Users\\<name>."
             exit 1
           fi
-          
+
           echo "Checking for hardcoded secrets..."
-          if grep -rnw . -e 'password=' -e 'api_key=' -e 'secret=' --exclude-dir={.git,.github}; then
+          if grep -rnw --binary-files=without-match --exclude-dir={.git,.github} \
+               -e 'password=' -e 'api_key=' -e 'secret=' . ; then
             echo "❌ CRITICAL: Hardcoded secrets detected! AegisOps is blocking this merge."
             exit 1
           fi

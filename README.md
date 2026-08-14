@@ -21,7 +21,7 @@ Rather than treating AI as a simple chatbot, this architecture provides a struct
 ### Skill Packs
 
 The ecosystem offers two curated skill packs during installation to tailor the agent to your needs:
-- **Core Pack (44 skills)**: A streamlined, lightweight pack focused specifically on Academic Research, Machine Learning, and Data Science. It provides the essential workflows without overwhelming the agent's context window.
+- **Core Pack (58 skills)**: A streamlined, lightweight pack focused specifically on Academic Research, Machine Learning, and Data Science. It provides the essential workflows without overwhelming the agent's context window.
 - **Full Pack (130+ skills)**: The complete enterprise engineering suite. Includes everything in the Core Pack plus advanced DevOps, generic software architecture, frontend development, and exhaustive community plugins.
 
 ## Original Custom Skills
@@ -37,6 +37,10 @@ While this workflow bundles several open-source community skill packs, the follo
 | 🗜️ **`output-shaper`** | Token Mgmt | Dynamic verbosity controller to slash API costs. Modes: `lite`, `balanced`, `ultra`. Deactivate with `stop output-shaper`. |
 | 🧠 **`lint-vault`** | Memory | Autonomous health-check for the Obsidian Vault to ensure structural integrity and correct Zettelkasten linking. |
 | 🧬 **`academic-code-replicator`** | Reproducibility | Safely reproduces legacy academic code experiments. Enforces strict execution boundaries and prevents supply-chain attacks. |
+| 💾 **`save-session`** | Memory | Compiles a lightweight running scratch trace into a permanent Zettelkasten log on `/save`, then deletes the trace. |
+| 🔁 **`resume-session`** | Memory | Loads only the single most recent session log on `/resume`, with an explicit opt-in before pulling in older context. |
+
+Six additional skills adapted from the community [ECC framework](https://github.com/affaan-m/ECC) are also bundled: `pytorch-patterns`, `mle-workflow`, `eval-harness`, `ai-regression-testing`, `scientific-thinking-literature-review`, and `scientific-thinking-scholar-evaluation`. See the [Core Pack Usage Guide](docs/guides/core-pack-usage.md) for what each does.
 
 ## Token Compression Engines (Layer 0 & Layer 1)
 
@@ -144,19 +148,24 @@ cd ai-research-ecosystem
 chmod +x setup.sh && ./setup.sh
 ```
 
+On Windows, run `.\setup.ps1` from PowerShell instead (same prompts; RTK installs via `winget`
+rather than Homebrew).
+
 This interactive script will automatically:
-1. Create the 3-layer Obsidian Vault architecture.
+1. Create the Obsidian Vault architecture (`raw/`, `wiki/`, `graphify/`, `logs/`).
 2. Install the correct Agent Rules (Antigravity or Claude) configured to your vault path.
 3. Download and install the curated Research Skill ecosystem.
 
 ## Documentation and Guides
 
 - **[Quickstart (5 mins)](QUICKSTART.md)**: Zero to fully configured assistant.
-- **[Architecture Deep Dive](docs/architecture.md)**: Learn how the LLM-Wiki pattern saves 96% of tokens.
+- **[Architecture Deep Dive](docs/architecture.md)**: Learn how the LLM-Wiki pattern saves ~98% of tokens.
 - **[Headroom Compression Guide](docs/headroom.md)**: Token compression setup, A/B testing, and troubleshooting.
+- **[RTK Guide](docs/rtk.md)**: Execution compression setup and FAQ.
 - **[Core Pack Usage Guide](docs/guides/core-pack-usage.md)**: Literature review and paper writing workflows.
 - **[Full Pack Usage Guide](docs/guides/full-pack-usage.md)**: Advanced engineering and CI/CD pipelines.
-- **[Manual Installation](docs/installation.md)**: If you prefer not to use the `setup.sh` script.
+- **[Architecture Decision Records](docs/adrs/)**: Why the vault, index, and RTK layer are structured the way they are.
+- **[Manual Installation](docs/installation.md)**: If you prefer not to use the `setup.sh` / `setup.ps1` scripts.
 
 ## Acknowledgements
 
@@ -175,6 +184,19 @@ This ecosystem is an amalgamation of brilliant open-source tools. Credit belongs
 ## Release Notes
 
 <details open>
+<summary><b>🔧 v5.1.1: Installer & Repo Hygiene Fixes</b></summary>
+<br>
+
+This release fixes a set of installer and documentation bugs found in a full repo audit:
+*   **Fixed:** `setup.sh` no longer skips vault-path interpolation or the skill pack for Claude Code-only installs -- both were previously Antigravity-only due to duplicated install logic. `setup.sh` and `setup.ps1` now share one install path per agent.
+*   **Fixed:** re-running the installer no longer nests skill directories (e.g. `ponytail/ponytail-plugin/...`).
+*   **Corrected Core Pack count:** 58 skills (35 upstream + 16 bundled + 7 companion), the same for both agents now that Claude Code gets the pack too. The previous "44" figure was never accurate.
+*   **CI now runs the test suite** (`tests/test_setup.bats`), which previously existed but was never invoked.
+*   Repo hygiene: added `.gitignore`, untracked committed `.DS_Store` files, hardened the CI path-leak gatekeeper.
+
+</details>
+
+<details>
 <summary><b>🚀 v5.1.0: Core Pack Expansion (ECC Skills)</b></summary>
 <br>
 

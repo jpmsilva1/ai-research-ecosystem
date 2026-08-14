@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Local agent state (machine-specific, not distribution content)
+.claude/
+.serena/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# sed -i backups produced by setup.sh
+*.bak
