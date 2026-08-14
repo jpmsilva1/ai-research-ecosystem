@@ -75,6 +75,11 @@ EOF
   # Inputs, in setup.sh's actual prompt order:
   # 1 -> Antigravity | 1 -> Core Pack | [enter] -> default vault | n -> no Headroom | n -> no RTK
   run bash -c "printf '1\n1\n\nn\nn\n' | $BATS_TEST_DIRNAME/../setup.sh"
+  # `run` overwrites $status/$output on every call, so the setup.sh output
+  # must be saved before any further `run` (the placeholder check below)
+  # clobbers it -- an earlier version of this test read $output after that
+  # second `run` and was silently checking the wrong command's output.
+  setup_output="$output"
 
   [ "$status" -eq 0 ]
   [ -d "$HOME/Documents/AntigravityBrain/wiki" ]
@@ -96,7 +101,7 @@ EOF
 
   # The Core Pack upstream repo is mocked as an empty clone, so 0 of 35 pack
   # skills can land; the script must say so rather than claim success.
-  [[ "$output" == *"expected 35 Core Pack skills but installed 0"* ]]
+  [[ "$setup_output" == *"expected 35 Core Pack skills but installed 0"* ]]
 
   # Never touched the network for RTK.
   [ ! -f "$BATS_TEST_TMPDIR/curl.called" ]
@@ -107,6 +112,7 @@ EOF
 
   # 2 -> Claude Code | 2 -> Full Pack | [enter] -> default vault | y -> Headroom | n -> no RTK
   run bash -c "printf '2\n2\n\ny\nn\n' | $BATS_TEST_DIRNAME/../setup.sh"
+  setup_output="$output"
 
   [ "$status" -eq 0 ]
   [ -f "$HOME/.claude/.cursorrules" ]
@@ -118,7 +124,7 @@ EOF
   grep -q "$HOME/Documents/AntigravityBrain" "$HOME/.claude/skills/save-session/SKILL.md"
   run ! grep -rq '{{VAULT_PATH}}' "$HOME/.claude/skills/"
 
-  [[ "$output" == *"Headroom installed successfully"* ]]
+  [[ "$setup_output" == *"Headroom installed successfully"* ]]
   [ ! -f "$BATS_TEST_TMPDIR/curl.called" ]
 }
 
